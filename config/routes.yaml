@@ -1,0 +1,104 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+
+danh_sach_nhan_vien:
+    path: /danh-sach-nhan-vien
+    controller: App\Controller\DanhsachnhanvienController::index
+
+danh_sach_benh_nhan:
+    path: /danh-sach-benh-nhan
+    controller: App\Controller\DanhsachbenhnhanController::index
+
+login:
+    path: /login
+    controller: App\Controller\DangnhapController::login
+
+nhap_xuat:
+    path: /nhap-xuat
+    controller: App\Controller\NhapxuatController::index
+
+ban_hang:
+    path: /ban-hang
+    controller: App\Controller\BanhangController::index
+
+ban_hang_cat_lieu:
+    path: /ban-hang-cat-lieu
+    controller: App\Controller\BanhangcatlieuController::index
+
+don_lieu_mau:
+    path: /don-lieu-mau
+    controller: App\Controller\DonlieumauController::index
+
+nhap_hang:
+    path: /nhap-hang
+    controller: App\Controller\NhaphangController::nhapHang
+    methods: [GET, POST]
+    
+
+
+don_dat_hang_online:
+    path: /don-dat-hang-online
+    controller: App\Controller\DondathangonlineController::index
+
+danh_sach_phieu_nhap:
+    path: /danh-sach-phieu-nhap
+    controller: App\Controller\DanhsachphieunhapController::index
+
+danh_sach_phieu_xuat:
+    path: /danh-sach-phieu-xuat
+    controller: App\Controller\DanhsachphieuxuatController::index
+
+lich_su_giao_dich:
+    path: /lich-su-giao-dich
+    controller: App\Controller\LichsugiaodichController::index
+
+hang_hoa:
+    path: /hang-hoa
+    controller: App\Controller\HanghoaController::index
+
+danh_sach_thuoc:
+    path: /danh-sach-thuoc
+    controller: App\Controller\DanhsachthuocController::index
+
+them_thuoc_moi:
+    path: /them-thuoc-moi
+    controller: App\Controller\ThemthuocmoiController::index
+
+kiem_ke_kho:
+    path: /kiem-ke-kho
+    controller: App\Controller\KiemkekhoController::index
+
+thu_chi:
+    path: /thu-chi
+    controller: App\Controller\ThuchiController::index
+
+thong_ke_doanh_thu:
+    path: /thong-ke-doanh-thu
+    controller: App\Controller\ThongkedoanhthuController::index
+
+doi_tac:
+    path: /doi-tac
+    controller: App\Controller\DoitacController::index
+
+bao_cao:
+    path: /bao-cao
+    controller: App\Controller\BaocaoController::index
+
+tien_ich:
+    path: /tien-ich
+    controller: App\Controller\TienichController::index
+
+tro_giup:
+    path: /tro-giup
+    controller: App\Controller\TrogiupController::index
+
+
+
+get_giaban:
+    path: /get-giaban
+    controller: App\Controller\GetgiabanController::getGiaBan
+    methods: [GET]
