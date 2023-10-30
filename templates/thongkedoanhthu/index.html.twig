@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+        <link rel="stylesheet" href="{{ asset('css/kiemkekho.css') }}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Liên kết tệp CSS mới -->
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +59,130 @@
         </ul>
     </nav>
     </header>
+
+  <div class="timkiem">
+    <form action="thongkedoanhthu.php" method="post">
+
+      <label for="year">Năm:</label>
+      <select id="year" name="year">
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+
+        <!-- Thêm các option năm khác nếu cần -->
+      </select>
+
+      <label for="quarter">Quý:</label>
+      <select id="quarter" name="quarter">
+        <option value="">Không</option>
+        <option value="1">Quý 1</option>
+        <option value="2">Quý 2</option>
+        <option value="3">Quý 3</option>
+        <option value="4">Quý 4</option>
+      </select>
+
+      <label for="month">Tháng:</label>
+      <select id="month" name="month">
+        <option value="">Không</option>
+        <option value="1">Tháng 1</option>
+        <option value="2">Tháng 2</option>
+        <option value="3">Tháng 3</option>
+        <option value="4">Tháng 4</option>
+        <option value="5">Tháng 5</option>
+        <option value="6">Tháng 6</option>
+        <option value="7">Tháng 7</option>
+        <option value="8">Tháng 8</option>
+        <option value="9">Tháng 9</option>
+        <option value="10">Tháng 10</option>
+        <option value="11">Tháng 11</option>
+        <option value="12">Tháng 12</option>
+
+        <!-- Thêm các option tháng khác nếu cần -->
+      </select>
+      <button type="submit">Thống kê</button>
+
+
+
+
+
+      <div class="thongke">
+
+        <h1>Tổng:
+          <?php echo $TongDoanhThu; ?>
+        </h1>
+      </div>
+
+
+    </form>
+  </div>
+  <br>
+
+
+  <div style="width: 90%; padding-left: 100px;">
+    <canvas id="myChart"></canvas>
+  </div>
+
+
+  <div class="container">
+    <h2>Doanh thu </h2>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">STT</div>
+        <div class="col col-2">Tên thuốc</div>
+        <div class="col col-3">Giá Nhập</div>
+        <div class="col col-4">Giá Bán</div>
+        <div class="col col-5">Số lượng nhập</div>
+        <div class="col col-6">Số lượng xuất</div>
+        <div class="col col-6">Tổng tiền nhập</div>
+        <div class="col col-6">Tổng tiền xuất</div>
+        <div class="col col-6">Doanh thu</div>
+      </li>
+
+      
+
+
+          <li class="table-row">
+            <div class="col col-1">
+              <?php echo $row3['idThuoc'] ?>
+            </div>
+            <div class="col col-2">
+              <?php echo $row3['TenThuoc'] ?>
+            </div>
+            <div class="col col-3">
+              <?php echo $row3['GiaNhap'] ?>
+            </div>
+            <div class="col col-4">
+              <?php echo $row3['GiaBan'] ?>
+            </div>
+            <div class="col col-5">
+              <?php echo $row3['TongSoLuongNhap'] ?>
+            </div>
+            <div class="col col-6">
+              <?php echo $row3['TongSoLuongXuat'] ?>
+            </div>
+            <div class="col col-7">
+              <?php echo $row3['TongTienNhap'] ?>
+            </div>
+            <div class="col col-8">
+              <?php echo $row3['TongTienXuat'] ?>
+            </div>
+            <div class="col col-9">
+              <?php echo $row3['DoanhThu'] ?>
+            </div>
+
+          </li>
+
+
+        
+
+    </ul>
+  </div>
+
+
+
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

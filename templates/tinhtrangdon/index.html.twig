@@ -10,11 +10,11 @@
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>

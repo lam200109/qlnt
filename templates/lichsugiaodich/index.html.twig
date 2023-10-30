@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+                <link rel="stylesheet" href="{{ asset('css/lichsugiaodich.css') }}"> <!-- Liên kết tệp CSS mới -->
+
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +58,83 @@
         </ul>
     </nav>
     </header>
+
+
+        <h1></h1>
+    <h1>Lịch sử giao dịch mua thuốc</h1>
+
+     <div class="timkiem">
+                <form action="{{ path('app_lichsugiaodich') }}" method="post">
+
+                    <h4>Bắt đầu</h4>
+
+                    <input type="date" name="BatDau" value="">
+
+                    <h4>Kết thúc</h4>
+                    <input type="date" name="KetThuc" value="<?php echo date('Y-m-d'); ?>" > <br><br>
+
+                    <input type="submit" name="submit" value="Tìm kiếm"> <br>
+                          
+                </form>
+            </div>
+
+    <button onclick="exportToExcel('table')">Xuất file Excel</button>
+
+    <table id="table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên khách hàng</th>
+          <th>Địa chỉ</th>
+          <th>Số điện thoại</th>
+          <th>Tên thuốc</th>
+          <th>Số lượng</th>
+          <th>Giá</th>
+          <th>Ngày mua</th>
+        </tr>
+      </thead>
+
+    
+          <tbody>
+    {% if result is empty %}
+        <tr>
+            <td colspan="6">Không có dữ liệu.</td>
+        </tr>
+    {% else %}
+        {% for row in result %}
+            <tr>
+                <td>{{ row.IDBN }}</td>
+                <td>{{ row.HoTen }}</td>
+                <td>{{ row.DiaChi }}</td>
+                <td>{{ row.SoDienThoai }}</td>
+                <td>{{ row.TenThuoc }}</td>
+                <td>{{ row.SoLuong }}</td>
+                <td>{{ row.TongTienHD }}</td>
+
+                <td>{{ row.NgayXuat|date("Y-m-d") }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</tbody>
+    </table>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<script>
+    function exportToExcel(tableId) {
+        var table = document.getElementById(tableId);
+        if (!table) {
+            console.error(`Element with id "${tableId}" not found in DOM`);
+            return;
+        }
+        var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        return XLSX.writeFile(wb, 'lichsugiaodich.xlsx');
+    }
+</script>
+
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

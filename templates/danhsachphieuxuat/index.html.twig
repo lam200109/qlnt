@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+        <link rel="stylesheet" href="{{ asset('css/danhsachphieuxuat.css') }}"> <!-- Liên kết tệp CSS mới -->
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +57,64 @@
         </ul>
     </nav>
     </header>
+
+    
+    <h1>Danh Sách phiếu xuất</h1>
+<form method="POST" action="{{ path('app_danhsachphieuxuat') }}">
+  Từ ngày: <input type="date" name="BatDau">
+  Đến ngày: <input type="date" id="ngay-nhap" name="KetThuc" value="<?php echo date('Y-m-d'); ?>"><br><br>
+
+  <input type="submit" name="submit" value="Lọc">
+</form> <br>
+
+    <button onclick="exportToExcel('table')">Xuất file Excel</button>
+    <table id="table">
+		<thead>
+			<tr>
+				<th>Mã hóa đơn</th>
+				<th>Tên người mua</th>
+				<th>Tên thuốc</th>
+                <th>Số lượng</th>
+				<th>Tổng tiền hóa đơn</th>
+                <th>Ngày xuất</th>
+
+			</tr>
+		</thead>
+
+ <tbody>
+    {% if result is empty %}
+        <tr>
+            <td colspan="6">Không có dữ liệu.</td>
+        </tr>
+    {% else %}
+        {% for row in result %}
+            <tr>
+                <td>{{ row.MaHDX }}</td>
+                <td>{{ row.HoTen }}</td>
+                <td>{{ row.TenThuoc }}</td>
+                <td>{{ row.SoLuong }}</td>
+                <td>{{ row.TongTienHD }}</td>
+                <td>{{ row.NgayXuat|date("Y-m-d") }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</tbody>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<script>
+    function exportToExcel(tableId) {
+        var table = document.getElementById(tableId);
+        if (!table) {
+            console.error(`Element with id "${tableId}" not found in DOM`);
+            return;
+        }
+        var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        return XLSX.writeFile(wb, 'danhsachphieuxuat.xlsx');
+    }
+</script>
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

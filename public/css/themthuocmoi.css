@@ -1,0 +1,37 @@
+h1{
+    text-align: center;
+}
+
+nav {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .form-horizontal {
+    position: relative;
+    z-index: 0;
+  }
+  
+  #import-btn {
+    position: absolute;
+    padding-left: 710px;
+    background-color: #4CAF50; /* Màu nền của nút */
+    color: white; /* Màu chữ của nút */
+    padding: 10px 20px; /* Khoảng cách giữa chữ và biên của nút */
+    border: none; /* Không có viền cho nút */
+    border-radius: 5px; /* Bo góc của nút */
+    cursor: pointer; /* Biểu tượng con trỏ khi rê chuột vào nút */
+    left: 900px;
+
+  }
+  
+  #export-btn {
+    margin-left: 610px;
+    background-color: #4CAF50; /* Màu nền của nút */
+    color: white; /* Màu chữ của nút */
+    padding: 10px 20px; /* Khoảng cách giữa chữ và biên của nút */
+    border: none; /* Không có viền cho nút */
+    border-radius: 5px; /* Bo góc của nút */
+    cursor: pointer; /* Biểu tượng con trỏ khi rê chuột vào nút */
+  }
+  

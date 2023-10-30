@@ -66,3 +66,17 @@ table {
     background-color: #3e8e41;
   }
   
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 850px;
+  }
+
+  button:hover {
+    background-color: #3e8e41;
+  }

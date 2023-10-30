@@ -11,11 +11,11 @@
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -60,8 +60,9 @@
     <h1>Danh Sách phiếu nhập</h1>
 
 <form method="POST" action="{{ path('app_danhsachphieunhap') }}">
-  Từ ngày: <input type="date" name="BatDau">
-  Đến ngày:<input type="date" id="ngay-nhap" name="KetThuc" value="<?php echo date('Y-m-d'); ?>"><br><br>
+ Từ ngày: <input type="date" name="BatDau"/>    
+Đến ngày: <input type="date" id="ngay-nhap" name="KetThuc" value="" /><br><br>
+
 
   <input type="submit" name="submit" value="Lọc">
 </form>
@@ -101,16 +102,21 @@
 </tbody>
 </table>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<script>
+    function exportToExcel(tableId) {
+        var table = document.getElementById(tableId);
+        if (!table) {
+            console.error(`Element with id "${tableId}" not found in DOM`);
+            return;
+        }
+        var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        return XLSX.writeFile(wb, 'danhsachphieunhap.xlsx');
+    }
+</script>
 
-{% if app.flashes('error') is not empty %}
-    <div class="alert alert-danger">
-        <ul>
-            {% for message in app.flashes('error') %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
+
+
 
 
     </header>

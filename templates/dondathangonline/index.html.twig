@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+        <link rel="stylesheet" href="{{ asset('css/tinhtrangdon.css') }}"> <!-- Liên kết tệp CSS mới -->
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +57,67 @@
         </ul>
     </nav>
     </header>
+
+    <h1 style="text-align: center;">QUẢN LÝ ĐƠN ĐẶT HÀNG</h1>
+<div id="details-container"></div>
+	<table>
+		<thead>
+			<tr>
+                <th>STT</th>
+                <th>Tên Khách Hàng</th>
+				<th>Tên Thuốc</th>
+				<th>Số Lượng Mua</th>
+                <th>Số Lượng Còn</th>                
+                <th>Ngày Tạo Đơn</th>
+                <th>Tổng Tiền</th>
+                <th>Tình Trạng</th>
+
+                <th>Thao Tác</th>
+
+
+			</tr>
+		</thead>
+
+        <?php
+while ($row = mysqli_fetch_array($rs)){
+?>
+        <tbody>
+			<tr>
+                <td><?php echo $row['idThuoc'] ?></td>
+				<td><?php echo $row['HoTen'] ?></td>
+				<td><?php echo $row['TenThuoc'] ?></td>
+                <td><?php echo $row['SoLuongXuat'] ?></td>
+                <td><?php echo $row['SoLuong'] ?></td>
+
+                <td><?php echo $row['NgayLap'] ?></td>
+                <td><?php echo $row['TongTienHD'] ?></td>
+                <td><?php echo $row['TinhTrang'] ?></td>
+
+                <td>
+                    <form method="post" action="./action/dotinhtrangdon.php">
+                        <input type="hidden" name="MaCTHDX" value="<?php echo $row['MaCTHDX'] ?>">
+                        <input type="hidden" name="idThuoc" value="<?php echo $row['idThuoc'] ?>">
+                        <input type="hidden" name="SoLuongXuat" value="<?php echo $row['SoLuongXuat'] ?>">
+                        <input type="hidden" name="TinhTrang" value="<?php echo $row['TinhTrang'] ?>">
+                        <input type="hidden" name="DienThoai" value="<?php echo $row['DienThoai'] ?>">
+                        <input type="hidden" name="HoTen" value="<?php echo $row['HoTen'] ?>">
+
+                        <button type="submit">Duyệt đơn</button>
+                    </form>
+
+                    <form method="post" action="./action/doxoatinhtrangdon.php">
+                        <input type="hidden" name="MaCTHDX" value="<?php echo $row['MaCTHDX'] ?>">
+                        <button type="submit">Xóa đơn</button>
+                    </form>
+                </td>
+        </tbody>
+
+
+        <?php
+          } mysqli_close($conn);
+        ?>      
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

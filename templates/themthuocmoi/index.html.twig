@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
-
+        <link rel="stylesheet" href="{{ asset('css/themthuocmoi.css') }}"> <!-- Liên kết tệp CSS mới -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +59,182 @@
         </ul>
     </nav>
     </header>
+
+      <h1>Thêm thuốc mới</h1>
+               <form action="{{ path('app_themthuocmoi') }}" method="post" class="form-horizontal">
+        <!-- Mã Thuốc -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="MaThuoc">Mã Thuốc</label>
+            <div class="col-md-4">
+                <input id="MaThuoc" name="MaThuoc" placeholder="Bằng số" class="form-control input-md" type="number">
+            </div>
+        </div>
+
+        <!-- Tên Thuốc -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="TenThuoc">Tên Thuốc</label>
+            <div class="col-md-4">
+                <input id="TenThuoc" name="TenThuoc" placeholder="Tên Thuốc" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Mã Nhóm -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="MaNhom">Mã Nhóm</label>
+            <div class="col-md-4">
+                <select id="MaNhom" name="MaNhom" class="form-control">
+                    {% for row in result %}
+                        <option value="{{ row.MaNhom }}">{{ row.TenNhom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Nguồn Gốc -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="NguonGoc">Nguồn Gốc</label>
+            <div class="col-md-4">
+                <input id="NguonGoc" name "NguonGoc" placeholder="Nguồn gốc thuốc" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Mã Nhà Sản Xuất -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="MaNSX">Mã Nhà Sản Xuất</label>
+            <div class="col-md-4">
+                <select id="MaNSX" name="MaNSX" class="form-control">
+                    {% for row in result1 %}
+                        <option value="{{ row.MaNSX }}">{{ row.TenNSX }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Giá Bán -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="GiaBan">Giá Bán</label>
+            <div class="col-md-4">
+                <input id="GiaBan" name="GiaBan" placeholder="Đơn Giá" class="form-control input-md" type="number">
+            </div>
+        </div>
+
+        <!-- Thành Phần -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="ThanhPhan">Thành Phần</label>
+            <div class="col-md-4">
+                <input id="ThanhPhan" name="ThanhPhan" placeholder="Thành phần" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Hàm Lượng -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="HamLuong">Hàm Lượng</label>
+            <div class="col-md-4">
+                <input id="HamLuong" name="HamLuong" placeholder="Hàm Lượng Thuốc" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Công Dụng -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="CongDung">Công dụng</label>
+            <div class="col-md-4">
+                <input id="CongDung" name="CongDung" placeholder="Công Dụng Thuốc" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Phản Tác Dụng -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="PhanTacDung">Phản tác dụng</label>
+            <div class="col-md-4">
+                <input id="PhanTacDung" name="PhanTacDung" placeholder="Phản Tác Dụng" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Cách dùng -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="CachDung">Cách Dùng</label>
+            <div class="col-md-4">
+                <input id="CachDung" name="CachDung" placeholder="Cách Dùng Thuốc" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Chú ý -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="ChuY">Chú Ý</label>
+            <div class="col-md-4">
+                <input id="ChuY" name="ChuY" placeholder="Chú Ý" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Hạn Sử Dụng -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="HanSuDung">Hạn Sử Dụng</label>
+            <div class="col-md-4">
+                <input id="HanSuDung" name="HanSuDung" placeholder="HSD" class="form-control input-md" type="date">
+            </div>
+        </div>
+
+        <!-- Bảo quản -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="BaoQuan">Bảo Quản</label>
+            <div class="col-md-4">
+                <input id="BaoQuan" name="BaoQuan" placeholder="Cách Bảo Quản" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Dạng pha chế -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="DangPhaChe">Dạng Pha Chế</label>
+            <div class="col-md-4">
+                <input id="DangPhaChe" name="DangPhaChe" placeholder="" class="form-control input-md" type="text">
+            </div>
+        </div>
+
+        <!-- Mã đơn vị -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="MaDVT">Loại</label>
+            <div class="col-md-4">
+                <select id="MaDVT" name="MaDVT" class="form-control">
+                    {% for row in result2 %}
+                        <option value="{{ row.MaDVT }}">{{ row.TenDVT }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <div class="col-md-4 col-md-offset-4">
+                <button type="submit" id="singlebutton" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="singlebutton">Nhập từ file excel</label>
+                            <div class="col-md-4">
+                            <input type="file" id="file-input" accept=".xls,.xlsx" >
+                            </div>
+                        </div>
+
+
+
+                             <button type="button" id="import-btn">Import từ Excel</button>
+
+
+
+                    
+                    <button id="export-btn">Tải xuống file excel mẫu</button>
+
+    </form>
+
+
+
+
+
+
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

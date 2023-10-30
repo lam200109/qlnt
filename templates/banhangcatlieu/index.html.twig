@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+        <link rel="stylesheet" href="{{ asset('css/banhangcatlieu.css') }}"> <!-- Liên kết tệp CSS mới -->
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +57,180 @@
         </ul>
     </nav>
     </header>
+
+ <div class="timkiem">
+            
+                <form action="banhangcatlieu.php" method="post">
+
+                    <h4>Tìm theo hàm lượng thuốc</h4> <br>
+
+                    <input type="text" name="HamLuong" value="" placeholder="Nhập hàm lượng"> <br>
+
+                    <input type="submit" name="submit" value="Tìm kiếm">
+                </form>
+
+            <div class="filter">
+
+            </div>
+   
+    
+        <h1 style="text-align: center;">CẮT LIỀU</h1>
+
+    <div id="details-container"></div>
+	<table>
+		<thead>
+			<tr>
+                <th>STT</th>
+                <th>Tên Thuốc</th>
+				<th>Hàm Lượng</th>
+				<th>Nguồn Gốc</th>
+                <th>Thành Phần</th>                
+                <th>Chú Ý</th>
+                <th>Số Lượng còn</th>
+                <th>Giá</th>
+
+
+                <th>Thêm đơn nhanh</th>
+			</tr>
+		</thead>
+
+        <?php 
+     if ($rs1 && mysqli_num_rows($rs1) > 0){
+      while ($row = mysqli_fetch_array($rs1)) {
+?>
+        
+		<tbody>
+			<tr>
+                <td><?php echo $row['idThuoc'] ?></td>
+				<td><?php echo $row['TenThuoc'] ?></td>
+				<td><?php echo $row['HamLuong'] ?></td>
+                <td><?php echo $row['NguonGoc'] ?></td>
+                <td><?php echo $row['ThanhPhan'] ?></td>
+
+                <td><?php echo $row['ChuY'] ?></td>
+                <td><?php echo $row['SoLuong'] ?></td>
+
+                <td><?php echo $row['GiaBan'] ?></td>
+                <td><button onclick="openModal(<?php echo $row['idThuoc']; ?>)">Thêm</button></td>
+                
+            <form action="action/dobanhangcatlieu.php" method="post">
+                <div id="myModal-<?php echo $row['idThuoc']; ?>" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal(<?php echo $row['idThuoc']; ?>)">&times;</span>
+                        <input type="hidden" name="idThuoc" value="<?php echo $row['idThuoc']; ?>">
+                        <input type="hidden" name="TenThuoc" value="<?php echo $row['TenThuoc']; ?>">
+                            <input type="hidden" id="GiaBan-<?php echo $row['idThuoc']; ?>" name="GiaBan" value="<?php echo $row['GiaBan']; ?>">
+                            <input type="hidden" name="NgayLap" value="">
+                            <input type="hidden" name="TongTienHD" value="">
+
+                            <div class="form-group">
+                                    <label for="name">Mã bệnh nhân</label>
+                                    <input type="text" id="name" name="MaBN" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">Họ tên:</label>
+                                    <input type="text" id="name" name="HoTen" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Điện thoại:</label>
+                                    <input type="number" id="phone" name="DienThoai">
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="total">Số lượng:</label>
+                                    <input type="number" id="SoLuong-<?php echo $row['idThuoc']; ?>" name="SoLuong" min="0" required oninput="tinhTongTien(<?php echo $row['idThuoc']; ?>)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="total">Tổng tiền:</label>
+
+                                    <div id="TongTienDiv-<?php echo $row['idThuoc']; ?>"></div>
+
+                                    <input type="hidden" id="TongTien-<?php echo $row['idThuoc']; ?>" name="TongTienHD" min="0" required>
+                                </div>
+                            <input type="submit" value="submit"></input>
+                        </form>
+
+                    </div>
+                </div>
+			</tr>
+		</tbody>
+
+        <?php }
+          }else{
+            while ($row = mysqli_fetch_array($rs)) {
+            ?>
+
+<tbody>
+			<tr>
+                <td><?php echo $row['idThuoc'] ?></td>
+				<td><?php echo $row['TenThuoc'] ?></td>
+				<td><?php echo $row['HamLuong'] ?></td>
+                <td><?php echo $row['NguonGoc'] ?></td>
+                <td><?php echo $row['ThanhPhan'] ?></td>
+
+                <td><?php echo $row['ChuY'] ?></td>
+                <td><?php echo $row['SoLuong'] ?></td>
+
+                <td><?php echo $row['GiaBan'] ?></td>
+                <td><button onclick="openModal(<?php echo $row['idThuoc']; ?>)">Thêm</button></td>
+                
+            <form action="action/dobanhangcatlieu.php" method="post">
+                <div id="myModal-<?php echo $row['idThuoc']; ?>" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal(<?php echo $row['idThuoc']; ?>)">&times;</span>
+                        <input type="hidden" name="idThuoc" value="<?php echo $row['idThuoc']; ?>">
+                        <input type="hidden" name="TenThuoc" value="<?php echo $row['TenThuoc']; ?>">
+                            <input type="hidden" id="GiaBan-<?php echo $row['idThuoc']; ?>" name="GiaBan" value="<?php echo $row['GiaBan']; ?>">
+                            <input type="hidden" name="NgayLap" value="">
+                            <input type="hidden" name="TongTienHD" value="">
+
+                            <div class="form-group">
+                                    <label for="name">Mã bệnh nhân</label>
+                                    <input type="text" id="name" name="MaBN" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">Họ tên:</label>
+                                    <input type="text" id="name" name="HoTen" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Điện thoại:</label>
+                                    <input type="number" id="phone" name="DienThoai">
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="total">Số lượng:</label>
+                                    <input type="number" id="SoLuong-<?php echo $row['idThuoc']; ?>" name="SoLuong" min="0" required oninput="tinhTongTien(<?php echo $row['idThuoc']; ?>)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="total">Tổng tiền:</label>
+
+                                    <div id="TongTienDiv-<?php echo $row['idThuoc']; ?>"></div>
+
+                                    <input type="hidden" id="TongTien-<?php echo $row['idThuoc']; ?>" name="TongTienHD" min="0" required>
+                                </div>
+                            <input type="submit" value="submit"></input>
+                        </form>
+
+                    </div>
+                </div>
+			</tr>
+		</tbody>
+
+    
+
+    
+
+        <?php
+          }} mysqli_close($conn);
+        ?>      
+
+	</table>
+
+
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

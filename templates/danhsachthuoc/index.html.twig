@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Symfony Project{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/trangchu.css') }}"> <!-- Liên kết tệp CSS mới -->
+        <link rel="stylesheet" href="{{ asset('css/danhsachthuoc.css') }}"> <!-- Liên kết tệp CSS mới -->
+    <script src="{{ asset('js/modaldanhsachthuoc.js') }}"></script>
 
 </head>
 <body>
     <header>
         <nav>
         <ul>
-            <li><a href="index.php" title="Trang chủ">Hệ thống</a>
+            <li><a href="{{ path('trang_chu') }}" title="Trang chủ">Hệ thống</a>
                 <ul>
                     <li><a href="{{ path('danh_sach_nhan_vien') }}">Danh sách nhân viên</a></li>
                     <li><a href="{{ path('danh_sach_benh_nhan') }}">Danh sách bệnh nhân</a></li>
-                    <li><a href="{{ path('login') }}">Đăng xuất</a></li>
+                    <li><a href="{{ path('dang_nhap') }}">Đăng xuất</a></li>
 
                 </ul>
             </li>
@@ -56,6 +58,94 @@
         </ul>
     </nav>
     </header>
+
+     <div class="body">
+        <div class="timkiem">
+            <h2>Danh sách thuốc</h2> <br>
+            
+                <form action="{{ path('app_danhsachthuoc')}}" method="post">
+                    <h4>Tìm theo tên thuốc</h4>
+                    <input type="text" name="TenThuoc" value="">
+
+                    <div class="filter">
+                    </div>
+                    <br>
+                    <input type="submit" value="Tìm kiếm" name="submit">
+                </form> <br>
+            <a href="themthuocmoi.php" title=""> <input type="submit" value="Thêm thuốc mới"> </a>
+
+      </div>
+
+           
+    <table class="table">
+    <tr>
+        <th class="table__heading">ID</th>
+        <th class="table__heading">Tên Thuốc</th>
+        <th class="table__heading">Loai</th>
+        <th class="table__heading">Giá Bán</th>
+        <th class="table__heading">Số Lượng Còn</th>
+        <th class="table__heading">Thao Tác</th>
+    </tr>
+
+    {% if result is empty %}
+        <tr>
+            <td colspan="6">Không có dữ liệu.</td>
+        </tr>
+    {% else %}
+        {% for row in result %}
+            <tr class="table__row">
+                <td>{{ row.IDThuoc }}</td>
+                <td>{{ row.TenThuoc }}</td>
+                <td>{{ row.ThanhPhan }}</td>
+                <td>{{ row.GiaBan }}</td>
+                <td>{{ row.SoLuong }}</td>
+                <td class="table__content" data-heading="Jersey Number">
+                    <input type="hidden" name="IDThuoc" value="{{ row.IDThuoc }}">
+                    <input type="hidden" name="TenThuoc" value="{{ row.TenThuoc }}">
+
+                    <td>
+                        <form method="post" action="{{ path('app_danhsachthuoc_delete', {'id': row.IDThuoc}) }}">
+                            <input type="hidden" name="IDThuoc" value="{{ row.IDThuoc }}">
+                            <input type="hidden" name="TenThuoc" value="{{ row.TenThuoc }}">
+                            <button type="submit" class="delete-btn">Xóa Thuốc</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <button type="submit" class="edit-btn" onclick="openModal({{ row.IDThuoc }})">Sửa Thuốc</button>
+                    </td>
+
+                    <td>
+                        <form method="post" action="{{ path('app_danhsachthuoc_update', {'id': row.IDThuoc}) }}">
+                            <div id="myModal-{{ row.IDThuoc }}" class="modal">
+                                <div class="modal-content">
+                                    <span class="close" onclick="closeModal({{ row.IDThuoc }})">&times;</span>
+                                    <input type="hidden" name="IDThuoc" value="{{ row.IDThuoc }}">
+                                    <div class="form-group">
+                                        <label for="name">Tên Thuốc</label>
+                                        <input type="text" name="TenThuoc" value="{{ row.TenThuoc }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Giá Bán</label>
+                                        <input type="text" id="GiaBan-{{ row.IDThuoc }}" name="GiaBan" value="{{ row.GiaBan }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="total">Số lượng:</label>
+                                        <input type="number" id="SoLuong-{{ row.IDThuoc }}" name="SoLuong" min="0" value="{{ row.SoLuong }}" required>
+                                    </div>
+                                    <input type="submit" value="submit">
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+
+
+
     <main>
         {% block content %}{% endblock %}
     </main>

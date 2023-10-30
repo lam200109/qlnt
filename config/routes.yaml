@@ -5,6 +5,10 @@ controllers:
     type: attribute
 
 
+trang_chu:
+    path: /trang-chu
+    controller: App\Controller\TrangchuController::index
+
 danh_sach_nhan_vien:
     path: /danh-sach-nhan-vien
     controller: App\Controller\DanhsachnhanvienController::index
@@ -95,6 +99,24 @@ tien_ich:
 tro_giup:
     path: /tro-giup
     controller: App\Controller\TrogiupController::index
+
+dang_nhap:
+    path: /dang-nhap
+    controller: App\Controller\DangnhapController::index
+
+dang_ky:
+    path: /dang-ky
+    controller: App\Controller\DangkyController::index
+
+khach_hang:
+    path: /khach-hang
+    controller: App\Controller\KhachhangController::index
+
+quan_ly:
+    path: /quan-ly
+    controller: App\Controller\QuanlyController::index
+
+
 
 
 
