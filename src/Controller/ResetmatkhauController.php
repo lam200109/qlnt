@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DondathangonlineController extends AbstractController
+class ResetmatkhauController extends AbstractController
 {
-    #[Route('/dondathangonline', name: 'app_dondathangonline')]
+    #[Route('/resetmatkhau', name: 'app_resetmatkhau')]
     public function index(): Response
     {
-        return $this->render('dondathangonline/index.html.twig', [
-            'controller_name' => 'DondathangonlineController',
+        return $this->render('resetmatkhau/index.html.twig', [
+            'controller_name' => 'ResetmatkhauController',
         ]);
     }
 }

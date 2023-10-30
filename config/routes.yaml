@@ -116,6 +116,9 @@ quan_ly:
     path: /quan-ly
     controller: App\Controller\QuanlyController::index
 
+reset_mat_khau:
+    path: /reset-mat-khau
+    controller: App\Controller\ResetmatkhauController::index
 
 
 
