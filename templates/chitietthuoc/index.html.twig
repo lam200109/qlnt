@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chi tiết thuốc{% endblock %}
+
+{% block body %}
+
+<div class="nk-content ">
+                        <div class="container-fluid">
+                            <div class="nk-content-inner">
+                                <div class="nk-content-body">
+                                    <div class="nk-block-head nk-block-head-sm">
+                                        <div class="nk-block-between g-3">
+                                            <div class="nk-block-head-content">
+                                                <h3 class="nk-block-title page-title">Chi tiết thuốc</h3>
+                                            </div>
+                                            <div class="nk-block-head-content">
+                                                <a href="/demo7/pharmacy/medicine-list.html" class="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+                                                    <em class="icon ni ni-arrow-left"></em>
+                                                    <span>Back</span>
+                                                </a>
+                                                <a href="/demo7/pharmacy/medicine-list.html" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
+                                                    <em class="icon ni ni-arrow-left"></em>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="card card-bordered">
+                                            <div class="card-aside-wrap">
+                                                <div class="card-content">
+                                                    <div class="card-inner">
+                                                        <div class="nk-block">
+                                                            <div class="nk-block-head nk-block-head-sm nk-block-between">
+                                                                <h5 class="title">Thông tin thuốc</h5>
+                                                            </div>
+                                                            <div class="row gy-5">
+                                                                <div class="col-md-3 col-lg-2 col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Tên</span>
+                                                                        <span>Zimax</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-lg-2  col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Tên thường gọi</span>
+                                                                        <span>Azithromycin</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-lg-2  col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Hàm lượng</span>
+                                                                        <span>500mg</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-lg-2  col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Danh mục</span>
+                                                                        <span>Tablet</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-lg-2  col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Nhà sản xuất</span>
+                                                                        <span>Healthcare</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-lg-2 col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Hạn sử dụng</span>
+                                                                        <span>19/12/2020</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gy-5">
+                                                                <div class="col-md-3 col-lg-2 col-6">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Popularity</span>
+                                                                        <div>
+                                                                            <em class="icon ni ni-star-fill text-warning"></em>
+                                                                            <em class="icon ni ni-star-fill text-warning"></em>
+                                                                            <em class="icon ni ni-star-fill text-warning"></em>
+                                                                            <em class="icon ni ni-star-fill text-warning"></em>
+                                                                            <em class="icon ni ni-star-fill text-warning"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-divider divider md"></div>
+                                                        <div class="nk-block">
+                                                            <div class="nk-block-head nk-block-head-sm nk-block-between">
+                                                                <h5 class="title">Stock</h5>
+                                                            </div>
+                                                            <div class="row gy-5">
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Tồn kho đầu kì</span>
+                                                                        <span class="amount">230box</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Tồn kho hiện tại</span>
+                                                                        <span class="amount">180box</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Trạng thái</span>
+                                                                        <span class="badge bg-primary">Available</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gy-5">
+                                                                <div class="col-lg-4 col-8">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Số lượng còn lại</span>
+                                                                        <div class="progress progress-lg">
+                                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" data-progress="75">75%</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-divider divider md"></div>
+                                                        <div class="nk-block">
+                                                            <div class="nk-block-head nk-block-head-sm nk-block-between">
+                                                                <h5 class="title">Báo giá</h5>
+                                                            </div>
+                                                            <div class="row gy-5">
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Giá nhà sản xuất</span>
+                                                                        <span class="amount">50.00USD</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Giá bán lẻ</span>
+                                                                        <span class="amount">60.00USD </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <div class="profile-stats">
+                                                                        <span class="profile-ud-label">Giá bán sỉ</span>
+                                                                        <span class="amount">55.00USD</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+{% endblock %}

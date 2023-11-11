@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thêm thuốc mới{% endblock %}
+
+{% block body %}
+
+<div class="nk-content ">
+                        <div class="container-fluid">
+                            <div class="nk-content-inner">
+                                <div class="nk-content-body">
+                                    <div class="nk-block-head nk-block-head-sm">
+                                        <div class="nk-block-between">
+                                            <div class="nk-block-head-content">
+                                                <h3 class="nk-block-title page-title">Thêm thuốc</h3>
+                                                <div class="nk-block-des text-soft">
+                                                    <p>Bạn có thể thêm một loại thuốc bằng cách điền vào các trường này.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="card card-bordered">
+                                            <div class="card-inner">
+                                                <div class="row gy-4">
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="name">Tên thuốc</label>
+                                                            <input type="text" class="form-control" id="name" placeholder="Medicine Name" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="generic">Tên thường gọi</label>
+                                                            <input type="number" class="form-control" id="generic" placeholder="Generic Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="sKU">Mã thuốc</label>
+                                                            <input type="email" class="form-control" id="sKU" placeholder="SKU">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="weight">Trọng lượng</label>
+                                                            <input type="text" class="form-control" id="weight" placeholder="Weight">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Danh mục</label>
+                                                            <div class="form-control-wrap">
+                                                                <select class="form-select js-select2">
+                                                                    <option value="default_option">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nhà sản xuất</label>
+                                                            <div class="form-control-wrap">
+                                                                <select class="form-select js-select2">
+                                                                    <option value="default_option">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="price">Giá</label>
+                                                            <input type="number" class="form-control" id="price" placeholder="Price" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="manufacturer Price">Giá của nhà sản xuất</label>
+                                                            <input type="number" class="form-control" id="manufacturer Price" placeholder="Manufacturer Price" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Thêm vào kho</label>
+                                                            <div class="form-control-wrap number-spinner-wrap">
+                                                                <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus">
+                                                                    <em class="icon ni ni-minus"></em>
+                                                                </button>
+                                                                <input type="number" class="form-control number-spinner" value="0">
+                                                                <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus">
+                                                                    <em class="icon ni ni-plus"></em>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Ngày hết hạn</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="form-icon form-icon-right">
+                                                                    <em class="icon ni ni-calendar"></em>
+                                                                </div>
+                                                                <input type="text" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Trạng thái</label>
+                                                            <div class="form-control-wrap">
+                                                                <select class="form-select js-select2">
+                                                                    <option value="default_option">select</option>
+                                                                    <option value="option_select_status">Active</option>
+                                                                    <option value="option_select_status">Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="bio">Mô tả thuốc</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="quill-basic">
+                                                                    <input type="text" class="form-control" id="item" name="" placeholder="item" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary">Add Medicine</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{% endblock %}

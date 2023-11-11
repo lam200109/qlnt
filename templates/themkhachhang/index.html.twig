@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thêm khách hàng{% endblock %}
+
+{% block body %}
+
+
+                    <div class="nk-content ">
+                        <div class="container-fluid">
+                            <div class="nk-content-inner">
+                                <div class="nk-content-body">
+                                    <div class="nk-block-head nk-block-head-sm">
+                                        <div class="nk-block-between">
+                                            <div class="nk-block-head-content">
+                                                <h3 class="nk-block-title page-title">Thêm khách hàng</h3>
+                                                <div class="nk-block-des text-soft">
+                                                    <p>Điền đầy đủ thông tin phía dưới</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="card card-bordered">
+                                            <div class="card-inner">
+                                                <div class="row gy-4">
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="name">Họ tên</label>
+                                                            <input type="text" class="form-control" id="name" name="" placeholder="Name" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="phone-no">Số điện thoại</label>
+                                                            <input type="number" class="form-control" id="phone-no" name="" placeholder="Phone no">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="email">Email</label>
+                                                            <input type="email" class="form-control" id="email" name="" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Địa chỉ</label>
+                                                            <input type="text" class="form-control" id="address" name="" placeholder="Address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="name">Các loại thuốc</label>
+                                                            <input type="text" class="form-control" id="item" name="" placeholder="item" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="name">Số lượng</label>
+                                                            <input type="number" class="form-control" id="quantity" placeholder="quantity" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xxl-3 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Trạng thái</label>
+                                                            <div class="form-control-wrap">
+                                                                <select class="form-select js-select2">
+                                                                    <option value="default_option">Select</option>
+                                                                    <option value="option_select_status">Active</option>
+                                                                    <option value="option_select_status">Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="bio">Miêu tả</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="quill-basic">
+                                                                    <input type="text" class="form-control" id="item" name="" placeholder="item" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary">Add Customer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{% endblock %}
