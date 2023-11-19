@@ -242,7 +242,7 @@
                                         <span class="sub-text">ID hoá đơn</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span class="sub-text">Danh mục</span>
+                                        <span class="sub-text">Tên nhà sản xuất</span>
                                     </div>
                                     <div class="nk-tb-col tb-col-lg">
                                         <span class="sub-text">Ngày</span>
@@ -254,6 +254,7 @@
                                         <span class="sub-text">Số tiền</span>
                                     </div>
                                 </div>
+                                {% for row in result %}
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -263,23 +264,24 @@
                                     </div>
                                     <div class="nk-tb-col tb-col-mb">
                                         <span class="fw-medium">
-                                            <a href="/demo7/pharmacy/invoice-details.html">#746F5K2</a>
+                                            <a href="{{ path('chi_tiet_hoa_don', { 'id': row.PurchaseInvoiceID }) }}">{{ row.PurchaseInvoiceID}}</a>
                                         </span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span>Pharmacy Rent</span>
+                                        <span>{{ row.DistributorName }}</span>
                                     </div>
                                     <div class="nk-tb-col tb-col-lg">
-                                        <span>23 Jan 2019</span>
+                                        <span>{{ row.Date }}</span>
                                     </div>
                                     <div class="nk-tb-col tb-col-md">
-                                        <span>Building rent</span>
+                                        <span>{{ row.ExpenseType }}</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span class="tb-amount">$2300.00</span>
+                                        <span class="tb-amount">{{ row.Amount }}</span>
                                     </div>
                                 </div>
-                                
+                                 {% endfor %}
+
                             </div>
                         </div>
                         <div class="card-inner">

@@ -206,6 +206,8 @@
                                                     </ul>
                                                 </div>
                                             </div>
+
+                                            {% for row in result %}
                                             <div class="nk-tb-item">
                                                 <div class="nk-tb-col nk-tb-col-check">
                                                     <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -214,27 +216,27 @@
                                                         </div>
                                                     </div>
                                                     <div class="nk-tb-col">
-                                                        <a href="/demo7/pharmacy/medicine-details.html">
+                                                        <a href="{{ path('chi_tiet_thuoc', { 'id': row.MedicineID }) }}">
                                                             <span class="tb-product">
                                                                 <span class="title">
-                                                                    Zimax
+                                                                    {{ row.Name}}
                                                                 </span>
                                                             </span>
                                                         </a>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-lg">
                                                         <span>
-                                                            Azithromycin
+                                                            {{ row.GenericName}}
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-xxl">
                                                         <span class="tb-sub">
-                                                            UY3750
+                                                            {{ row.MedicineID }}
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-lg">
                                                         <span>
-                                                            500mg
+                                                            {{ row.Concentration}}
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-sm">
@@ -249,28 +251,28 @@
                                                     </div>
                                                     <div class="nk-tb-col">
                                                         <span class="tb-amount">
-                                                            20.55 
+                                                            {{ row.Price }} 
                                                             <span class="currency">
-                                                                USD
+                                                                đồng
                                                             </span>
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-xxl">
                                                         <span class="tb-amount">
-                                                            15.00 
+                                                            {{ row.ManufacturerPrice }}
                                                             <span class="currency">
-                                                                USD
+                                                                đồng
                                                             </span>
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-md">
                                                         <span>
-                                                            100
+                                                            {{ row.InStock }}
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-xxl">
                                                         <span class="tb-date">
-                                                            19/12/2020
+                                                            {{ row.ExpirationDate }}
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-md">
@@ -326,6 +328,8 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            {% endfor %}
+
                                         </ul>
                                     </div>
                                 </div>

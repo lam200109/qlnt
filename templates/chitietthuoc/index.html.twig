@@ -37,37 +37,37 @@
                                                                 <div class="col-md-3 col-lg-2 col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Tên</span>
-                                                                        <span>Zimax</span>
+                                                                        <span>{{ result['Name'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-2  col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Tên thường gọi</span>
-                                                                        <span>Azithromycin</span>
+                                                                        <span>{{ result['GenericName'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-2  col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Hàm lượng</span>
-                                                                        <span>500mg</span>
+                                                                        <span>{{ result['Concentration'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-2  col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Danh mục</span>
-                                                                        <span>Tablet</span>
+                                                                        <span>{{ result['Category'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-2  col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Nhà sản xuất</span>
-                                                                        <span>Healthcare</span>
+                                                                        <span>{{ result['Company'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-2 col-6">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Hạn sử dụng</span>
-                                                                        <span>19/12/2020</span>
+                                                                        <span>{{ result['ExpirationDate'] }}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -92,16 +92,11 @@
                                                                 <h5 class="title">Stock</h5>
                                                             </div>
                                                             <div class="row gy-5">
-                                                                <div class="col-md-3 col-sm-4">
-                                                                    <div class="profile-stats">
-                                                                        <span class="profile-ud-label">Tồn kho đầu kì</span>
-                                                                        <span class="amount">230box</span>
-                                                                    </div>
-                                                                </div>
+                                                                
                                                                 <div class="col-md-3 col-sm-4">
                                                                     <div class="profile-stats">
                                                                         <span class="profile-ud-label">Tồn kho hiện tại</span>
-                                                                        <span class="amount">180box</span>
+                                                                        <span class="amount">{{ result['InStock'] }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-4">

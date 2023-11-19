@@ -889,3 +889,9 @@
     ,
     p.init()
 }(NioApp, jQuery);
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('addManufacture'));
+    myModal.show();
+ });

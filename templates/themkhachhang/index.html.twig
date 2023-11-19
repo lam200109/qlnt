@@ -4,95 +4,167 @@
 
 {% block body %}
 
+<div class="nk-content">
+<div class="container-fluid">
+    <div class="nk-content-inner">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">Thêm khách hàng</h3>
+                        <div class="nk-block-des text-soft">
+                            <p>Điền đầy đủ thông tin phía dưới</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nk-block">
+                <div class="card card-bordered">
+                    <div class="card-inner">
+                        <div class="row gy-4">
+                        <div class="col-xxl-3 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label" for="name">Họ tên</label>
+                            <input type="text" class="form-control" id="name" name="Name" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label" for="phone-no">Số điện thoại</label>
+                            <input type="number" class="form-control" id="phone-no" name="Phone" placeholder="Phone no">
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="Email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="address" name="Address" placeholder="Address">
+                        </div>
+                    </div>
 
-                    <div class="nk-content ">
-                        <div class="container-fluid">
-                            <div class="nk-content-inner">
-                                <div class="nk-content-body">
-                                    <div class="nk-block-head nk-block-head-sm">
-                                        <div class="nk-block-between">
-                                            <div class="nk-block-head-content">
-                                                <h3 class="nk-block-title page-title">Thêm khách hàng</h3>
-                                                <div class="nk-block-des text-soft">
-                                                    <p>Điền đầy đủ thông tin phía dưới</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-block">
-                                        <div class="card card-bordered">
-                                            <div class="card-inner">
-                                                <div class="row gy-4">
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="name">Họ tên</label>
-                                                            <input type="text" class="form-control" id="name" name="" placeholder="Name" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="phone-no">Số điện thoại</label>
-                                                            <input type="number" class="form-control" id="phone-no" name="" placeholder="Phone no">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="email">Email</label>
-                                                            <input type="email" class="form-control" id="email" name="" placeholder="Email">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Địa chỉ</label>
-                                                            <input type="text" class="form-control" id="address" name="" placeholder="Address">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="name">Các loại thuốc</label>
-                                                            <input type="text" class="form-control" id="item" name="" placeholder="item" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="name">Số lượng</label>
-                                                            <input type="number" class="form-control" id="quantity" placeholder="quantity" required>
-                                                        </div>
-                                                    </div>
+                
+                        <label for="searchTerm">Tìm kiếm thuốc:</label>
+                        <input type="text" id="searchTerm"  name="searchTerm" placeholder="Nhập tên thuốc...">
+                        <button type="submit" class="btn btn-primary" id="searchButton">Tìm kiếm</button>
 
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Trạng thái</label>
-                                                            <div class="form-control-wrap">
-                                                                <select class="form-select js-select2">
-                                                                    <option value="default_option">Select</option>
-                                                                    <option value="option_select_status">Active</option>
-                                                                    <option value="option_select_status">Inactive</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="bio">Miêu tả</label>
-                                                            <div class="form-control-wrap">
-                                                                <div class="quill-basic">
-                                                                    <input type="text" class="form-control" id="item" name="" placeholder="item" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary">Add Customer</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="bio">Danh sách loại thuốc</label>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Tên sản phẩm</th>
+                                                <th scope="col">Giá</th>
+                                                <th scope="col">Hàm lượng</th>
+                                                <th scope="col">Mô tả</th>
+                                                <th scope="col">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="medicineTable">
+                                            {% for medicine in result %}
+                                                <tr>
+                                                    <td>{{ medicine.Name }}</td>
+                                                    <td>{{ medicine.Price }}</td>
+                                                    <td>{{ medicine.Concentration }}</td>
+                                                    <td>{{ medicine.Description }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" onclick="addToCart('{{ medicine.Name }}', '{{ medicine.Price }}')">Thêm</button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Cột 2: Bảng hiển thị sản phẩm đã đặt -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="bio">Giỏ hàng</label>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Tên sản phẩm</th>
+                                                <th scope="col">Số lượng</th>
+                                                <th scope="col">Thành tiền</th>
+                                                <th scope="col">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cartTable"></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                                                <td id="totalAmount" style="font-weight: bold;"></td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<script>
+    document.getElementById('searchTerm').addEventListener('input', function() {
+    var searchTerm = this.value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/search-medicine', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Parse JSON response
+            var response = JSON.parse(xhr.responseText);
+
+            // Get the array of medicines from the response
+            var medicines = response.result;
+
+            // Update the table with the new data
+            updateTable(medicines);
+        }
+    };
+    xhr.send('searchTerm=' + encodeURIComponent(searchTerm));
+});
+
+function updateTable(medicines) {
+    var tableBody = document.getElementById('medicineTable');
+    tableBody.innerHTML = ''; // Clear the existing content
+
+    for (var i = 0; i < medicines.length; i++) {
+        var medicine = medicines[i];
+
+        var row = tableBody.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+
+        cell1.innerHTML = medicine.Name;
+        cell2.innerHTML = medicine.Price;
+        cell3.innerHTML = medicine.Concentration;
+        cell4.innerHTML = medicine.Description;
+        cell5.innerHTML = '<button type="button" class="btn btn-primary" onclick="addToCart(\'' + medicine.Name + '\', \'' + medicine.Price + '\')">Thêm</button>';
+    }
+}
+
+</script>
+
+
+
+  
+
 {% endblock %}

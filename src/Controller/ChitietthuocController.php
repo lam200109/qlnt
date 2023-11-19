@@ -5,14 +5,29 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Connection;
 
 class ChitietthuocController extends AbstractController
 {
     #[Route('/chitietthuoc', name: 'app_chitietthuoc')]
-    public function index(): Response
+    public function index($id, Connection $connection): Response
     {
-        return $this->render('chitietthuoc/index.html.twig', [
-            'controller_name' => 'ChitietthuocController',
-        ]);
+           // Thực hiện truy vấn SQL để lấy thông tin của người dùng với ID tương ứng
+           $sql = "SELECT Medicines.*, Manufacturers.Company
+           FROM Medicines
+           JOIN Manufacturers ON Medicines.ManufacturerID = Manufacturers.ManufacturerID
+           WHERE Medicines.MedicineID = :id;
+           ";
+           $medicine = $connection->executeQuery($sql, ['id' => $id])->fetchAssociative();
+   
+           // Kiểm tra nếu không có người dùng với ID tương ứng
+           if (!$medicine) {
+               throw $this->createNotFoundException('Không tìm thấy thuốc với ID ' . $id);
+           }
+   
+           // Truyền dữ liệu vào view
+           return $this->render('chitietthuoc/index.html.twig', [
+               'result' => $medicine,
+           ]);
     }
 }

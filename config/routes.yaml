@@ -15,6 +15,11 @@ danh_sach_khach_hang:
 them_khach_hang:
     path: /them-khach-hang
     controller: App\Controller\ThemkhachhangController::index
+    
+search_medicine:
+    path: /search-medicine
+    controller: App\Controller\ThemkhachhangController::searchMedicine
+    methods: [GET, POST]
 
 danh_sach_thuoc:
     path: /danh-sach-thuoc
@@ -37,7 +42,7 @@ reset_mat_khau:
     controller: App\Controller\ResetmatkhauController::index
 
 chi_tiet_thuoc:
-    path: /chi-tiet-thuoc
+    path: /chi-tiet-thuoc/{id}
     controller: App\Controller\ChitietthuocController::index
 
 danh_sach_nha_san_xuat:
@@ -53,7 +58,7 @@ danh_sach_nhan_vien:
     controller: App\Controller\DanhsachnhanvienController::index
 
 thong_tin_nhan_vien:
-    path: /thong-tin-nhan-vien
+    path: /thong-tin-nhan-vien/{id}
     controller: App\Controller\ThongtinnhanvienController::index
 
 cham_cong:
@@ -77,8 +82,10 @@ danh_sach_hoa_don:
     path: /danh-sach-hoa-don
     controller: App\Controller\DanhsachhoadonController::index
 
+
+
 chi_tiet_hoa_don:
-    path: /chi-tiet-hoa-don
+    path: /chi-tiet-hoa-don/{id}
     controller: App\Controller\ChitiethoadonController::index
 
 bao_cao_ban_hang:

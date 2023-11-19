@@ -19,11 +19,12 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/demo-settings.js') }}"></script>
     <script src="{{ asset('js/editors.js') }}"></script>
+<script src="{{ asset('js/additem.js') }}"></script>
 
 </head>
  
 
-    <body class="nk-body ui-rounder npc-default has-sidebar no-touch nk-nio-theme">
+    <body class="nk-body ui-rounder npc-default has-sidebar no-touch nk-nio-theme modal-open">
         <div class="nk-app-root">
             <div class="nk-sidebar" data-content="sidebarMenu">
                 <div class="nk-sidebar-bar">
@@ -195,7 +196,7 @@
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ path('chi_tiet_thuoc') }}" class="nk-menu-link">
+                                            <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Chi tiết thuốc</span>
                                             </a>
                                         </li>
@@ -265,7 +266,7 @@
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ path('thong_tin_nhan_vien') }}" class="nk-menu-link">
+                                            <a href="{{ path('danh_sach_nhan_vien') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Thông tin nhân viên</span>
                                             </a>
                                         </li>
@@ -299,13 +300,9 @@
                                                 <span class="nk-menu-text">Chi phí</span>
                                             </a>
                                         </li>
+                                       
                                         <li class="nk-menu-item">
-                                            <a href="{{ path('danh_sach_hoa_don') }}" class="nk-menu-link">
-                                                <span class="nk-menu-text">Danh sách hoá đơn</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ path('chi_tiet_hoa_don') }}" class="nk-menu-link">
+                                            <a href="{{ path('nguon_thu') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Chi tiết hoá đơn</span>
                                             </a>
                                         </li>

@@ -246,6 +246,8 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
+
+                                                        {% for row in result %}
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col nk-tb-col-check">
                                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -261,23 +263,23 @@
                                                                         </div>
                                                                         <div class="user-info">
                                                                             <span class="tb-lead">
-                                                                                Abu Bin Ishtiyak <span class="dot dot-warning d-md-none ms-1"></span>
+                                                                                {{ row.Name }} <span class="dot dot-warning d-md-none ms-1"></span>
                                                                             </span>
-                                                                            <span>info@softnio.com</span>
+                                                                            <span>{{ row.Email }}</span>
                                                                         </div>
                                                                     </div>
                                                                 </a>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
                                                                 <a href="#">
-                                                                    <span class="fw-medium">#P6985</span>
+                                                                    <span class="fw-medium">{{ row.CustomerID}}</span>
                                                                 </a>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span>+811 847-4958</span>
+                                                                <span>{{ row.Phone }}</span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-xxl">
-                                                                <span>Large cottage</span>
+                                                                <span>{{ row.Address }}</span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
                                                                 <div>
@@ -328,6 +330,8 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
+                                                        {% endfor %}
+
                                                     </div>
                                                 </div>
                                                 <div class="card-inner">
