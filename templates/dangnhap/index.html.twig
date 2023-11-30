@@ -35,33 +35,34 @@
                                     </div>
 
 
-                                    <form action="" class="form-validate is-alter" autocomplete="off">
-                                        <div class="form-group">
-                                            <div class="form-label-group">
-                                                <label class="form-label" for="email-address">Email hoặc Tài khoản</label>
-                                                <a class="link link-primary link-sm" tabindex="-1" href="#">Need Help?</a>
-                                            </div>
-                                            <div class="form-control-wrap">
-                                                <input autocomplete="off" type="text" class="form-control form-control-lg" required id="email-address" name="TaiKhoan" placeholder="Enter your email address or username">
-                                            </div>
+                                <form action="{{ path('dang_nhap') }}" class="form-validate is-alter" autocomplete="off" method="post">
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="email-address">Email hoặc Tài khoản</label>
+                                            <a class="link link-primary link-sm" tabindex="-1" href="#">Need Help?</a>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="form-label-group">
-                                                <label class="form-label" for="password">Mật khẩu</label>
-                                                <a class="link link-primary link-sm" tabindex="-1" href="{{ path('reset_mat_khau') }}">Quên mật khẩu</a>
-                                            </div>
-                                            <div class="form-control-wrap">
-                                                <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
-                                                    <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                    <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                                                </a>
-                                                <input autocomplete="new-password" type="password" class="form-control form-control-lg" required id="password" name="MatKhau" placeholder="Nhập mật khẩu">
-                                            </div>
+                                        <div class="form-control-wrap">
+                                            <input autocomplete="off" type="text" class="form-control form-control-lg" required id="email-address" name="_username" value="{{ last_username }}" placeholder="Enter your email address or username">
                                         </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-lg btn-primary btn-block">Đăng nhập</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="password">Mật khẩu</label>
+                                            <a class="link link-primary link-sm" tabindex="-1" href="{{ path('reset_mat_khau') }}">Quên mật khẩu</a>
                                         </div>
-                                    </form>
+                                        <div class="form-control-wrap">
+                                            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input autocomplete="new-password" type="password" class="form-control form-control-lg" required id="password" name="_password" placeholder="Nhập mật khẩu">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-lg btn-primary btn-block">Đăng nhập</button>
+                                    </div>
+                                </form>
+                                
 
 
                                  <div class="form-note-s2 pt-4">

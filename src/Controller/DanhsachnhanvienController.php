@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 
 class DanhsachnhanvienController extends AbstractController
 {
-    #[Route('/danhsachnhanvien', name: 'app_danhsachnhanvien')]
+    #[Route('/danhsachnhanvien', name: 'danhsachnhanvien')]
     public function index(Connection $connection): Response
     {
         // Sử dụng prepared statements để ngăn chặn SQL Injection

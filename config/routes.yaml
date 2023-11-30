@@ -32,6 +32,16 @@ them_thuoc_moi:
 dang_nhap:
     path: /dang-nhap
     controller: App\Controller\DangnhapController::index
+    methods: ['GET', 'POST']
+
+nhap_thuoc:
+    path: /nhap-thuoc
+    controller: App\Controller\NhapthuocController::index
+
+get_gia_thuoc:
+    path: /get-gia-thuoc/{MedicineID}
+    controller: App\Controller\ThuocController::getGiaThuoc
+
 
 dang_ky:
     path: /dang-ky
@@ -82,7 +92,13 @@ danh_sach_hoa_don:
     path: /danh-sach-hoa-don
     controller: App\Controller\DanhsachhoadonController::index
 
+download_excel_template:
+    path: '/download-excel-template'
+    controller: App\Controller\ThemthuocmoiController::downloadExcelTemplate
 
+download_excel_nhapthuoc:
+    path: '/download-excel-nhapthuoc'
+    controller: App\Controller\NhapthuocController::downloadExcelTemplate
 
 chi_tiet_hoa_don:
     path: /chi-tiet-hoa-don/{id}
@@ -107,11 +123,3 @@ cai_dat:
 cai_dat_nhan_vien:
     path: /cai-dat-nhan-vien
     controller: App\Controller\CaidatnhanvienController::index
-
-# :
-#     path: /
-#     controller: App\Controller\Controller::index
-
-# :
-#     path: /
-#     controller: App\Controller\Controller::index

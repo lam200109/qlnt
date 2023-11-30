@@ -21,77 +21,63 @@
                                     <div class="nk-block">
                                         <div class="card card-bordered">
                                             <div class="card-inner">
+
+
+                                            <form method="post" action="{{ path('them_thuoc_moi') }}" enctype="multipart/form-data">
+
                                                 <div class="row gy-4">
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label" for="name">Tên thuốc</label>
-                                                            <input type="text" class="form-control" id="name" placeholder="Medicine Name" required>
+                                                            <input type="text" class="form-control" id="name" placeholder="Medicine Name" name="MedicineName" >
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label" for="generic">Tên thường gọi</label>
-                                                            <input type="number" class="form-control" id="generic" placeholder="Generic Name">
+                                                            <input type="text" class="form-control" id="generic" name="GenericName" placeholder="Generic Name">
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label" for="sKU">Mã thuốc</label>
-                                                            <input type="email" class="form-control" id="sKU" placeholder="SKU">
+                                                            <input type="text" class="form-control" id="sKU" name="SKU"  placeholder="SKU">
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="weight">Trọng lượng</label>
-                                                            <input type="text" class="form-control" id="weight" placeholder="Weight">
+                                                            <label class="form-label" for="weight">Hàm lượng</label>
+                                                            <input type="text" class="form-control" name="Concentration" id="weight" placeholder="Weight">
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Danh mục</label>
-                                                            <div class="form-control-wrap">
-                                                                <select class="form-select js-select2">
-                                                                    <option value="default_option">Select</option>
-                                                                </select>
-                                                            </div>
+                                                    <label class="form-label">Danh mục</label>
+                                                    <div class="form-control-wrap">
+
+
+                                                    <select class="form-select js-select2" name="Category">
+                                                        <option value="default_option">Chọn</option>
+                                                        {% for category in categories %}
+                                                            <option value="{{ category.Category }}">{{ category.Category }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                            
+
+                                                    </div>
+                                                    
+                                                    
                                                         </div>
                                                     </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Nhà sản xuất</label>
-                                                            <div class="form-control-wrap">
-                                                                <select class="form-select js-select2">
-                                                                    <option value="default_option">Select</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="price">Giá</label>
-                                                            <input type="number" class="form-control" id="price" placeholder="Price" required>
-                                                        </div>
-                                                    </div>
+                                                 
+                                                    
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label" for="manufacturer Price">Giá của nhà sản xuất</label>
-                                                            <input type="number" class="form-control" id="manufacturer Price" placeholder="Manufacturer Price" required>
+                                                            <input type="number" class="form-control" id="manufacturer Price" name="ManufacturerPrice" placeholder="Manufacturer Price" >
                                                         </div>
                                                     </div>
-                                                    <div class="col-xxl-3 col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Thêm vào kho</label>
-                                                            <div class="form-control-wrap number-spinner-wrap">
-                                                                <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus">
-                                                                    <em class="icon ni ni-minus"></em>
-                                                                </button>
-                                                                <input type="number" class="form-control number-spinner" value="0">
-                                                                <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus">
-                                                                    <em class="icon ni ni-plus"></em>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                 
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Ngày hết hạn</label>
@@ -99,7 +85,7 @@
                                                                 <div class="form-icon form-icon-right">
                                                                     <em class="icon ni ni-calendar"></em>
                                                                 </div>
-                                                                <input type="text" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                                                                <input type="text" class="form-control date-picker" name="ExpirationDate" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,34 +94,63 @@
                                                             <label class="form-label">Trạng thái</label>
                                                             <div class="form-control-wrap">
                                                                 <select class="form-select js-select2">
-                                                                    <option value="default_option">select</option>
-                                                                    <option value="option_select_status">Active</option>
-                                                                    <option value="option_select_status">Inactive</option>
+                                                                    <option value="">select</option>
+                                                                    <option value="Active">Active</option>
+                                                                    <option value="Inactive">Inactive</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="bio">Mô tả thuốc</label>
                                                             <div class="form-control-wrap">
                                                                 <div class="quill-basic">
-                                                                    <input type="text" class="form-control" id="item" name="" placeholder="item" required>
+                                                                    <input type="text" class="form-control" id="item" name="Description" placeholder="item" >
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-12">
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary">Add Medicine</button>
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Thêm bằng file Excel</label>
+                                                        <input type="file" class="form-control" name="excelFile">
                                                     </div>
                                                 </div>
+
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                    <button type="submit" name="submitType" value="excel" class="btn btn-primary">Thêm Thuốc</button>
+                                                </div>
+                                                    <a href="{{ path('download_excel_template') }}" class="btn btn-success" download="Dulieumau.xlsx">Tải về dữ liệu mẫu</a>
+                                                </div>
+                                                </div>
+
+                                            </form>
+
+
+                                            {% for flashMessage in app.session.flashBag.get('success') %}
+                                            <div class="alert alert-success">
+                                                {{ flashMessage }}
                                             </div>
+                                        {% endfor %}
+                                        <div class="col-12">
+                                    </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <script>
+    $(document).ready(function() {
+        $('.js-select2').select2({
+            tags: true, // Cho phép nhập giá trị mới
+        });
+    });
+</script>
+
 {% endblock %}

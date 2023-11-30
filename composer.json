@@ -13,13 +13,16 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "2.*",
         "phpoffice/phpspreadsheet": "^1.29",
+        "sensio/framework-extra-bundle": "*",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "*",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/http-foundation": "6.3.*",
         "symfony/runtime": "6.3.*",
         "symfony/security-bundle": "6.3.*",
+        "symfony/security-core": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
         "symfony/var-dumper": "6.3.*",
         "symfony/yaml": "6.3.*"
@@ -68,12 +71,17 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.3.*"
         }
     },
     "require-dev": {
+        "symfony/debug": "*",
         "symfony/debug-bundle": "6.3.*",
-        "symfony/maker-bundle": "^1.51"
+        "symfony/maker-bundle": "^1.52",
+        "symfony/var-dumper": "^6.3.0"
     }
+    
+    
+    
 }

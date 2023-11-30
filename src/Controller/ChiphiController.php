@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 
 class ChiphiController extends AbstractController
 {
-    #[Route('/chiphi', name: 'app_chiphi')]
+    #[Route('/chiphi', name: 'chiphi')]
     public function index(Connection $connection): Response
     {
         $sql = "SELECT PurchaseInvoices.*, Distributors.DistributorName

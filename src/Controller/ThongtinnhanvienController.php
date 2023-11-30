@@ -10,7 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class ThongtinnhanvienController extends AbstractController
 {
-    #[Route('/thongtinnhanvien/{id}', name: 'app_thongtinnhanvien')]
+    #[Route('/thongtinnhanvien/{id}', name: 'thongtinnhanvien')]
     public function index($id, Connection $connection): Response
     {
         // Thực hiện truy vấn SQL để lấy thông tin của người dùng với ID tương ứng

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CaidatController extends AbstractController
 {
-    #[Route('/caidat', name: 'app_caidat')]
+    #[Route('/caidat', name: 'caidat')]
     public function index(): Response
     {
         return $this->render('caidat/index.html.twig', [

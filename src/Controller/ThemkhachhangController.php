@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ThemkhachhangController extends AbstractController
 {
-    #[Route('/themkhachhang', name: 'app_themkhachhang')]
+    #[Route('/themkhachhang', name: 'themkhachhang')]
     public function index(Connection $connection): Response
     {
         $sql = "SELECT * FROM Medicines";

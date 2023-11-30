@@ -205,6 +205,8 @@
                                         <span class="sub-text">Trạng thái</span>
                                     </div>
                                 </div>
+                                {% for result in result %}
+
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -215,7 +217,7 @@
                                     <div class="nk-tb-col">
                                         <a href="/demo7/pharmacy/medicine-details.html">
                                             <span class="tb-product">
-                                                <span class="title">Zimax</span>
+                                                <span class="title">{{ result.TenThuoc }}</span>
                                             </span>
                                         </a>
                                     </div>
@@ -228,25 +230,27 @@
                                                     </span>
                                                 </div>
                                                 <div class="user-info">
-                                                    <span class="tb-lead">Square</span>
-                                                    <span>square@.com</span>
+                                                    <span class="tb-lead">{{ result.NhaSanXuat }}</span>
+                                                    <span>{{ result.Email}}</span>
                                                 </div>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="nk-tb-col tb-col-md">
-                                        <span>3090</span>
+                                        <span>{{ result.TongSoLuongNhap }}</span>
                                     </div>
                                     <div class="nk-tb-col tb-col-lg">
-                                        <span>2090</span>
+                                        <span>{{ result.TongSoLuongXuat }}</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span>100</span>
+                                        <span>{{ result.TonKhoHienTai }}</span>
                                     </div>
                                     <div class="nk-tb-col tb-col-md">
                                         <span class="tb-status text-warning">Low</span>
                                     </div>
                                 </div>
+                            {% endfor %}
+
                                
                             </div>
                         </div>

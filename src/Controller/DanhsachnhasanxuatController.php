@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 
 class DanhsachnhasanxuatController extends AbstractController
 {
-    #[Route('/danhsachnhasanxuat', name: 'app_danhsachnhasanxuat')]
+    #[Route('/danhsachnhasanxuat', name: 'danhsachnhasanxuat')]
     public function index(Connection $connection): Response
     {
         $sql = "SELECT * FROM Distributors";

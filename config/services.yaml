@@ -1,9 +1,6 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+# config/services.yaml
 parameters:
+    # Các tham số của bạn
 
 services:
     Doctrine\DBAL\Connection:
@@ -16,13 +13,25 @@ services:
                 charset: utf8mb4
                 url: '%env(resolve:DATABASE_URL)%'
 
-    # default configuration for services in *this* file
+    # Cấu hình mặc định cho các dịch vụ trong file này
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true      # Tự động inject dependencies vào các dịch vụ của bạn.
+        autoconfigure: true # Tự động đăng ký các dịch vụ của bạn như các commands, event subscribers, v.v.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface:
+        alias: 'security.token_storage'
+
+    Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface:
+        alias: 'security.authorization_checker'
+
+    App\Controller\DangnhapController:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+
+    Symfony\Component\Security\Core\Authentication\Token\TokenFactoryInterface:
+        class: Symfony\Component\Security\Core\Authentication\Token\TokenFactory
+
+    # Các class trong thư mục src/ sẽ sẵn sàng để sử dụng như các dịch vụ
     App\:
         resource: '../src/'
         exclude:
@@ -30,5 +39,4 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # Thêm các định nghĩa dịch vụ khác nếu cần

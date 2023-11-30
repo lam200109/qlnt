@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nhập thuốc{% endblock %}
+
+{% block body %}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Nhập thuốc</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>Nhập hàng bằng cách thêm đầy đủ các trường sau và hoặc import excel</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+
+                            <form method="post" action="{{ path('nhap_thuoc') }}" enctype="multipart/form-data">
+
+                                <div class="row gy-4">
+
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="name">Mã nhà phân phối</label>
+                                            <select class="form-select" name="DistributorID">
+                                                <option value="">Chọn nhà phân phối</option>
+                                                {% for distributor in distributors %}
+                                                    <option value="{{ distributor.DistributorID }}">{{ distributor.DistributorName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                           
+
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="name">Tên thuốc</label>
+                                            <select class="form-select" id="ma-thuoc" name="MedicineID">
+                                                <option value="default_option">Chọn</option>
+                                                {% for medicine in medicines %}
+                                                    <option value="{{ medicine.MedicineID }}">{{ medicine.Name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                              
+
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="weight">Số lượng nhập</label>
+                                            <input type="number" class="form-control" name="Quantity" id="so-luong-nhap" placeholder="Số lượng">
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Giá nhập</label>
+                                            <input type="number" class="form-control" name="Price" id="gia-nhap" onchange="tinhTongTien()" placeholder="Giá nhập">
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Tổng hoá đơn</label>
+                                            <input type="number" class="form-control" name="Amount" id="tong-tien-hoa-don" placeholder="Tổng tiền">
+                                        </div>
+                                     </div>
+
+                                    <div class="col-xxl-3 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Ngày nhập</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-calendar"></em>
+                                                </div>
+                                                <input type="date" class="form-control date-picker" name="Date" value="{{ "now"|date("Y-m-d") }}" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+
+                                   
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Thêm bằng file Excel</label>
+                                            <input type="file" class="form-control" name="excelFile">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button type="submit" name="submitType" value="excel" class="btn btn-primary">Nhập hàng</button>
+                                        </div>
+                                        <a href="{{ path('download_excel_nhapthuoc') }}" class="btn btn-success" download="Dulieumau.xlsx">Tải về dữ liệu mẫu</a>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            {% for flashType, flashMessages in app.flashes %}
+                            {% for flashMessage in flashMessages %}
+                                <div class="alert alert-{{ flashType }}" role="alert">
+                                    {{ flashMessage }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                            <div class="col-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function tinhTongTien() {
+        var soLuongNhap = document.getElementById("so-luong-nhap").value;
+        var giaNhap = document.getElementById("gia-nhap").value;
+        
+        // Tính tổng tiền
+        var tongTien = soLuongNhap * giaNhap;
+        
+        // Đặt giá trị tổng tiền vào input
+        document.getElementById("tong-tien-hoa-don").value = tongTien.toFixed(0); // Sử dụng toFixed(0) để không giữ số thập phân
+    }
+
+    function updateGiaBan() {
+        var maThuocElement = document.getElementById("ma-thuoc");
+        var giaBanElement = document.getElementById("tong-tien-hoa-don");
+
+        if (!maThuocElement || !giaBanElement) {
+            console.error('Phần tử không tồn tại.');
+            return;
+        }
+
+        maThuocElement.addEventListener("change", function() {
+            var idThuoc = maThuocElement.value;
+
+            // Sử dụng Fetch API thay vì XMLHttpRequest
+            fetch("{{ path('get_gia_thuoc', {'MedicineID': 'ID_THUOC'}) }}".replace('ID_THUOC', idThuoc))
+                .then(response => response.text())
+                .then(data => {
+                    giaBanElement.value = parseFloat(data).toFixed(0); // Sử dụng toFixed(0) để không giữ số thập phân
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    }
+
+    window.onload = function() {
+        updateGiaBan();
+    };
+</script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

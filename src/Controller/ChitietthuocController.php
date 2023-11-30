@@ -9,13 +9,11 @@ use Doctrine\DBAL\Connection;
 
 class ChitietthuocController extends AbstractController
 {
-    #[Route('/chitietthuoc', name: 'app_chitietthuoc')]
+    #[Route('/chitietthuoc', name: 'chitietthuoc')]
     public function index($id, Connection $connection): Response
     {
            // Thực hiện truy vấn SQL để lấy thông tin của người dùng với ID tương ứng
-           $sql = "SELECT Medicines.*, Manufacturers.Company
-           FROM Medicines
-           JOIN Manufacturers ON Medicines.ManufacturerID = Manufacturers.ManufacturerID
+           $sql = "SELECT * FROM Medicines
            WHERE Medicines.MedicineID = :id;
            ";
            $medicine = $connection->executeQuery($sql, ['id' => $id])->fetchAssociative();

@@ -13,6 +13,10 @@
         gtag('js', new Date());
         gtag('config', 'UA-91615293-4');
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha256-KJvaFtq21v7rBBd5TLb4lWhZNa9A5KZZEfu70Vgsd1A=" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5qAmGA0qzGdIe89MKvA7o4EQQf5rF+yZI8" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha256-6OcgDxH5Kg6G5bJv9T0q1hqzr6IIK9L3gTyHPl5b+j0=" crossorigin="anonymous"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91615293-4"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script src="{{ asset('js/bundle.js') }}"></script>
@@ -185,21 +189,35 @@
                                         <span class="nk-menu-text">Thuốc</span>
                                     </a>
                                     <ul class="nk-menu-sub">
+
+                                    {% if is_granted('ROLE_NhapHangAccess') %}
+                                        <li class="nk-menu-item">
+                                            <a href="{{ path('nhap_thuoc') }}" class="nk-menu-link">
+                                                <span class="nk-menu-text">Nhập thuốc</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
                                         <li class="nk-menu-item">
                                             <a href="{{ path('them_thuoc_moi') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Thêm thuốc mới</span>
                                             </a>
                                         </li>
+
                                         <li class="nk-menu-item">
                                             <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Danh sách thuốc</span>
                                             </a>
                                         </li>
+
+                                    {% if is_granted('ROLE_NhapHangAccess') %}
                                         <li class="nk-menu-item">
                                             <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Chi tiết thuốc</span>
                                             </a>
                                         </li>
+                                    {% endif %}
+
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">

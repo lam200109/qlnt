@@ -3,11 +3,10 @@
 {% block title %}Chi tiết hoá đơn{% endblock %}
 
 {% block body %}
-<div>
+{# <div>
     <h2>SQL Query:</h2>
-    <pre>{{ sqlQuery }} {{ dump(result) }}
-    </pre>
-</div>
+    <pre>{{ sqlQuery }} {{ dump(result)}}</pre>
+</div> #}
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -15,23 +14,7 @@
                 <div class="nk-block-head">
                     <h3 class="nk-block-title page-title">
                         Hoá đơn <strong class="text-primary small">
-                            {% if result is iterable and result[0] is defined %}
-                                {# Kiểm tra nếu là hoá đơn từ bảng nguồn thu #}
-                                {% if 'PurchaseInvoiceID' in result[0] %}
-                                    #{{ result[0].PurchaseInvoiceID }}
-                                {% else %}
-                                    {# Trong trường hợp không có PurchaseInvoiceID, sử dụng SalesInvoiceID #}
-                                    {% if 'SalesInvoiceID' in result[0] %}
-                                        #{{ result[0].SalesInvoiceID }}
-                                    {% else %}
-                                        {# Trong trường hợp không có cả hai PurchaseInvoiceID và SalesInvoiceID, hiển thị "N/A" #}
-                                        #N/A
-                                    {% endif %}
-                                {% endif %}
-                            {% else %}
-                                {# Trong trường hợp không có dữ liệu, hiển thị "N/A" #}
-                                #N/A
-                            {% endif %}
+                            #{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}
                         </strong>
                     </h3>
                     <div class="nk-block-des text-soft">
@@ -57,15 +40,17 @@
                                 <div class="invoice-contact">
                                     <span class="overline-title">Invoice To</span>
                                     <div class="invoice-contact-info">
-                                        <h4 class="title">{{ result[0].Name }}</h4>
+                                        <h4 class="title">
+                                                {{  result[0].DistributorName ?? result[0].CustomerName }}
+                                        </h4>
                                         <ul class="list-plain">
                                             <li>
                                                 <em class="icon ni ni-map-pin-fill"></em>
-                                                <span> Address</span>
+                                                <span> Address: {{ result[0].Address ?? '' }}</span>
                                             </li>
                                             <li>
                                                 <em class="icon ni ni-call-fill"></em>
-                                                <span> Phone </span>
+                                                <span> Phone: {{ result[0].Phone ?? '' }}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -97,38 +82,36 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for row in result %}
+                                            {% for item in result %}
                                                 <tr>
-                                                    <td>{{ row.MedicineID is not null ? row.MedicineID : '' }}</td>
-                                                    <td>{{ row.Description is not null ? row.Description : '' }}</td>
-                                                    <td>{{ row.Price is not null ? row.Price : '' }}</td>
-                                                    <td>{{ row.Quantity is not null ? row.Quantity : '' }}</td>
-                                                    <td>{{ row.Total is not null ? row.Total : '' }}</td>
+                                                    <td>{{ item.MedicineID }}</td>
+                                                    <td>{{ item.Name }}</td>
+                                                    <td>{{ item.Price }}</td>
+                                                    <td>{{ item.Quantity }}</td>
+                                                    <td>{{ item.Total }}</td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
-                                        
-                                        
                                         <tfoot>
                                             <tr>
                                                 <td colspan="2"></td>
                                                 <td colspan="2">Subtotal</td>
-                                                <td> total </td>
+                                                <td>0</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2"></td>
                                                 <td colspan="2">Processing fee</td>
-                                                <td> Processing fee </td>
+                                                <td>0</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2"></td>
                                                 <td colspan="2">TAX</td>
-                                                <td> TAX </td>
+                                                <td>0</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2"></td>
                                                 <td colspan="2">Grand Total</td>
-                                                <td> {{ result[0].Amount }} </td>
+                                                <td>{{ result[0].Amount }}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
