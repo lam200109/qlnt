@@ -5,12 +5,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="Users")
+
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -19,87 +21,189 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(name="UserID", type="integer")
      */
-    private $UserID;
+    private $userID;
 
     /**
-     * @ORM\Column(name="FullName", type="string", length=255, nullable=true)
+     * @ORM\Column(name="FullName", type="string", length=255)
      */
-    private $FullName;
+    private $fullName;
 
     /**
-     * @ORM\Column(name="Username", type="string", length=50, unique=true)
+     * @ORM\Column(name="Username", type="string", length=50)
      */
-    private $Username;
+    private $username;
 
     /**
      * @ORM\Column(name="Password", type="string", length=255)
      */
-    private $Password;
+    private $password;
 
     /**
      * @ORM\Column(name="Email", type="string", length=100)
      */
-    private $Email;
+    private $email;
+
+//   /**
+//      * @ORM\Column(type="json")
+//      */
+//     private $permissions = [];
 
     /**
      * @ORM\Column(name="Phone", type="string", length=20)
      */
-    private $Phone;
+    private $phone;
 
     /**
-     * @ORM\Column(name="Avatar", type="string", length=255)
+     * @ORM\Column(name="Avatar", type="string", length=255, nullable=true)
      */
-    private $Avatar;
+    private $avatar;
+    
+  
+/**
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users", fetch="EAGER")
+     * @ORM\JoinTable(name="UserRoles",
+     *      joinColumns={@ORM\JoinColumn(name="UserID", referencedColumnName="UserID")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="RoleID", referencedColumnName="RoleID")}
+     * )
+     */
+    private $roles;
 
     public function __construct()
     {
-        // Một số giá trị mặc định hoặc khởi tạo ở đây (nếu cần)
+        $this->roles = new ArrayCollection();
+
     }
-
-    // Các getters và setters
-
-    public function getUserId(): ?int
+    public function getId(): ?int
     {
-        return $this->UserID;
+        return $this->userID;
     }
 
-    public function getRoles(): array
+
+     /**
+     * @return array
+     */
+    
+     public function getRoles(): array
     {
-        // Trả về một mảng chứa các vai trò của người dùng, ví dụ ['ROLE_USER']
-        return ['ROLE_USER'];
+        $roles = [];
+
+        foreach ($this->roles as $role) {
+            // Assume each role has a method to get its name, adjust accordingly
+            $roles[] = $role->getRoleName(); // Change to the actual method if it's different
+        }
+
+        return array_unique($roles); // Make sure the roles are unique
     }
 
-    public function setRoles(array $roles): self
+ /**
+ * Check if the user has a specific permission.
+ *
+ * @param string $permissionName
+ * @return bool
+ */
+public function hasPermission(string $permissionName): bool
+{
+    return in_array($permissionName, $this->getPermissions());
+}
+
+
+
+    // /**
+    //  * @param array $permissions
+    //  * @return $this
+    //  */
+    // public function setPermissions(array $permissions): self
+    // {
+    //     $this->permissions = new ArrayCollection($permissions);
+
+    //     return $this;
+    // }
+
+
+
+
+/**
+     * @return array
+     */
+    public function getPermissions(): array
     {
-        // Do không có cột 'user_roles', nên chỉ định vai trò trong phương thức này sẽ không ảnh hưởng đến cơ sở dữ liệu
-        return $this;
+        $permissions = [];
+        
+        // Lặp qua từng vai trò của người dùng
+        foreach ($this->roles as $role) {
+            // Lấy tất cả quyền của vai trò
+            $rolePermissions = $role->getPermissions();
+
+            // Thêm các quyền vào mảng permissions
+            foreach ($rolePermissions as $permission) {
+                $permissions[] = $permission->getPermissionName();
+            }
+        }
+
+        return $permissions;
     }
 
-    public function getSalt()
-    {
-        // Chưa sử dụng salt trong trường hợp này
-        return null;
-    }
+
+
+   
+    
 
     public function eraseCredentials()
     {
-        // Nếu có thông tin nhạy cảm cần xoá sau khi xác thực, bạn có thể triển khai ở đây
+        // Không cần thực hiện gì cả, vì thông tin nhạy cảm như mật khẩu đã được xử lý trong trình xác thực
     }
 
-    public function getUsername()
+    public function getUsername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
     public function getUserIdentifier(): string
     {
-        return $this->Username;
+        return $this->getUsername();
     }
 
-    // ... (các phương thức khác)
+
+    public function getUserID(): ?int
+    {
+        return $this->userID;
+    }
+
+    public function setUserID(int $userID): self
+    {
+        $this->userID = $userID;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    // ... Định nghĩa các getter và setter cho các trường khác
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
 }

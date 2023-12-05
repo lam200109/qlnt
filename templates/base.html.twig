@@ -14,21 +14,17 @@
         gtag('config', 'UA-91615293-4');
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha256-KJvaFtq21v7rBBd5TLb4lWhZNa9A5KZZEfu70Vgsd1A=" crossorigin="anonymous" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5qAmGA0qzGdIe89MKvA7o4EQQf5rF+yZI8" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha256-6OcgDxH5Kg6G5bJv9T0q1hqzr6IIK9L3gTyHPl5b+j0=" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5qAmGA0qzGdIe89MKvA7o4EQQf5rF+yZI8" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha256-6OcgDxH5Kg6G5bJv9T0q1hqzr6IIK9L3gTyHPl5b+j0=" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91615293-4"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script src="{{ asset('js/bundle.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/demo-settings.js') }}"></script>
     <script src="{{ asset('js/editors.js') }}"></script>
-<script src="{{ asset('js/additem.js') }}"></script>
-
+    <script src="{{ asset('js/additem.js') }}"></script>
 </head>
- 
-
-    <body class="nk-body ui-rounder npc-default has-sidebar no-touch nk-nio-theme modal-open">
+ <body class="nk-body ui-rounder npc-default has-sidebar no-touch nk-nio-theme modal-open">
         <div class="nk-app-root">
             <div class="nk-sidebar" data-content="sidebarMenu">
                 <div class="nk-sidebar-bar">
@@ -190,13 +186,11 @@
                                     </a>
                                     <ul class="nk-menu-sub">
 
-                                    {% if is_granted('ROLE_NhapHangAccess') %}
                                         <li class="nk-menu-item">
                                             <a href="{{ path('nhap_thuoc') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Nhập thuốc</span>
                                             </a>
                                         </li>
-                                    {% endif %}
 
                                         <li class="nk-menu-item">
                                             <a href="{{ path('them_thuoc_moi') }}" class="nk-menu-link">
@@ -210,13 +204,11 @@
                                             </a>
                                         </li>
 
-                                    {% if is_granted('ROLE_NhapHangAccess') %}
                                         <li class="nk-menu-item">
                                             <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link">
                                                 <span class="nk-menu-text">Chi tiết thuốc</span>
                                             </a>
                                         </li>
-                                    {% endif %}
 
                                     </ul>
                                 </li>
@@ -600,11 +592,13 @@
                         <div class="nk-menu-content" data-content="navMisc">
                             <h5 class="title">Misc Pages</h5>
                             <ul class="nk-menu">
+
                                 <li class="nk-menu-item">
-                                    <a href="/demo7/pages/auths/auth-login.html" class="nk-menu-link" target="_blank">
-                                        <span class="nk-menu-text">Login / Signin</span>
+                                    <a href="{{ path('dang_xuat') }}" class="nk-menu-link" target="_blank">
+                                        <span class="nk-menu-text">Logout</span>
                                     </a>
                                 </li>
+                                
                                 <li class="nk-menu-item">
                                     <a href="/demo7/pages/auths/auth-register.html" class="nk-menu-link" target="_blank">
                                         <span class="nk-menu-text">Register / Signup</span>
@@ -1058,8 +1052,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div></div>
 
 
 
@@ -1368,9 +1361,11 @@
                                     </ul>
                                 </div>
                             </div>
-                        
-            
+                        </div>
+                    </div>
+<br><br><br>
     <div class="content">
+    
         {% block body %}{% endblock %}
     </div>
 

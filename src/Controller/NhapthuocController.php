@@ -11,12 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 class NhapthuocController extends AbstractController
 {
-    #[Route('/nhapthuoc', name: 'nhapthuoc')]
+     /**
+     * @Route("/nhap-thuoc", name="nhapthuoc")
+     */
     public function index(Connection $connection, Request $request, SessionInterface $session): Response
     {
+
         $distributorQuery = "SELECT * FROM Distributors";
         $userQuery = "SELECT * FROM Users";
         $medicineQuery = "SELECT * FROM Medicines";

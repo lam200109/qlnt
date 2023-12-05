@@ -1,35 +1,36 @@
+# config/packages/security.yaml
 security:
-    enable_authenticator_manager: true
-    providers:
-        database_provider:
-            entity:
-                class: App\Entity\User
-                property: Username
-                
-    firewalls:
-        main:
-            pattern: ^/
-            form_login:
-                login_path: dang_nhap
-                check_path: dang_nhap
-                always_use_default_target_path: true
-                default_target_path: trang_chu
-            logout:
-                path: /dang_xuat
-                target: /
-
-    role_hierarchy:
-        ROLE_BanThuocAccess: ROLE_USER
-        ROLE_QuanLyKhachHangAccess: ROLE_USER
-        ROLE_BaoCaoTaiChinhAccess: ROLE_USER
-        ROLE_NhapHangAccess: ROLE_USER
-
-    access_control:
-        - { path: ^/them-khach-hang, roles: ROLE_BanThuocAccess }
-        - { path: ^/danh-sach-khach-hang, roles: ROLE_QuanLyKhachHangAccess }
-        - { path: ^/bao-cao-ban-hang, roles: ROLE_BaoCaoTaiChinhAccess }
-        - { path: ^/nhap-thuoc, roles: ROLE_NhapHangAccess }
-
+    access_denied_url: /403
     password_hashers:
         App\Entity\User:
             algorithm: plaintext
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+    # ...
+    firewalls:
+        main:
+            pattern: ^/
+            provider: app_user_provider
+            form_login:
+                login_path: 'dang_nhap'
+                check_path: 'dang_nhap'
+                username_parameter: 'Username'
+                password_parameter: 'Password'
+                default_target_path: trang_chu # Redirect to home after successful login
+            logout:
+                path: 'dang-nhap'
+            # ...
+
+    access_control:
+        - { path: ^/trang-ban-thuoc, roles: ['BanThuocAccess', 'AdminAccess'] }
+        - { path: ^/trang-quan-ly-khach-hang, roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
+        - { path: ^/nguon-thu, roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
+        - { path: ^/(nhap-thuoc|them-thuoc-moi), roles: ['NhapHangAccess', 'AdminAccess'] }
+
+
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER

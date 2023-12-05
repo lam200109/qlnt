@@ -1,7 +1,6 @@
 <?php
 
 // src/Repository/UserRepository.php
-
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,5 +14,13 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    // You can add custom repository methods here
+    // Thêm các phương thức truy vấn tùy chỉnh cho entity User
+    public function findActiveUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.isActive = :isActive')
+            ->setParameter('isActive', true)
+            ->getQuery()
+            ->getResult();
+    }
 }

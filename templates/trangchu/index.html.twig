@@ -3,7 +3,7 @@
 {% block title %}Trang chủ{% endblock %}
 
 {% block body %}
-
+    
 <div class="nk-content ">
 <div class="container-fluid">
     <div class="nk-content-inner">
@@ -72,28 +72,32 @@
                         <div class="card">
                             <div class="nk-ecwg nk-ecwg6">
                                 <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title">
-                                            <h6 class="title">Today's Sales</h6>
-                                        </div>
-                                    </div>
-                                    <div class="data">
-                                        <div class="data-group">
-                                            <div class="amount">$10,945</div>
-                                            <div class="nk-ecwg6-ck">
-                                                <canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <span class="change up text-danger">
-                                                <em class="icon ni ni-arrow-long-up"></em>
-                                                4.63%
-                                            </span>
-                                            <span>vs. last week</span>
-                                        </div>
+                                <div class="card-title-group">
+                                    <div class="card-title">
+                                        <h6 class="title">Today's Sales</h6>
                                     </div>
                                 </div>
+                                <div class="data">
+                                    <div class="data-group">
+                                        <div class="amount">${{ currentWeekTotal | number_format(2) }}</div>
+                                        <div class="nk-ecwg6-ck">
+                                            <canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
+                                        </div>
+                                    </div>
+
+                                    {# lên hoặc xuống #}
+                                    <div class="info">
+                                        <span class="change {% if changePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                                            <em class="icon ni {% if changePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                            {{ changePercentage | default('N/A') | number_format(2) }}%
+                                        </span>
+                                        <span>vs. last week</span>
+                                    </div>
+
+
+                                </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div class="col-xxl-3 col-sm-6">
@@ -163,15 +167,15 @@
                                     </div>
                                     <div class="data">
                                         <div class="data-group">
-                                            <div class="amount">$23,485</div>
+                                            <div class="amount">${{ todayExpense | number_format(2) }}</div>
                                             <div class="nk-ecwg6-ck">
-                                                <canvas class="ecommerce-line-chart-s3" id="todayExpense"></canvas>
+                                                <canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <span class="change up text-primary">
-                                                <em class="icon ni ni-arrow-long-down"></em>
-                                                1.34%
+                                            <span class="change {% if expenseChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                                                <em class="icon ni {% if expenseChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                                {{ expenseChangePercentage | default('N/A') | number_format(2) }}%
                                             </span>
                                             <span>vs. last week</span>
                                         </div>
@@ -193,12 +197,23 @@
                                         </div>
                                     </div>
                                     <div class="data">
-                                        <div class="amount">$74,958.49</div>
+                                        <div class="amount">${{ currentMonthTotal | number_format(2) }}</div>
                                         <div class="info">
-                                            <strong>$7,395.37</strong>
+                                            <strong>${{ lastMonthTotal | number_format(2) }}</strong>
                                             in last month
                                         </div>
                                     </div>
+
+                                        {# lên hoặc xuống #}
+                                    <div class="info">
+                                        <span class="change {% if monthChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                                            <em class="icon ni {% if monthChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                            {{ monthChangePercentage | default('N/A') | number_format(2) }}%
+                                        </span>
+                                        <span>vs. last month</span>
+                                    </div>
+
+
                                     <div class="data">
                                         <h6 class="sub-title">This week so far</h6>
                                         <div class="data-group">
@@ -744,4 +759,5 @@
     </div>
 </div>
 </div>
+
 {% endblock %}

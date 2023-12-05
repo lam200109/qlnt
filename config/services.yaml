@@ -1,6 +1,4 @@
-# config/services.yaml
-parameters:
-    # Các tham số của bạn
+# services.yaml
 
 services:
     Doctrine\DBAL\Connection:
@@ -12,7 +10,10 @@ services:
                 host: '%env(resolve:DATABASE_URL)%'
                 charset: utf8mb4
                 url: '%env(resolve:DATABASE_URL)%'
-
+    cache.annotations:
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            - 'annotations'
     # Cấu hình mặc định cho các dịch vụ trong file này
     _defaults:
         autowire: true      # Tự động inject dependencies vào các dịch vụ của bạn.
@@ -24,19 +25,22 @@ services:
     Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface:
         alias: 'security.authorization_checker'
 
-    App\Controller\DangnhapController:
-        arguments:
-            $tokenStorage: '@security.token_storage'
+    App\Security\PermissionVoter:
+        arguments: []
+        tags:
+            - { name: 'security.voter' }
 
     Symfony\Component\Security\Core\Authentication\Token\TokenFactoryInterface:
         class: Symfony\Component\Security\Core\Authentication\Token\TokenFactory
+
+    Symfony\Component\HttpFoundation\Session\SessionInterface: '@session'
+
 
     # Các class trong thư mục src/ sẽ sẵn sàng để sử dụng như các dịch vụ
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            - '../src/Entity/'  # Loại bỏ đường dẫn entity
 
     # Thêm các định nghĩa dịch vụ khác nếu cần
