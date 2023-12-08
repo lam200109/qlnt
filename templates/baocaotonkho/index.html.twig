@@ -243,11 +243,18 @@
                                         <span>{{ result.TongSoLuongXuat }}</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span>{{ result.TonKhoHienTai }}</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-status text-warning">Low</span>
-                                    </div>
+                                <span>{{ result.TonKhoHienTai }}</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                                {% if result.TonKhoHienTai <= 0 %}
+                                    <span class="tb-status text-danger">Out of Stock</span>
+                                {% elseif result.TonKhoHienTai <= 50 %}
+                                    <span class="tb-status text-warning">Low</span>
+                                {% else %}
+                                    <span class="tb-status text-success">Available</span>
+                                {% endif %}
+                            </div>
+                            
                                 </div>
                             {% endfor %}
 

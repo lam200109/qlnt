@@ -18,11 +18,90 @@
                 </div>
               </div>
               <div class="nk-block-head-content">
-                <a data-bs-toggle="modal" href="#addManufacture" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                <a data-bs-toggle="modal" href="#addManufacture" class="btn btn-primary d-none d-md-inline-flex">
-                  <em class="icon ni ni-plus"></em>
-                  <span>Thêm nhà sản xuất</span>
-                </a>
+
+
+              <a data-bs-toggle="modal" class="btn btn-icon btn-primary d-md-none" data-bs-target="#addManufactureModal">
+            <em class="icon ni ni-plus"></em>
+          </a>
+          
+          <!-- Nút cho chế độ máy tính -->
+          <a data-bs-toggle="modal" class="btn btn-primary d-none d-md-inline-flex" id="openModalBtn" data-bs-target="#addManufactureModal">
+        <em class="icon ni ni-plus"></em>
+        <span>Thêm nhà sản xuất</span>
+      </a>
+      
+      <div class="modal fade" id="addManufactureModal" tabindex="-1" role="dialog" aria-labelledby="addManufactureLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addManufactureLabel">Thêm nhà sản xuất</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Thêm biểu mẫu vào đây -->
+              <form action="{{ path('danh_sach_nha_san_xuat')}}" method="post" id="addDistributorForm">
+                <div class="mb-3">
+                  <label for="distributorName" class="form-label">Tên nhà phân phối</label>
+                  <input type="text" class="form-control" id="distributorName" name="DistributorName" placeholder="Nhập tên nhà phân phối" required>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Địa chỉ</label>
+                  <input type="text" class="form-control" id="address" name="Address" placeholder="Nhập địa chỉ" required>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Điện thoại</label>
+                  <input type="tel" class="form-control" id="phone" name="Phone" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="mb-3">
+                  <label for="fax" class="form-label">Fax</label>
+                  <input type="text" class="form-control" id="fax" name="Fax" placeholder="Nhập số Fax">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="Email" placeholder="Nhập địa chỉ email">
+                </div>
+                <div class="mb-3">
+                  <label for="note" class="form-label">Ghi chú</label>
+                  <textarea class="form-control" id="note" name="Note" rows="3" placeholder="Nhập ghi chú"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" name="saveButton" class="btn btn-primary" onclick="submitForm()">Lưu</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var openModalBtn = document.getElementById('openModalBtn');
+    var addManufactureModal = new bootstrap.Modal(document.getElementById('addManufactureModal'));
+    var addDistributorForm = document.getElementById('addDistributorForm');
+
+    openModalBtn.addEventListener('click', function () {
+      addManufactureModal.show();
+    });
+
+    // Định nghĩa hàm submitForm
+    window.submitForm = function () {
+      // Thêm logic xử lý form ở đây nếu cần
+      addDistributorForm.submit();
+    };
+
+    // Thêm xử lý sự kiện khi modal được ẩn
+    addManufactureModal._element.addEventListener('hidden.bs.modal', function () {
+      // Xóa dữ liệu nhập vào form khi modal được đóng
+      addDistributorForm.reset();
+    });
+  });
+</script>
+
+      
+
+
+
               </div>
             </div>
           </div>

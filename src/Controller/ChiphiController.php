@@ -12,12 +12,15 @@ class ChiphiController extends AbstractController
     #[Route('/chiphi', name: 'chiphi')]
     public function index(Connection $connection): Response
     {
-        $sql = "SELECT PurchaseInvoices.*, Distributors.DistributorName
-        FROM PurchaseInvoices
-        JOIN Distributors ON PurchaseInvoices.DistributorID = Distributors.DistributorID;        
-        ";
+        $sql = "SELECT PurchaseInvoices.PurchaseInvoiceID, PurchaseInvoices.DistributorID, 
+        PurchaseInvoices.Date, PurchaseInvoices.ExpenseType, 
+        FORMAT(PurchaseInvoices.Amount, 2) AS Amount, Distributors.DistributorName
+ FROM PurchaseInvoices
+ JOIN Distributors ON PurchaseInvoices.DistributorID = Distributors.DistributorID;        
+ ";
 
-        $result = $connection->executeQuery($sql)->fetchAllAssociative();
+$result = $connection->executeQuery($sql)->fetchAllAssociative();
+
 
         return $this->render('chiphi/index.html.twig', [
             'controller_name' => 'ChiphiController',

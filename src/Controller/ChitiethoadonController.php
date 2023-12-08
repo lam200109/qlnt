@@ -51,7 +51,7 @@ class ChitiethoadonController extends AbstractController
     
     // Thêm JOIN cho bảng Customers khi route là "/nguon-thu"
     if (strpos($referer, '/nguon-thu') !== false) {
-        $sql .= ", Customers.`Name` as CustomerName";
+        $sql .= ", Customers.`Name` as CustomerName, Customers.Address, Customers.Phone";
     }
 
     $sql .= $additionalTables; // Thêm các bảng bổ sung
@@ -91,16 +91,4 @@ class ChitiethoadonController extends AbstractController
         'invoiceId' => $id,
     ]);
 }
-
-    
-
-    
-    
-
-
-    
-    
-    
-
-
 }

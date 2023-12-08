@@ -60,28 +60,29 @@
               <div class="col-xxl-3 col-sm-6">
                 <div class="card">
                   <div class="nk-ecwg nk-ecwg6">
-                    <div class="card-inner">
-                      <div class="card-title-group">
-                        <div class="card-title">
+                  <div class="card-inner">
+                  <div class="card-title-group">
+                      <div class="card-title">
                           <h6 class="title">Thu nhập hôm nay</h6>
-                        </div>
                       </div>
-                      <div class="data">
-                        <div class="data-group">
-                          <div class="amount">$10,945</div>
+                  </div>
+                  <div class="data">
+                      <div class="data-group">
+                          <div class="amount">${{ todayIncome | number_format(2) }}</div>
                           <div class="nk-ecwg6-ck">
-                            <canvas class="ecommerce-line-chart-s3" id="toDay"></canvas>
+                              <canvas class="ecommerce-line-chart-s3" id="toDay"></canvas>
                           </div>
-                        </div>
-                        <div class="info">
-                          <span class="change up text-danger">
-                            <em class="icon ni ni-arrow-long-up"></em>
-                            4.63%
+                      </div>
+                      <div class="info">
+                          <span class="change {% if todayChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                              <em class="icon ni {% if todayChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                              {{ todayChangePercentage | default('N/A') | number_format(2) }}%
                           </span>
                           <span>vs. Yesterday</span>
-                        </div>
                       </div>
-                    </div>
+                  </div>
+              </div>
+              
                   </div>
                 </div>
               </div>
@@ -90,26 +91,26 @@
                   <div class="nk-ecwg nk-ecwg6">
                     <div class="card-inner">
                       <div class="card-title-group">
-                        <div class="card-title">
-                          <h6 class="title">Thu nhập tuần này</h6>
-                        </div>
+                          <div class="card-title">
+                              <h6 class="title">Thu nhập tuần này</h6>
+                          </div>
                       </div>
                       <div class="data">
-                        <div class="data-group">
-                          <div class="amount">$12,338</div>
-                          <div class="nk-ecwg6-ck">
-                            <canvas class="ecommerce-line-chart-s3" id="thisWeek"></canvas>
+                          <div class="data-group">
+                              <div class="amount">${{ thisWeekIncome | number_format(2) }}</div>
+                              <div class="nk-ecwg6-ck">
+                                  <canvas class="ecommerce-line-chart-s3" id="thisWeek"></canvas>
+                              </div>
                           </div>
-                        </div>
-                        <div class="info">
-                          <span class="change down text-danger">
-                            <em class="icon ni ni-arrow-long-down"></em>
-                            2.34%
-                          </span>
-                          <span>vs. last week</span>
-                        </div>
+                          <div class="info">
+                              <span class="change {% if incomeChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                                  <em class="icon ni {% if incomeChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                  {{ incomeChangePercentage | default('N/A') | number_format(2) }}%
+                              </span>
+                              <span>vs. last week</span>
+                          </div>
                       </div>
-                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -118,26 +119,26 @@
                   <div class="nk-ecwg nk-ecwg6">
                     <div class="card-inner">
                       <div class="card-title-group">
-                        <div class="card-title">
-                          <h6 class="title">Thu nhập tháng này</h6>
-                        </div>
+                          <div class="card-title">
+                              <h6 class="title">Thu nhập tháng này</h6>
+                          </div>
                       </div>
                       <div class="data">
-                        <div class="data-group">
-                          <div class="amount">$20,847</div>
-                          <div class="nk-ecwg6-ck">
-                            <canvas class="ecommerce-line-chart-s3" id="thisMonth"></canvas>
+                          <div class="data-group">
+                              <div class="amount">${{ thisMonthIncome | number_format(2) }}</div>
+                              <div class="nk-ecwg6-ck">
+                                  <canvas class="ecommerce-line-chart-s3" id="thisMonth"></canvas>
+                              </div>
                           </div>
-                        </div>
-                        <div class="info">
-                          <span class="change up text-danger">
-                            <em class="icon ni ni-arrow-long-up"></em>
-                            4.63%
-                          </span>
-                          <span>vs. last Month</span>
-                        </div>
+                          <div class="info">
+                              <span class="change {% if incomeChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
+                                  <em class="icon ni {% if incomeChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                  {{ incomeChangePercentage | default('N/A') | number_format(2) }}%
+                              </span>
+                              <span>vs. last Month</span>
+                          </div>
                       </div>
-                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -145,27 +146,27 @@
                 <div class="card">
                   <div class="nk-ecwg nk-ecwg6">
                     <div class="card-inner">
-                      <div class="card-title-group">
+                    <div class="card-title-group">
                         <div class="card-title">
-                          <h6 class="title">Thu nhập năm nay</h6>
+                            <h6 class="title">Thu nhập năm nay</h6>
                         </div>
-                      </div>
-                      <div class="data">
+                    </div>
+                    <div class="data">
                         <div class="data-group">
-                          <div class="amount">$23,485</div>
-                          <div class="nk-ecwg6-ck">
-                            <canvas class="ecommerce-line-chart-s3" id="thisYear"></canvas>
-                          </div>
+                            <div class="amount">${{ thisYearIncome | number_format(2) }}</div>
+                            <div class="nk-ecwg6-ck">
+                                <canvas class="ecommerce-line-chart-s3" id="thisYear"></canvas>
+                            </div>
                         </div>
                         <div class="info">
-                          <span class="change up text-primary">
-                            <em class="icon ni ni-arrow-long-up"></em>
-                            1.34%
-                          </span>
-                          <span>vs. last Year</span>
+                            <span class="change {% if incomeChangePercentage > 0 %}up text-primary{% else %}down text-danger{% endif %}">
+                                <em class="icon ni {% if incomeChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
+                                {{ incomeChangePercentage | default('N/A') | number_format(2) }}%
+                            </span>
+                            <span>vs. last Year</span>
                         </div>
-                      </div>
                     </div>
+                  </div>
                   </div>
                 </div>
               </div>

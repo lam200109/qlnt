@@ -34,6 +34,115 @@ class TrangchuController extends AbstractController
         $expenseChangePercentage = ($lastWeekExpense > 0) ? (($todayExpense - $lastWeekExpense) / $lastWeekExpense) * 100 : null;
 
 
+        $sql = 'SELECT COUNT(*) AS TongSoDonHang FROM SalesInvoices';
+        $result = $connection->executeQuery($sql);
+        $data = $result->fetchAssociative();
+        $tongSoDonHang = $data['TongSoDonHang'];
+
+        $sql = 'SELECT COUNT(*) AS TongSoKhachHang FROM Customers';
+        $result = $connection->executeQuery($sql);
+        $data = $result->fetchAssociative();
+        $tongSoKhachHang = $data['TongSoKhachHang'];
+
+        $sql = 'SELECT COUNT(*) AS TongSoThuoc FROM Medicines';
+        $result = $connection->executeQuery($sql);
+        $data = $result->fetchAssociative();
+        $tongSoThuoc = $data['TongSoThuoc'];
+
+        $sql = 'SELECT COUNT(DISTINCT category) AS TongDanhMuc FROM Medicines';
+        $result = $connection->executeQuery($sql);
+        $data = $result->fetchAssociative();
+        $tongDanhMuc = $data['TongDanhMuc'];
+
+        $sql = 'SELECT Name, Email FROM Customers';
+        $result = $connection->executeQuery($sql);
+        $customerInfo = $result->fetchAllAssociative();
+
+
+
+        $sql = '
+        SELECT
+            s.SalesInvoiceID AS invoiceNo,
+            c.Name AS customer,
+            s.Date AS date,
+            sid.MedicineID AS ref,
+            sid.Quantity * sid.Price AS amount
+        FROM
+            SalesInvoices s
+            JOIN Customers c ON s.CustomerId = c.CustomerID
+            JOIN SalesInvoiceDetails sid ON s.SalesInvoiceID = sid.SalesInvoiceId;
+    ';
+    $result = $connection->executeQuery($sql);
+    $invoices = $result->fetchAllAssociative();
+
+
+     // Thực hiện truy vấn SQL để lấy tổng số lượng và tổng doanh thu từ đầu tuần đến thời điểm hiện tại
+     $sql = '
+     SELECT
+         SUM(Amount) AS totalAmount
+     FROM
+         SalesInvoices
+     WHERE
+         Date >= CURDATE() - INTERVAL (WEEKDAY(CURDATE()) + 1) DAY
+         AND Date <= CURDATE();
+ ';
+    $result = $connection->executeQuery($sql);
+    $data = $result->fetchAssociative();
+
+    // Thực hiện truy vấn SQL để lấy tổng số lượng và tổng doanh thu từ đầu tuần trước đến hết tuần trước
+    $lastWeekSql = '
+    SELECT
+    SUM(Amount) AS lastWeekAmount
+FROM
+    SalesInvoices
+WHERE
+    Date >= (CURDATE() - INTERVAL (WEEKDAY(CURDATE()) + 1) - 7 DAY)
+    AND Date <= (CURDATE() - INTERVAL 7 DAY);
+
+    ';
+    $lastWeekResult = $connection->executeQuery($lastWeekSql);
+    $lastWeekData = $lastWeekResult->fetchAssociative();
+
+    // Tính toán phần trăm thay đổi so với tuần trước
+    $percentChange = 0;
+    if ($lastWeekData['lastWeekAmount'] > 0) {
+        $percentChange = (($data['totalAmount'] - $lastWeekData['lastWeekAmount']) / $lastWeekData['lastWeekAmount']) * 100;
+    }
+
+    $doanhThuQuery = "
+    SELECT
+        WEEK(Date) AS WeekNumber,
+        COALESCE(SUM(Amount), 0) AS TotalIncome
+    FROM
+        SalesInvoices
+    WHERE
+        YEAR(Date) = YEAR(CURRENT_DATE())
+    GROUP BY
+        WeekNumber
+    ORDER BY
+        WeekNumber ASC
+";
+
+$chiPhiQuery = "
+    SELECT
+        WEEK(Date) AS WeekNumber,
+        COALESCE(SUM(Amount), 0) AS TotalExpense
+    FROM
+        PurchaseInvoices
+    WHERE
+        YEAR(Date) = YEAR(CURRENT_DATE())
+    GROUP BY
+        WeekNumber
+    ORDER BY
+        WeekNumber ASC
+";
+
+
+$doanhThuData = $connection->executeQuery($doanhThuQuery)->fetchAllAssociative();
+$chiPhiData = $connection->executeQuery($chiPhiQuery)->fetchAllAssociative();
+
+
+
         return $this->render('trangchu/index.html.twig', [
             'currentWeekTotal' => $currentWeekTotal,
             'lastWeekTotal' => $lastWeekTotal,
@@ -44,6 +153,16 @@ class TrangchuController extends AbstractController
             'todayExpense' => $todayExpense,
             'lastWeekExpense' => $lastWeekExpense,
             'expenseChangePercentage' => $expenseChangePercentage,
+            'tongSoDonHang' => $tongSoDonHang,
+            'tongSoKhachHang' => $tongSoKhachHang,
+            'tongSoThuoc' => $tongSoThuoc,
+            'tongDanhMuc' => $tongDanhMuc,
+            'customerInfo' => $customerInfo,
+            'invoices' => $invoices,
+            'totalAmount' => $data['totalAmount'],
+            'percentChange' => $percentChange,
+            'doanhThuData' => $doanhThuData,
+            'chiPhiData' => $chiPhiData,
         ]);
     }
 

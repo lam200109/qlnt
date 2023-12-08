@@ -28,9 +28,11 @@
                 <div class="nk-block">
                     <div class="invoice">
                         <div class="invoice-action">
-                            <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" href="/demo7/pharmacy/invoice-print.html" target="_blank">
-                                <em class="icon ni ni-printer-fill"></em>
+                        <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" id="printInvoiceBtn" onclick="printInvoice()" target="_blank">
+                    <em class="icon ni ni-printer-fill"></em>
                             </a>
+                        <div id="invoiceContent"></div>
+
                         </div>
                         <div class="invoice-wrap">
                             <div class="invoice-brand text-center">
@@ -46,24 +48,24 @@
                                         <ul class="list-plain">
                                             <li>
                                                 <em class="icon ni ni-map-pin-fill"></em>
-                                                <span> Address: {{ result[0].Address ?? '' }}</span>
+                                                <span> Địa chỉ: {{ result[0].Address ?? '' }}</span>
                                             </li>
                                             <li>
                                                 <em class="icon ni ni-call-fill"></em>
-                                                <span> Phone: {{ result[0].Phone ?? '' }}</span>
+                                                <span> Số điện thoại: {{ result[0].Phone ?? '' }}</span>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="invoice-desc">
-                                    <h3 class="title">Invoice</h3>
+                                    <h3 class="title">Hoá đơn</h3>
                                     <ul class="list-plain">
                                         <li class="invoice-id">
-                                            <span>Invoice ID</span>
+                                            <span>ID hoá đơn</span>
                                             :<span>{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}</span>
                                         </li>
                                         <li class="invoice-date">
-                                            <span>Date</span>
+                                            <span>Ngày</span>
                                             :<span>{{ result[0].Date|date('d M, Y') }}</span>
                                         </li>
                                     </ul>
@@ -86,10 +88,10 @@
                                                 <tr>
                                                     <td>{{ item.MedicineID }}</td>
                                                     <td>{{ item.Name }}</td>
-                                                    <td>{{ item.Price }}</td>
+                                                    <td>{{ item.Price is not null ? item.Price|number_format(2, '.', ',') : 'N/A' }}</td>
                                                     <td>{{ item.Quantity }}</td>
-                                                    <td>{{ item.Total }}</td>
-                                                </tr>
+                                                    <td>{{ item.Total is not null ? item.Total|number_format(2, '.', ',') : 'N/A' }}</td>
+                                                    </tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>
@@ -110,8 +112,8 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2"></td>
-                                                <td colspan="2">Grand Total</td>
-                                                <td>{{ result[0].Amount }}</td>
+                                                <td colspan="2">Tổng hoá đơn</td>
+                                            <td>{{ result[0].Amount is not null ? result[0].Amount|number_format(2, '.', ',') : 'N/A' }}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -125,4 +127,6 @@
         </div>
     </div>
 </div>
+
+
 {% endblock %}

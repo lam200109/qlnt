@@ -35,13 +35,36 @@ class DangnhapController extends AbstractController
  /**
      * @Route("/dang-xuat", name="dangxuat")
      */
-    public function dangXuat(): Response
+    public function dangXuat(Connection $connection): Response
     {
-        return $this->redirectToRoute('dang_nhap'); // Chuyển hướng sau khi đăng xuất
+        $user = $this->getUser();
+        $userId = (int) $user->getUserIdentifier(); 
+    
+        // Ghi vào LogoutTime
+        $this->recordLogoutTime($connection, $userId);
+    
+        // Đăng xuất người dùng (có thể sử dụng security.token_storage ở đây nếu cần)
+    
+        return $this->redirectToRoute('dang_nhap');    
     }
-
-
-   
-
+    
+    private function recordLogoutTime(Connection $connection, $userId): void
+    {
+        $date = new \DateTime();
+    
+        $logOutQuery = "
+            UPDATE Attendance
+            SET LogoutTime = CURRENT_TIME
+            WHERE UserID = :userId
+            AND Date = :date
+            AND LogoutTime IS NULL
+        ";
+    
+        $connection->executeQuery($logOutQuery, [
+            'userId' => $userId,
+            'date' => $date->format('Y-m-d'),
+        ]);
+    }
+    
     
 }

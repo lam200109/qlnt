@@ -15,11 +15,11 @@ class BaocaobanhangController extends AbstractController
     public function index(Connection $connection): Response
     {
         // Lấy tổng tiền thu được trong tháng
-        $totalAmountSql = "SELECT SUM(Amount) as totalAmount FROM SalesInvoices WHERE MONTH(Date) = MONTH(CURRENT_DATE())";
+        $totalAmountSql = "SELECT FORMAT(SUM(Amount), 0) as totalAmount FROM SalesInvoices WHERE MONTH(Date) = MONTH(CURRENT_DATE())";
         $totalAmount = $connection->executeQuery($totalAmountSql)->fetchOne();
 
         // Lấy tổng tiền thu được so với tháng trước
-        $lastMonthAmountSql = "SELECT SUM(Amount) as lastMonthAmount FROM SalesInvoices WHERE MONTH(Date) = MONTH(CURRENT_DATE()) - 1";
+        $lastMonthAmountSql = "SELECT FORMAT(SUM(Amount), 0) as lastMonthAmount FROM SalesInvoices WHERE MONTH(Date) = MONTH(CURRENT_DATE()) - 1";
         $lastMonthAmount = $connection->executeQuery($lastMonthAmountSql)->fetchOne();
 
         // Lấy thông tin về thuốc bán chạy nhất trong 30 ngày gần đây
@@ -51,7 +51,7 @@ class BaocaobanhangController extends AbstractController
 // Lấy thông tin về sản phẩm đã bán
 $soldProductsSql = "SELECT 
                         Medicines.Name as productName,
-                        SUM(SalesInvoiceDetails.Total) as totalAmount,
+                        FORMAT(SUM(SalesInvoiceDetails.Total), 0) as totalAmount,
                         'Bán hàng' as productCategory,
                         SUM(SalesInvoiceDetails.Quantity) as totalQuantity
                     FROM 
@@ -62,6 +62,7 @@ $soldProductsSql = "SELECT
                         SalesInvoiceDetails.MedicineID
                     ORDER BY 
                         totalAmount DESC";
+
 
 
 

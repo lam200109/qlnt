@@ -14,8 +14,13 @@ class BaocaomuahangController extends AbstractController
      */
     public function index(Connection $connection): Response
     {
-        $purchaseInvoicesSql = "SELECT * FROM PurchaseInvoices pi           
-            JOIN Distributors d ON pi.DistributorID = d.DistributorID";
+        $purchaseInvoicesSql = "SELECT pi.*, d.*, FORMAT(pi.Amount, 0) AS Amount
+                       FROM PurchaseInvoices pi
+                       JOIN Distributors d ON pi.DistributorID = d.DistributorID";
+
+
+
+
 
         $purchaseInvoices = $connection->executeQuery($purchaseInvoicesSql)->fetchAllAssociative();
 

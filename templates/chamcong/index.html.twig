@@ -1,6 +1,15 @@
-{% extends 'base.html.twig' %}
+{% set filteredData = attendanceData %}
 
-{% block title %}Hello ChamcongController!{% endblock %}
+{% extends 'base.html.twig' %}
+{% block content %}
+    {% set filteredData = attendanceData %}
+    {{ dump(filteredData) }}
+    <!-- Nội dung cụ thể của template con -->
+    <div class="nk-tb-item">
+        <!-- ... -->
+    </div>
+{% endblock %}
+{% block title %}Chấm công{% endblock %}
 
 {% block body %}
 <div class="nk-content ">
@@ -24,7 +33,6 @@
                                                 </div>
                                                 <div class="card card-bordered">
                                                     <div class="card-inner">
-                                                        <form action="#">
                                                             <div class="row gy-4">
                                                                 <div class="col-xxl-4 col-sm-6">
                                                                     <div class="form-group">
@@ -58,16 +66,30 @@
                                                                                 <button type="submit" class="btn btn-primary ">Lưu thông tin</button>
                                                                             </li>
                                                                             <li>
-                                                                                <button data-bs-dismiss="modal" class="btn btn-danger">Huỷ</button>
+                                                                                <a href="{{ path('cham_cong') }}" class="nk-menu-link">
+                                                                                    <button data-bs-dismiss="modal" class="btn btn-danger">Tự chấm công</button>
+                                                                                </a>
+
                                                                             </li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            {% for flashMessage in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.flashes('danger') %}
+    <div class="alert alert-danger">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
                                             <div class="col-lg-12">
                                                 <div class="nk-block-head">
                                                     <div class="nk-block-head-content">
@@ -79,15 +101,40 @@
                                                         <div class="card-inner-group">
                                                             <div class="card-inner position-relative card-tools-toggle">
                                                                 <div class="card-title-group">
+
                                                                     <div class="card-tools">
                                                                         <div class="form-control-wrap">
                                                                             <div class="input-daterange date-picker-range input-group">
-                                                                                <input type="text" class="form-control" placeholder="Start Date"/>
-                                                                                <div class="input-group-addon">TO</div>
-                                                                                <input type="text" class="form-control" placeholder="End Date"/>
+                                                                                <input type="text" class="form-control" id="startDatePicker" placeholder="Start Date"/>
+                                                                                    <div class="input-group-addon">TO</div>
+                                                                                <input type="text" class="form-control" id="endDatePicker" placeholder="End Date"/>
+                                                                                    <button class="btn btn-primary" id="filterButton">Filter</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#startDatePicker", {
+            dateFormat: "d/m/Y",
+        });
+
+        flatpickr("#endDatePicker", {
+            dateFormat: "d/m/Y",
+        });
+
+        document.getElementById('filterButton').addEventListener('click', function () {
+            var startDate = document.getElementById('startDatePicker').value;
+            var endDate = document.getElementById('endDatePicker').value;
+
+            // Thay đổi URL khi nhấn nút "Filter"
+            window.location.href = '/cham-cong?startDate=' + startDate + '&endDate=' + endDate;
+        });
+    });
+</script>
+
+
+
                                                                     <div class="card-tools me-n1">
                                                                         <ul class="btn-toolbar gx-1">
                                                                             <li>
@@ -158,506 +205,77 @@
                                                                             </ul>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Abu Bin Ishtiyak</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>19/12/2020</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>09:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-danger">9hr 0min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Ashley Lawson</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>17/05/2021</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:43 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:10 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-primary">9hr 27min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Joe Larson </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>19/12/2020</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:40 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:02 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-success">9hr 22min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Jane Montgomery</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>02/04/2021</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:55 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-danger">8hr 55min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Frances Burns</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>01/05/2022</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:58 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:20 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-warning">9hr 18min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Alan Butler </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>07/07/2022</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>09:04 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:30 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-info">9hr 26min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Victoria Lynch </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>19/12/2020</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:55 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-dark">9hr 25min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Patrick Newman</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>03/04/2021</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>09:20 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:40 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-success">9hr 20min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Jane Harris</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>02/04/2022</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>09:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-warning">9hr 0min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="nk-tb-item">
-                                                                        <div class="nk-tb-col">
-                                                                            <a href="#">
-                                                                                <div class="user-card">
-                                                                                    <div class="user-info">
-                                                                                        <span class="tb-lead">Emma Walker</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span>12/12/2021</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>08:52 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span>06:00 am</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="badge badge-dim bg-gray">8hr 58min</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
+
+
+                                                 
+{% for entry in filteredData %}
+<div class="nk-tb-item">
+    <div class="nk-tb-col">
+        <a href="#">
+            <div class="user-card">
+                <div class="user-info">
+                    <span class="tb-lead">{{ entry.FullName }}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="nk-tb-col tb-col-sm">
+        <span>{{ entry.Date|date('d/m/Y') }}</span>
+    </div>
+    <div class="nk-tb-col tb-col-md">
+        <span>{{ entry.LoginTime|date('H:i A') }}</span>
+    </div>
+    <div class="nk-tb-col tb-col-md">
+        <span>{{ entry.LogoutTime|date('H:i A') }}</span>
+    </div>
+    {% set totalHours = entry.TotalHours %}
+        {% if totalHours <= '30min' %}
+            <div class="nk-tb-col">
+                <span class="badge badge-dim bg-danger">{{ totalHours }}</span>
+            </div>
+        {% elseif totalHours <= '1h' %}
+            <div class="nk-tb-col">
+                <span class="badge badge-dim bg-warning">{{ totalHours }}</span>
+            </div>
+        {% else %}
+            <div class="nk-tb-col">
+                <span class="badge badge-dim bg-primary">{{ totalHours }}</span>
+            </div>
+        {% endif %}
+    <div class="nk-tb-col nk-tb-col-tools">
+        <ul class="nk-tb-actions gx-1">
+            <li>
+                <div class="drodown">
+                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+                        <em class="icon ni ni-more-h"></em>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <ul class="link-list-opt no-bdr">
+                            <li>
+                                <a data-bs-toggle="modal" href="#editAttendance">
+                                    <em class="icon ni ni-edit"></em>
+                                    <span>Edit</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bs-toggle="modal" href="#modalDelete">
+                                    <em class="icon ni ni-trash"></em>
+                                    <span>Remove</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="card-inner">

@@ -11,6 +11,7 @@ access_denied:
 trang_chu:
     path: /trang-chu
     controller: App\Controller\TrangchuController::index
+    
 danh_sach_khach_hang:
     path: /danh-sach-khach-hang
     controller: App\Controller\DanhsachkhachhangController::index
@@ -64,7 +65,8 @@ chi_tiet_thuoc:
 danh_sach_nha_san_xuat:
     path: /danh-sach-nha-san-xuat
     controller: App\Controller\DanhsachnhasanxuatController::index
-
+    methods: [GET, POST]
+    
 so_ke_toan_san_xuat:
     path: /so-ke-toan-san-xuat
     controller: App\Controller\SoketoansanxuatController::index
@@ -129,3 +131,5 @@ cai_dat:
 cai_dat_nhan_vien:
     path: /cai-dat-nhan-vien
     controller: App\Controller\CaidatnhanvienController::index
+
+

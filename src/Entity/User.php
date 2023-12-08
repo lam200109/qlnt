@@ -73,6 +73,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = new ArrayCollection();
 
     }
+
+     /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->userID;
@@ -165,8 +169,9 @@ public function hasPermission(string $permissionName): bool
 
     public function getUserIdentifier(): string
     {
-        return $this->getUsername();
+        return (string) $this->getUserID();
     }
+    
 
 
     public function getUserID(): ?int
