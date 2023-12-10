@@ -80,7 +80,6 @@
                                                 <th class="w-60">Mô tả</th>
                                                 <th>Giá</th>
                                                 <th>Số lượng</th>
-                                                <th>Tổng tiền</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -90,7 +89,6 @@
                                                     <td>{{ item.Name }}</td>
                                                     <td>{{ item.Price is not null ? item.Price|number_format(2, '.', ',') : 'N/A' }}</td>
                                                     <td>{{ item.Quantity }}</td>
-                                                    <td>{{ item.Total is not null ? item.Total|number_format(2, '.', ',') : 'N/A' }}</td>
                                                     </tr>
                                             {% endfor %}
                                         </tbody>

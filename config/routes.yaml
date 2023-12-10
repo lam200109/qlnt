@@ -25,6 +25,16 @@ search_medicine:
     controller: App\Controller\ThemkhachhangController::searchMedicine
     methods: [GET, POST]
 
+update_payment_status:
+    path: /update-payment-status/{SalaryID}
+    controller: App\Controller\LuongController::updatePaymentStatus
+    methods: [POST]
+
+update_luong:
+    path: /update-luong
+    controller: App\Controller\LuongController::updateLuong
+    methods: ['GET', 'POST']
+
 danh_sach_thuoc:
     path: /danh-sach-thuoc
     controller: App\Controller\DanhsachthuocController::index
