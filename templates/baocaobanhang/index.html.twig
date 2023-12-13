@@ -101,11 +101,11 @@
                                     <div class="progress-list gy-3">
                                         <div class="progress-wrap">
                                             <div class="progress-text">
-                                                <div class="progress-label">{{ bestSellingMedicine.Name }}</div>
-                                                <div class="progress-amount">{{ bestSellingMedicine.totalQuantity }}%</div>
+                                                <div class="progress-label">{{ bestSellingMedicine.Name ?? 0 }}</div>
+                                                <div class="progress-amount">{{ bestSellingMedicine.totalQuantity ?? 0 }}%</div>
                                             </div>
                                             <div class="progress progress-md">
-                                                <div class="progress-bar" data-progress="{{ bestSellingMedicine.totalQuantity }}"></div>
+                                                <div class="progress-bar" data-progress="{{ bestSellingMedicine.totalQuantity ?? 0 }}"></div>
                                             </div>
                                         </div>
                                     </div>

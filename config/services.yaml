@@ -41,6 +41,10 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'  # Loại bỏ đường dẫn entity
+            - '../src/Entity/'  
+
+    app.security.authentication.success_handler:
+        class: 'App\Security\AuthenticationSuccessHandler'
+        arguments: ['@router']
 
     # Thêm các định nghĩa dịch vụ khác nếu cần

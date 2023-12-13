@@ -19,6 +19,10 @@ danh_sach_khach_hang:
 them_khach_hang:
     path: /them-khach-hang
     controller: App\Controller\ThemkhachhangController::index
+
+them_khach_hang_momo:
+    path: /them-khach-hang-momo
+    controller: App\Controller\ThemkhachhangController::momopayment
     
 search_medicine:
     path: /search-medicine
@@ -142,4 +146,15 @@ cai_dat_nhan_vien:
     path: /cai-dat-nhan-vien
     controller: App\Controller\CaidatnhanvienController::index
 
+trang_chu_khach_hang:
+    path: /trang-chu-khach-hang
+    controller: App\Controller\TrangchukhachhangController::index
+
+dat_thuoc:
+    path: /dat-thuoc
+    controller: App\Controller\DatthuocController::index
+
+khach_hang_dat_thuoc:
+    path: /cai-dat
+    controller: App\Controller\CaidatController::index
 

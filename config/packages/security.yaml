@@ -2,26 +2,41 @@
 security:
     access_denied_url: /403
     password_hashers:
-        App\Entity\User:
-            algorithm: plaintext
+            App\Entity\User:
+                algorithm: plaintext
+            App\Entity\Customer:
+                algorithm: plaintext
     providers:
+        chain_provider:
+            chain:
+                providers: ['app_user_provider', 'app_customer_provider']
+
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: username
-    # ...
+                manager_name: 'default'
+
+        app_customer_provider:
+            entity:
+                class: App\Entity\Customer
+                property: username
+                manager_name: 'default'
+                
+
     firewalls:
         main:
             pattern: ^/
-            provider: app_user_provider
+            provider: chain_provider  # Sử dụng chain_provider để kết hợp cả hai providers
             form_login:
                 login_path: 'dang_nhap'
                 check_path: 'dang_nhap'
                 username_parameter: 'Username'
                 password_parameter: 'Password'
-                default_target_path: trang_chu # Redirect to home after successful login
+                default_target_path: 'trang_chu'
+                success_handler: 'app.security.authentication.success_handler'
             logout:
-                path: 'dang-nhap'
+                path: 'dang_xuat'
             # ...
 
     access_control:
@@ -29,8 +44,6 @@ security:
         - { path: ^/trang-quan-ly-khach-hang, roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
         - { path: ^/nguon-thu, roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
         - { path: ^/(nhap-thuoc|them-thuoc-moi), roles: ['NhapHangAccess', 'AdminAccess'] }
-
-
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

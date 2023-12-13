@@ -1,0 +1,99 @@
+{% extends 'basecustomer.html.twig' %}
+
+{% block title %}
+  Trang chủ khách hàng
+{% endblock %}
+
+{% block body %}
+  <h1 style="font-size: 28px; font-weight: bold; color: navy; text-align: center;">TÌNH HÌNH DỊCH BÊNH TPHCM</h1>
+
+  <div id="map" style="height: 700px; width: 1460px; margin-left: 5px;"></div>
+
+  <script>
+    var map = L.map('map').setView([10.8231, 106.6297], 14)
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(map)
+    
+    var covidData = [
+      { lat: 10.8231, lng: 106.6297, location: 'Ho Chi Minh City', severity: 'heavy', cases: 1234, deaths: 50, recoveries: 1000 },
+      { lat: 21.0278, lng: 105.8342, location: 'Hanoi', severity: 'light', cases: 567, deaths: 10, recoveries: 500 },
+      { lat: 10.8307, lng: 106.6806, location: 'Quan 1, Ho Chi Minh City', severity: 'medium', cases: 89, deaths: 2, recoveries: 80 },
+      { lat: 10.7877, lng: 106.7024, location: 'Quan 7, Ho Chi Minh City', severity: 'heavy', cases: 456, deaths: 20, recoveries: 400 },
+      { lat: 10.7549, lng: 106.6712, location: 'Quan 3, Ho Chi Minh City', severity: 'light', cases: 234, deaths: 5, recoveries: 200 },
+      { lat: 10.7919, lng: 106.6984, location: 'Quan 4, Ho Chi Minh City', severity: 'medium', cases: 67, deaths: 1, recoveries: 60 },
+      { lat: 10.8025, lng: 106.6643, location: 'Quan 5, Ho Chi Minh City', severity: 'light', cases: 345, deaths: 7, recoveries: 300 },
+      { lat: 10.8676, lng: 106.8037, location: 'Thu Duc City, Ho Chi Minh City', severity: 'heavy', cases: 789, deaths: 30, recoveries: 700 },
+      { lat: 10.8544, lng: 106.6248, location: 'Binh Thanh District, Ho Chi Minh City', severity: 'medium', cases: 567, deaths: 15, recoveries: 500 },
+      { lat: 10.7337, lng: 106.7183, location: 'Binh Chanh District, Ho Chi Minh City', severity: 'heavy', cases: 890, deaths: 40, recoveries: 800 },
+      { lat: 10.8604, lng: 106.6288, location: 'Phu Nhuan District, Ho Chi Minh City', severity: 'light', cases: 123, deaths: 3, recoveries: 100 }
+    ]
+    
+    for (var i = 0; i < covidData.length; i++) {
+      var severity = covidData[i].severity
+      var circleColor
+      if (severity === 'heavy') {
+        circleColor = 'red'
+      } else if (severity === 'medium') {
+        circleColor = 'orange'
+      } else {
+        circleColor = 'green'
+      }
+      var circle = L.circleMarker([covidData[i].lat, covidData[i].lng], {
+        radius: 10,
+        color: circleColor,
+        fillOpacity: 0.8
+      })
+        .addTo(map)
+        .bindPopup('<b>Covid case</b><br>Location: ' + covidData[i].location + '<br>Severity: ' + covidData[i].severity + '<br>Cases: ' + covidData[i].cases + '<br>Deaths: ' + covidData[i].deaths + '<br>Recoveries: ' + covidData[i].recoveries)
+      L.marker([covidData[i].lat, covidData[i].lng])
+        .addTo(map)
+        .bindPopup('<b>Covid case</b><br>Location: ' + covidData[i].location + '<br>Cases: ' + covidData[i].cases + '<br>Deaths: ' + covidData[i].deaths + '<br>Recoveries: ' + covidData[i].recoveries)
+    }
+  </script>
+
+  <div id="covid-info" style="margin-left: 10px;"></div>
+
+  <script>
+    const covidInfo = document.getElementById('covid-info')
+    
+    fetch('https://disease.sh/v3/covid-19/countries/vietnam')
+      .then((response) => response.json())
+      .then((data) => {
+        const cases = data.cases
+        const deaths = data.deaths
+        const recovered = data.recovered
+    
+        const html = `
+    <p class="case-info">Số ca nhiễm: ${cases}</p>
+    <p class="death-info">Số ca tử vong: ${deaths}</p>
+    <p class="recover-info">Số ca phục hồi: ${recovered}</p>
+    `
+    
+        covidInfo.innerHTML = html
+      })
+      .catch((error) => {
+        console.error(error)
+        covidInfo.innerHTML = 'Không thể lấy thông tin COVID-19 tại Việt Nam'
+      })
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {},
+      Tawk_LoadStart = new Date()
+    ;(function () {
+      var s1 = document.createElement('script'),
+        s0 = document.getElementsByTagName('script')[0]
+      s1.async = true
+      s1.src = 'https://embed.tawk.to/645b7319ad80445890ec245c/1h02jj7rb'
+      s1.charset = 'UTF-8'
+      s1.setAttribute('crossorigin', '*')
+      s0.parentNode.insertBefore(s1, s0)
+    })()
+  </script>
+  <!-- End of Tawk.to Script -->
+{% endblock %}

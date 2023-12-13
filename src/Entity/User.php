@@ -211,4 +211,21 @@ public function hasPermission(string $permissionName): bool
 
         return $this;
     }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+     /**
+     * Check if the user is a customer.
+     *
+     * @return bool
+     */
+    public function isCustomer()
+    {
+        // Thực hiện logic kiểm tra nếu user là khách hàng
+        // Ví dụ: return $this->role === 'ROLE_CUSTOMER';
+        return true; // Hoặc thực hiện kiểm tra khác tùy thuộc vào logic của bạn
+    }
 }

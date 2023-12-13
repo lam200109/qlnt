@@ -1,170 +1,330 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Thêm khách hàng{% endblock %}
+{% block title %}
+  Thêm khách hàng
+{% endblock %}
 
 {% block body %}
-
-<div class="nk-content">
-<div class="container-fluid">
-    <div class="nk-content-inner">
+  <div class="nk-content">
+    <div class="container-fluid">
+      <div class="nk-content-inner">
         <div class="nk-content-body">
-            <div class="nk-block-head nk-block-head-sm">
-                <div class="nk-block-between">
-                    <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Thêm khách hàng</h3>
-                        <div class="nk-block-des text-soft">
-                            <p>Điền đầy đủ thông tin phía dưới</p>
-                        </div>
-                    </div>
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Bán thuốc</h3>
+                <div class="nk-block-des text-soft">
+                  <p>Điền đầy đủ thông tin phía dưới</p>
                 </div>
+              </div>
             </div>
-            <div class="nk-block">
-                <div class="card card-bordered">
-                    <div class="card-inner">
-                        <div class="row gy-4">
-                        <div class="col-xxl-3 col-md-4">
-                        <div class="form-group">
-                            <label class="form-label" for="name">Họ tên</label>
-                            <input type="text" class="form-control" id="name" name="Name" placeholder="Name" required>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-4">
-                        <div class="form-group">
-                            <label class="form-label" for="phone-no">Số điện thoại</label>
-                            <input type="number" class="form-control" id="phone-no" name="Phone" placeholder="Phone no">
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-4">
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="Email" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control" id="address" name="Address" placeholder="Address">
-                        </div>
-                    </div>
+          </div>
+<form action="{{ path('them_khach_hang') }}" method="post">
+          <div class="nk-block">
+            <div class="card card-bordered">
+              <div class="card-inner">
+                <div class="row gy-4">
 
-                
-                        <label for="searchTerm">Tìm kiếm thuốc:</label>
-                        <input type="text" id="searchTerm"  name="searchTerm" placeholder="Nhập tên thuốc...">
-                        <button type="submit" class="btn btn-primary" id="searchButton">Tìm kiếm</button>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="bio">Danh sách loại thuốc</label>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Tên sản phẩm</th>
-                                                <th scope="col">Giá</th>
-                                                <th scope="col">Hàm lượng</th>
-                                                <th scope="col">Mô tả</th>
-                                                <th scope="col">Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="medicineTable">
-                                            {% for medicine in result %}
-                                                <tr>
-                                                    <td>{{ medicine.Name }}</td>
-                                                    <td>{{ medicine.Price }}</td>
-                                                    <td>{{ medicine.Concentration }}</td>
-                                                    <td>{{ medicine.Description }}</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary" onclick="addToCart('{{ medicine.Name }}', '{{ medicine.Price }}')">Thêm</button>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Cột 2: Bảng hiển thị sản phẩm đã đặt -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="bio">Giỏ hàng</label>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Tên sản phẩm</th>
-                                                <th scope="col">Số lượng</th>
-                                                <th scope="col">Thành tiền</th>
-                                                <th scope="col">Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="cartTable"></tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                                                <td id="totalAmount" style="font-weight: bold;"></td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                  <div class="col-xxl-3 col-md-4">
+                    <div class="form-group">
+                      <label class="form-label" for="name">Họ tên</label>
+                      <input type="text" class="form-control" id="name" name="Name" placeholder="Name" required />
                     </div>
+                  </div>
+                  <div class="col-xxl-3 col-md-4">
+                    <div class="form-group">
+                      <label class="form-label" for="phone-no">Số điện thoại</label>
+                      <input type="number" class="form-control" id="phone-no" name="Phone" placeholder="Phone no" />
+                    </div>
+                  </div>
+                  <div class="col-xxl-3 col-md-4">
+                    <div class="form-group">
+                      <label class="form-label" for="email">Địa chỉ</label>
+                      <input type="email" class="form-control" id="Address" name="Address" placeholder="Email" />
+                    </div>
+                  </div>
+                  <div class="col-xxl-3 col-md-4">
+                  <div class="form-group">
+                    <label class="form-label" for="email">Ngày lập</label>
+                    <input type="Date" class="form-control" id="currentDate" name="Date" placeholder="Ngày lập" value="{{ "now"|date("Y-m-d") }}" />
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+                  <div class="form-control-wrap">
+                    <label class="form-label" for="email">Mô tả</label>
+                    <textarea class="form-control form-control-sm" id="fv-message" name="Description" placeholder="Write your message" required=""></textarea>
+                  </div>
+
+
+                  {# Trong template nơi bạn muốn hiển thị thông báo flash #}
+                  {% for flashMessage in app.flashes('success') %}
+                      <div class="alert alert-success">
+                          {{ flashMessage }}
+                      </div>
+                  {% endfor %}
+
+                  {% for flashMessage in app.flashes('error') %}
+                      <div class="alert alert-danger">
+                          {{ flashMessage }}
+                      </div>
+                  {% endfor %}
+
+
+                  
+                  <label for="searchTerm">Tìm kiếm thuốc:</label>
+                  <input type="text" id="searchTerm" name="searchTerm" placeholder="Nhập tên thuốc..." />
+
+
+
+
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="bio">Danh sách loại thuốc</label>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Hình ảnh</th>
+
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Số lượng còn</th>
+
+                            <th scope="col">Hàm lượng</th>
+                            <th scope="col">Mô tả</th>
+                            <th scope="col">Hành động</th>
+                          </tr>
+                        </thead>
+                        <tbody id="medicineTable">
+                          {% for medicine in result %}
+                            <tr>
+                              <td>
+                                <img src="{{ asset(medicine['Image'] is not null and medicine['Image'] is not empty ? medicine['Image'] : 'path_to_default_image.jpg') }}" alt="" />
+                              </td>
+                              <td>{{ medicine.Name }}</td>
+                              <td>{{ medicine.Price }}</td>
+                              <td>{{ medicine.InStock }}</td>
+
+                              <td>{{ medicine.Concentration }}</td>
+                              <td>{{ medicine.Description }}</td>
+                              <td>
+                                <button type="button" class="btn btn-primary" onclick="addToCart('{{ medicine.Name }}', '{{ medicine.Price }}', '{{ medicine.InStock }}')">Thêm</button>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- Cột 2: Bảng hiển thị sản phẩm đã đặt -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="bio">Giỏ hàng</label>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Thành tiền</th>
+                            <th scope="col">Hành động</th>
+                          </tr>
+                        </thead>
+                        <tbody id="cartTable"></tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                            <input type="hidden" name="TongTienHD" value="">
+                            <input type="hidden" name="Price[]" value="">
+                            <input type="hidden" name="SoLuongXuat[]" value="">
+
+                            <td id="totalAmount" style="font-weight: bold;"></td>
+                            <td>
+                            <button type="button" class="btn btn-secondary" onclick="togglePaymentMethods()">Chọn phương thức thanh toán</button>
+                          </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                  
+
+
+
+
+
+
+                <button type="button" class="btn btn-secondary" onclick="togglePaymentMethods()">Chọn phương thức thanh toán</button>
+
+                <div id="modalPaymentMethods">
+                  <div class="modal-content">
+                      <span class="close-btn" onclick="togglePaymentMethods()">&times;</span>
+              
+                      <div class="payment-method">
+                          <h2>Thanh toán bằng tiền mặt</h2>
+
+                          <button type="submit">
+                            <img src="{{ asset('images/tienmat.jpeg') }}" alt="Tiền mặt" style="max-width: 100%; height: 100px;">
+                        </button>
+                        
+                        </div>
+              
+                      <div class="payment-method">
+                          <h2>Thanh toán qua Momo</h2>
+                            <a href="{{ path('them_khach_hang_momo') }}"> <img src="{{ asset('images/momo.png') }}" alt="Tiền mặt" style="width: 100px; height: 100px;">
+                            </a>
+
+                      </div>
+              
+                      <div class="payment-method">
+                          <h2>Thanh toán qua VNPay</h2>
+                            <a href="{{ path('them_khach_hang_momo') }}"> <img src="{{ asset('images/vnpay.png') }}" alt="Tiền mặt" style="width: 100px; height: 100px;">
+                          </a>
+
+                      </div>
+                </div>
+              </div>
+              </div>
+
+</form>
+
+              
+
+                  
+
+             
 
 
 
 <script>
-    document.getElementById('searchTerm').addEventListener('input', function() {
-    var searchTerm = this.value;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/search-medicine', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Parse JSON response
-            var response = JSON.parse(xhr.responseText);
-
-            // Get the array of medicines from the response
-            var medicines = response.result;
-
-            // Update the table with the new data
-            updateTable(medicines);
-        }
-    };
-    xhr.send('searchTerm=' + encodeURIComponent(searchTerm));
-});
-
-function updateTable(medicines) {
-    var tableBody = document.getElementById('medicineTable');
-    tableBody.innerHTML = ''; // Clear the existing content
-
-    for (var i = 0; i < medicines.length; i++) {
-        var medicine = medicines[i];
-
-        var row = tableBody.insertRow(i);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-
-        cell1.innerHTML = medicine.Name;
-        cell2.innerHTML = medicine.Price;
-        cell3.innerHTML = medicine.Concentration;
-        cell4.innerHTML = medicine.Description;
-        cell5.innerHTML = '<button type="button" class="btn btn-primary" onclick="addToCart(\'' + medicine.Name + '\', \'' + medicine.Price + '\')">Thêm</button>';
+    function togglePaymentMethods() {
+        var modal = document.getElementById('modalPaymentMethods');
+        modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
     }
-}
-
 </script>
 
+               
 
 
-  
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" tabindex="-1" id="modalTabs" style="display: none;" aria-hidden="true"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a><div class="modal-body modal-body-md"><h4 class="title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cập nhật hồ sơ</font></font></h4><ul class="nk-nav nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" data-bs-toggle="tab" href="#tabItem1" aria-selected="true" role="tab"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiêu đề tab</font></font></a></li><li class="nav-item" role="presentation"><a class="nav-link" data-bs-toggle="tab" href="#tabItem2" aria-selected="false" role="tab" tabindex="-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiêu đề khác</font></font></a></li></ul><div class="tab-content"><div class="tab-pane active show" id="tabItem1" role="tabpanel"><h6 class="title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiêu đề tab</font></font></h6><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bản thân công ty đã là một công ty rất thành công. </font><font style="vertical-align: inherit;">Hơn nữa, sự khác biệt giữa mong muốn và mong muốn thực sự được cung cấp bởi một kiến ​​trúc sư mở!</font></font></p><p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Những món nợ không ngăn cản được</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nỗi đau của người kiến ​​trúc sư thêm nỗi đau và nỗi đau của nỗi đau lớn lao.</font></font></p></div><div class="tab-pane" id="tabItem2" role="tabpanel"><h6 class="title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiêu đề khác</font></font></h6><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bản thân công ty đã là một công ty rất thành công. </font><font style="vertical-align: inherit;">Hơn nữa, sự khác biệt giữa mong muốn và mong muốn thực sự được cung cấp bởi một kiến ​​trúc sư mở!</font></font></p><p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Những món nợ không ngăn cản được</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nỗi đau của người kiến ​​trúc sư thêm nỗi đau và nỗi đau của nỗi đau lớn lao.</font></font></p></div></div></div></div></div></div>
+
+
+
+
+  <script>
+    document.getElementById('searchTerm').addEventListener('input', function () {
+      var searchTerm = this.value
+    
+      var xhr = new XMLHttpRequest()
+      xhr.open('POST', '/search-medicine', true)
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // Parse JSON response
+          var response = JSON.parse(xhr.responseText)
+    
+          // Get the array of medicines from the response
+          var medicines = response.result
+    
+          // Update the table with the new data
+          updateTable(medicines)
+        }
+      }
+      xhr.send('searchTerm=' + encodeURIComponent(searchTerm))
+    })
+    
+    function checkCartItems() {
+      var cartTable = document.getElementById('cartTable')
+      var paymentButton = document.getElementById('paymentButton')
+    
+      // Check if there are items in the cart
+      var hasCartItems = cartTable.rows.length > 0
+    
+      // Toggle the visibility of the payment button based on the presence of items in the cart
+      paymentButton.style.display = hasCartItems ? 'block' : 'none'
+    }
+    
+    function updateTable(medicines, isCartTable) {
+      var tableBody = isCartTable ? document.getElementById('cartTable') : document.getElementById('medicineTable')
+    
+      // Xóa tất cả các dòng trừ dòng cuối cùng (nếu có)
+      while (tableBody.rows.length > 1) {
+        tableBody.deleteRow(0)
+      }
+    
+      // Lấy số lượng dòng cuối cùng
+      var lastRow = tableBody.rows.length > 0 ? tableBody.rows[tableBody.rows.length - 1] : null
+    
+      // Thay đổi mã JavaScript của bạn trong hàm updateTable
+      for (var i = 0; i < medicines.length; i++) {
+        var medicine = medicines[i]
+    
+        var row = tableBody.insertRow(i)
+        var cells = []
+    
+        for (var j = 0; j < 7; j++) {
+          cells[j] = row.insertCell(j)
+        }
+    
+        var imagePath = medicine.Image ? medicine.Image : 'path_to_default_image.jpg'
+    
+        if (!isCartTable) {
+          var imageElement = document.createElement('img')
+          imageElement.src = imagePath
+          imageElement.alt = medicine.Name
+          imageElement.style.width = '50px'
+          cells[0].appendChild(imageElement)
+    
+          // Check if InStock property exists before displaying it
+          cells[3].innerHTML = medicine.hasOwnProperty('InStock') ? medicine.InStock : 'N/A'
+        } else {
+          cells[0].innerHTML = '<img src="' + imagePath + '" alt="' + medicine.Name + '" style="width: 50px;">'
+          // Display InStock in the "Số lượng còn" column
+          cells[3].innerHTML = medicine.hasOwnProperty('InStock') ? medicine.InStock : 'N/A'
+        }
+    
+        cells[1].innerHTML = medicine.Name
+        cells[2].innerHTML = medicine.Price
+        cells[4].innerHTML = medicine.Concentration
+        cells[5].innerHTML = medicine.Description
+    
+        if (isCartTable) {
+          cells[7].innerHTML = '<button type="button" class="btn btn-danger" onclick="removeFromCart(this)">Xóa</button>'
+        }
+      }
+    
+      // Gọi hàm kiểm tra giỏ hàng sau mỗi lần cập nhật
+      checkCartItems()
+    }
+
+
+
+
+    // Các functions JavaScript (Thêm vào script.js)
+
+  </script>
 {% endblock %}
