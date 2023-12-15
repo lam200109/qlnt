@@ -12,7 +12,7 @@ class DatthuocController extends AbstractController
     #[Route('/datthuoc', name: 'app_datthuoc')]
     public function index(Connection $connection): Response
     {
-        $query = "SELECT MedicineID, Name, Image,Price, Category FROM medicines";
+        $query = "SELECT MedicineID, Name, Image,Price, Category, Description FROM medicines";
         
         // Sử dụng executeQuery và fetchAll của PDO
         $medicines = $connection->executeQuery($query)->fetchAllAssociative(\PDO::FETCH_ASSOC);

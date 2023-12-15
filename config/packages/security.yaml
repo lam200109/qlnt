@@ -40,7 +40,7 @@ security:
             # ...
 
     access_control:
-        - { path: ^/trang-ban-thuoc, roles: ['BanThuocAccess', 'AdminAccess'] }
+        - { path: ^/them-khach-hang, roles: ['BanThuocAccess', 'AdminAccess'] }
         - { path: ^/trang-quan-ly-khach-hang, roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
         - { path: ^/nguon-thu, roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
         - { path: ^/(nhap-thuoc|them-thuoc-moi), roles: ['NhapHangAccess', 'AdminAccess'] }

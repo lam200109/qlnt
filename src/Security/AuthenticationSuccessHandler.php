@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse; // Import thêm này
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
@@ -24,18 +24,19 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
         $user = $token->getUser();
 
         // Kiểm tra nếu user là một đối tượng User
-        if ($user instanceof \App\Entity\User) {
-            // Kiểm tra điều kiện trong entity User
+        if ($user instanceof \App\Entity\Customer) {
+            $customerId = $user->getCustomerID(); // Sử dụng getter của CustomerID
+            $request->getSession()->set('customer_id', $customerId);
             if ($user->isCustomer()) {
-                // Nếu là khách hàng, chuyển hướng đến 'trang_chu_khach_hang'
-                return new RedirectResponse($this->router->generate('trang_chu'));
-            } else {
-                // Nếu không phải là khách hàng, chuyển hướng đến 'trang_chu'
                 return new RedirectResponse($this->router->generate('trang_chu_khach_hang'));
+            } else {
+                // Nếu không phải là khách hàng, chuyển hướng đến 'dang_nhap'
+                return new RedirectResponse($this->router->generate('dang_nhap'));
             }
         }
 
-        // Nếu không phải đối tượng User, mặc định chuyển hướng đến 'trang_chu'
-        return new RedirectResponse($this->router->generate('trang_chu_khach_hang'));
+        // Lưu thông tin khách hàng vào session
+        // Chuyển hướng đến 'trang_chu_khach_hang'
+        return new RedirectResponse($this->router->generate('trang_chu'));
     }
 }

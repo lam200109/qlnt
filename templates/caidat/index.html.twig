@@ -105,8 +105,8 @@
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-5">
                                             <div class="form-group">
-                                                <label class="form-label" for="site-name">Mô tả</label>
-                                                <span class="form-note">Mô tả thông tin về nhà thuốc của bạn.</span>
+                                                <label class="form-label" for="site-name">Pop up</label>
+                                                <span class="form-note">Thông báo</span>
                                             </div>
                                         </div>
                                         <div class="col-lg-7">
@@ -138,7 +138,7 @@
                                     <div class="row g-3">
                                         <div class="col-lg-7">
                                             <div class="form-group mt-2">
-                                                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                                                <button type="submit" id="update-btn" class="btn btn-lg btn-primary">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -196,4 +196,26 @@
     </div>
 </div>
 </div>
+
+<!-- Pop-up Thông Báo -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <p id="popup-message">Thông báo của bạn đã được cập nhật!</p>
+  </div>
+</div>
+
+
+
+<!-- Thêm mã JavaScript để xử lý sự kiện và lưu trữ thông báo -->
+<!-- Thêm mã JavaScript để xử lý sự kiện và lưu trữ thông báo -->
+<script>
+  document.getElementById('update-btn').addEventListener('click', function() {
+    var message = document.getElementById('fv-message').value;
+    localStorage.setItem('popupMessage', message);
+    localStorage.setItem('loggedInUser', 'user1'); // Lưu tên người dùng khi đăng nhập
+  });
+</script>
+
+
 {% endblock %}

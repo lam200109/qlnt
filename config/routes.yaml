@@ -68,6 +68,11 @@ dang_ky:
     path: /dang-ky
     controller: App\Controller\DangkyController::index
 
+dang_ky_customers:
+    path: /dang-ky-customers
+    controller: App\Controller\DangkyController::dangky
+
+
 reset_mat_khau:
     path: /reset-mat-khau
     controller: App\Controller\ResetmatkhauController::index
@@ -155,6 +160,39 @@ dat_thuoc:
     controller: App\Controller\DatthuocController::index
 
 khach_hang_dat_thuoc:
-    path: /cai-dat
-    controller: App\Controller\CaidatController::index
+    path: /khach-hang-dat-thuoc
+    controller: App\Controller\KhachhangdatthuocController::index
 
+chi_tiet_khach_hang_dat_thuoc:
+    path: /khach_hang_dat_thuoc/{id}
+    controller: App\Controller\KhachhangdatthuocController::chitietkhachhangdatthuoc
+
+don_dat_hang:
+    path: /don-dat-hang
+    controller: App\Controller\DondathangController::index
+
+chi_tiet_don_dat_hang:
+    path: /don-dat-hang/{id}
+    controller: App\Controller\DondathangController::chitietdondathang
+    
+add_permission:
+    path: /add_permission
+    controller: 'App\Controller\CaidatnhanvienController::addPermission'
+    methods: ['POST']
+
+delete_permission:
+    path: /delete_permission
+    controller: 'App\Controller\CaidatnhanvienController::deletePermission'
+    methods: ['POST']
+
+# config/routes.yaml
+
+edit_medicine:
+    path: /danh-sach-thuoc/medicine/edit/{id}
+    controller: 'App\Controller\DanhsachthuocController::editMedicine'
+    methods: ['GET', 'POST']
+
+delete_medicine:
+    path: /danh-sach-thuoc/medicine/delete/{id}
+    controller: 'App\Controller\DanhsachthuocController::deleteMedicine'
+    methods: ['GET', 'DELETE']

@@ -77,12 +77,61 @@
                       </ul>
 
                       <div class="product-price text-primary h5">
-                        <small class="text-muted del fs-13px"></small> ${{ medicine['Price'] }}
+                        <small class="text-muted del fs-13px"></small> {{ '₫'|trans }}{{ medicine['Price']|number_format }}
                       </div>
+
+                      <button type="button" class="btn btn-primary open-modal" data-toggle="modal" data-target="#modalDefault{{ medicine['MedicineID'] }}" data-product="{{ medicine | json_encode }}">
+      Modal Default
+    </button>
+                                        </div>
+                  </div>
+                </div>
+
+
+
+
+                <div class="modal fade" id="modalDefault{{ medicine['MedicineID'] }}" tabindex="-1" role="dialog" aria-labelledby="modalDefaultLabel{{ medicine['MedicineID'] }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                  <h5 class="modal-title" id="modalDefaultLabel{{ medicine['MedicineID'] }}">{{ medicine['Name'] }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Nội dung chi tiết sản phẩm -->
+                      <p>{{ medicine['Description'] }}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <!-- Thêm vào giỏ hàng -->
+                      <button type="button" class="btn btn-secondary" onclick="addToCart()">Thêm vào giỏ hàng</button>
+                      <!-- Mua ngay -->
+                      <button type="button" class="btn btn-primary" onclick="buyNow()">Mua ngay</button>
                     </div>
                   </div>
                 </div>
+              </div>
               {% endfor %}
+
+              <!-- Add this where you want the modal to appear in your HTML file -->
+          
+            
+            <script>
+              function addToCart() {
+                // TODO: Thêm sản phẩm vào giỏ hàng
+                alert('Sản phẩm đã được thêm vào giỏ hàng.');
+                // Đóng modal
+                $('#modalDefault').modal('hide');
+              }
+            
+              function buyNow() {
+                // TODO: Xử lý mua ngay, có thể chuyển hướng đến trang thanh toán
+                alert('Bạn đã chọn mua ngay sản phẩm.');
+                // Đóng modal
+                $('#modalDefault').modal('hide');
+              }
+            </script>
             </div>
           </div>
           <div class="nk-add-product toggle-slide toggle-slide-right toggle-screen-any" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar="init">
@@ -185,38 +234,35 @@
   {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-  $(document).ready(function () {
-    // Lắng nghe sự kiện thay đổi trong ô tìm kiếm
-    $('#default-04').on('input', function () {
-      filterProducts(); // Gọi hàm lọc sản phẩm
-    });
-
-    // Lắng nghe sự kiện thay đổi trong dropdown danh mục
-    $('#category-filter').change(function () {
-      filterProducts(); // Gọi hàm lọc sản phẩm
-    });
-
-    // Hàm lọc sản phẩm
-    function filterProducts() {
-      var searchValue = $('#default-04').val().toLowerCase();
-      var selectedCategory = $('#category-filter').val().toLowerCase();
-
-      $('.product-card').each(function () {
-        var productName = $(this).find('.product-title a').text().toLowerCase();
-        var productCategory = $(this).find('.product-tags a').text().toLowerCase();
-
-        // Kiểm tra điều kiện lọc theo tên và danh mục
-        if (
-          (productName.includes(searchValue) || searchValue === '') &&
-          (productCategory === selectedCategory || selectedCategory === '')
-        ) {
-          $(this).show();
-        } else {
-          $(this).hide();
+      $(document).ready(function () {
+        // Lắng nghe sự kiện thay đổi trong ô tìm kiếm
+        $('#default-04').on('input', function () {
+          filterProducts() // Gọi hàm lọc sản phẩm
+        })
+      
+        // Lắng nghe sự kiện thay đổi trong dropdown danh mục
+        $('#category-filter').change(function () {
+          filterProducts() // Gọi hàm lọc sản phẩm
+        })
+      
+        // Hàm lọc sản phẩm
+        function filterProducts() {
+          var searchValue = $('#default-04').val().toLowerCase()
+          var selectedCategory = $('#category-filter').val().toLowerCase()
+      
+          $('.product-card').each(function () {
+            var productName = $(this).find('.product-title a').text().toLowerCase()
+            var productCategory = $(this).find('.product-tags a').text().toLowerCase()
+      
+            // Kiểm tra điều kiện lọc theo tên và danh mục
+            if ((productName.includes(searchValue) || searchValue === '') && (productCategory === selectedCategory || selectedCategory === '')) {
+              $(this).show()
+            } else {
+              $(this).hide()
+            }
+          })
         }
-      });
-    }
-  });
-</script>
+      })
+    </script>
   {% endblock %}
 {% endblock %}

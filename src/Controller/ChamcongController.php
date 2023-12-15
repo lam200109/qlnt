@@ -97,23 +97,25 @@ class ChamcongController extends AbstractController
     return $attendanceData;}
  
     
-     private function hasClockedInToday(Connection $connection, $userId, \DateTime $date, $shiftId): bool
-     {
-         $hasClockedInQuery = "
-             SELECT COUNT(*)
-             FROM Attendance
-             WHERE UserID = :userId
-             AND ShiftID = :shiftId
-         ";
-     
-         $result = $connection->executeQuery($hasClockedInQuery, [
-             'userId' => $userId,
-             'date' => $date->format('Y-m-d'),
-             'shiftId' => $shiftId,
-         ])->fetchOne();
-     
-         return $result > 0;
-     }
+    private function hasClockedInToday(Connection $connection, $userId, \DateTime $date, $shiftId): bool
+    {
+        $hasClockedInQuery = "
+            SELECT COUNT(*)
+            FROM Attendance
+            WHERE UserID = :userId
+            AND DATE = :date
+            AND ShiftID = :shiftId
+        ";
+    
+        $result = $connection->executeQuery($hasClockedInQuery, [
+            'userId' => $userId,
+            'date' => $date->format('Y-m-d'),
+            'shiftId' => $shiftId,
+        ])->fetchOne();
+    
+        return $result > 0;
+    }
+    
      
     /**
      * Thực hiện chấm công cho người dùng vào ngày hiện tại

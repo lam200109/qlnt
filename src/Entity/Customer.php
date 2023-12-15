@@ -106,6 +106,22 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getUsername();
     }
+   /**
+     * Check if the user is a customer.
+     *
+     * @return bool
+     */
+    public function isCustomer()
+    {
+        // Thực hiện logic kiểm tra nếu user là khách hàng
+        // Ví dụ: return $this->role === 'ROLE_CUSTOMER';
+        return true; // Hoặc thực hiện kiểm tra khác tùy thuộc vào logic của bạn
+    }
+    // Add this method to your Customer entity
+public function getCustomerID(): ?int
+{
+    return $this->customerID;
+}
 
 
 }

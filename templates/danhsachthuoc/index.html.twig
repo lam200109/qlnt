@@ -22,6 +22,19 @@
                                     </p>
                                 </div>
                             </div>
+
+                            {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        
+                        {% for message in app.flashes('update') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
@@ -105,7 +118,7 @@
                                                     </div>
                                                     <div class="nk-tb-col">
                                                         <span>
-                                                            Tên thuốc
+                                                            Mã thuốc
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-lg">
@@ -115,7 +128,7 @@
                                                     </div>
                                                     <div class="nk-tb-col tb-col-xxl">
                                                         <span>
-                                                            Mã thuốc
+                                                            Tên thuốc
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-lg">
@@ -128,11 +141,7 @@
                                                             Danh mục
                                                         </span>
                                                     </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
-                                                        <span>
-                                                            Nhà sản xuất
-                                                        </span>
-                                                    </div>
+                                                   
                                                     <div class="nk-tb-col">
                                                         <span>
                                                             Giá
@@ -158,52 +167,10 @@
                                                             Trạng thái
                                                         </span>
                                                     </div>
-                                                    <div class="nk-tb-col nk-tb-col-tools">
-                                                        <ul class="nk-tb-actions gx-1 my-n1">
-                                                            <li class="me-n1">
-                                                                <div class="dropdown">
-                                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-opt no-bdr">
-                                                                            <li>
-                                                                                <a href="/demo7/pharmacy/manufacturer.html">
-                                                                                    <em class="icon ni ni-home-fill"></em>
-                                                                                    Manufacturer
-                                                                                                                                        
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="/demo7/pharmacy/medicine-details.html">
-                                                                                <em class="icon ni ni-eye"></em>
-                                                                                <span>
-                                                                                    View Details
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a data-bs-toggle="modal" href="#editMedicine">
-                                                                                <em class="icon ni ni-edit"></em>
-                                                                                <span>
-                                                                                    Edit Selected
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                <em class="icon ni ni-trash"></em>
-                                                                                <span>
-                                                                                    Remove Selected
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                    <div class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        Trạng thái
+                                                    </span>
                                                 </div>
                                             </div>
 
@@ -212,123 +179,162 @@
                                                 <div class="nk-tb-col nk-tb-col-check">
                                                     <div class="custom-control custom-control-sm custom-checkbox notext">
                                                         <input type="checkbox" class="custom-control-input" id="pid1">
-                                                            <label class="custom-control-label" for="pid1"></label>
-                                                        </div>
+                                                        <label class="custom-control-label" for="pid1"></label>
                                                     </div>
-                                                    <div class="nk-tb-col">
-                                                        <a href="{{ path('chi_tiet_thuoc', { 'id': row.MedicineID }) }}">
-                                                            <span class="tb-product">
-                                                                <span class="title">
-                                                                    {{ row.Name}}
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-lg">
-                                                        <span>
-                                                            {{ row.GenericName}}
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
-                                                        <span class="tb-sub">
-                                                            {{ row.MedicineID }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-lg">
-                                                        <span>
-                                                            {{ row.Concentration}}
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-sm">
-                                                        <span>
-                                                            Tablet
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
-                                                        <span>
-                                                            Healthcare
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col">
-                                                        <span class="tb-amount">
-                                                            {{ row.Price }} 
-                                                            <span class="currency">
-                                                                đồng
+                                                </div>
+                                                <div class="nk-tb-col">
+                                                    <a href="{{ path('chi_tiet_thuoc', { 'id': row.MedicineID }) }}">
+                                                        <span class="tb-product">
+                                                            <span class="title">
+                                                                {{ row.MedicineID }}
                                                             </span>
                                                         </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
-                                                        <span class="tb-amount">
-                                                            {{ row.ManufacturerPrice }}
-                                                            <span class="currency">
-                                                                đồng
-                                                            </span>
+                                                    </a>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-lg">
+                                                    <span>
+                                                        {{ row.GenericName }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                    <span class="tb-sub">
+                                                        {{ row.Name }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-lg">
+                                                    <span>
+                                                        {{ row.Concentration }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-sm">
+                                                    <span>
+                                                        {{ row.Category }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col">
+                                                    <span class="tb-amount">
+                                                        {{ row.Price | number_format(0, '.', ',') }} VNĐ
+                                                        <span class="currency">
+                                                            đồng
                                                         </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-md">
-                                                        <span>
-                                                            {{ row.InStock }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                    <span class="tb-amount">
+                                                        {{ row.ManufacturerPrice | number_format(0, '.', ',') }} VNĐ
+                                                        <span class="currency">
+                                                            đồng
                                                         </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
-                                                        <span class="tb-date">
-                                                            {{ row.ExpirationDate }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col tb-col-md">
-                                                        <span class="tb-status text-success">
-                                                            Available
-                                                        </span>
-                                                    </div>
-                                                    <div class="nk-tb-col nk-tb-col-tools">
-                                                        <ul class="nk-tb-actions gx-1 my-n1">
-                                                            <li class="me-n1">
-                                                                <div class="dropdown">
-                                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-opt no-bdr">
-                                                                            <li>
-                                                                                <a href="/demo7/pharmacy/manufacturer.html">
-                                                                                    <em class="icon ni ni-home-fill"></em>
-                                                                                    Manufacturer
-                                                                                                                    
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="/demo7/pharmacy/medicine-details.html">
-                                                                                <em class="icon ni ni-eye"></em>
-                                                                                <span>
-                                                                                    View Details
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a data-bs-toggle="modal" href="#editMedicine">
-                                                                                <em class="icon ni ni-edit"></em>
-                                                                                <span>
-                                                                                    Edit 
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                <em class="icon ni ni-trash"></em>
-                                                                                <span>
-                                                                                    Remove 
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-md">
+                                                    <span>
+                                                        {{ row.InStock }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                    <span class="tb-date">
+                                                        {{ row.ExpirationDate }}
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-md">
+                                                    <span class="tb-status text-success">
+                                                        Available
+                                                    </span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                    <span class="tb-date">
+                                                        <a href="#" class="btn btn-primary" onclick="openModal('{{ row.MedicineID }}', '{{ row.GenericName }}', '{{ row.Name }}', '{{ row.Concentration }}', '{{ row.Category }}', '{{ row.Price }}', '{{ row.ManufacturerPrice }}', '{{ row.InStock }}', '{{ row.ExpirationDate }}')">Sửa</a>
+                                                        <a href="#" class="btn btn-danger" onclick="confirmDelete('{{ path('delete_medicine', {'id': row.MedicineID}) }}')">Xoá</a>
+                                                    </span>
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            
+                                            <!-- Modal Form -->
+                                            <div class="modal" id="editMedicineModal">
+                                                <div class="modal-content">
+                                                    <span class="close" onclick="closeModal()">&times;</span>
+                                                    <div class="modal-body">
+                                                        <h2>Chỉnh sửa thông tin thuốc</h2>
+                                                        <form action="{{ path('edit_medicine', {'id': 'placeholder'}) }}" method="post" id="editMedicineForm">
+                                                            <label for="medicineId">ID Thuốc:</label>
+                                                            <input type="text" id="medicineId" name="medicineId" readonly>
+                                            
+                                                            <label for="medicineName">Tên thuốc</label>
+                                                            <input type="text" id="medicineName" name="medicineName" >
+
+                                                            <label for="medicineGenericName">Tên thường gọi</label>
+                                                            <input type="text" id="medicineGenericName" name="medicineGenericName" >
+                                            
+                                                          
+                                            
+                                                            <label for="medicineConcentration">Nồng độ:</label>
+                                                            <input type="text" id="medicineConcentration" name="medicineConcentration" >
+                                            
+                                                            <label for="medicineCategory">Danh mục:</label>
+                                                            <input type="text" id="medicineCategory" name="medicineCategory" >
+                                            
+                                                            <label for="medicinePrice">Giá thuốc:</label>
+                                                            <input type="number" id="medicinePrice" name="medicinePrice" >
+                                            
+                                                            <label for="medicineManufacturerPrice">Giá nhà sản xuất:</label>
+                                                            <input type="number" id="medicineManufacturerPrice" name="medicineManufacturerPrice" >
+                                            
+                                                            <label for="medicineInStock">Số lượng tồn kho:</label>
+                                                            <input type="number" id="medicineInStock" name="medicineInStock" >
+                                            
+                                                            <label for="medicineExpirationDate">Ngày hết hạn:</label>
+                                                            <input type="date" id="medicineExpirationDate" name="medicineExpirationDate" >
+                                            
+                                                            <button type="submit" class="btn btn-primary">Lưu</button>
+                                                        </form>
+                                            
+                                                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- JavaScript Function -->
+                                            <script>
+                                                function openModal(medicineId, medicineGenericName, medicineName, medicineConcentration, medicineCategory, medicinePrice, medicineManufacturerPrice, medicineInStock, medicineExpirationDate) {
+                                                    var modal = document.getElementById('editMedicineModal');
+                                                    var editMedicineForm = document.getElementById('editMedicineForm');
+                                                    var medicineIdInput = document.getElementById('medicineId');
+                                                    var medicineGenericNameInput = document.getElementById('medicineGenericName');
+                                                    var medicineNameInput = document.getElementById('medicineName');
+                                                    var medicineConcentrationInput = document.getElementById('medicineConcentration');
+                                                    var medicineCategoryInput = document.getElementById('medicineCategory');
+                                                    var medicinePriceInput = document.getElementById('medicinePrice');
+                                                    var medicineManufacturerPriceInput = document.getElementById('medicineManufacturerPrice');
+                                                    var medicineInStockInput = document.getElementById('medicineInStock');
+                                                    var medicineExpirationDateInput = document.getElementById('medicineExpirationDate');
+                                            
+                                                    // Đặt giá trị của các trường nhập liệu trong modal
+                                                    medicineIdInput.value = medicineId;
+                                                    medicineGenericNameInput.value = medicineGenericName;
+                                                    medicineNameInput.value = medicineName;
+                                                    medicineConcentrationInput.value = medicineConcentration;
+                                                    medicineCategoryInput.value = medicineCategory;
+                                                    medicinePriceInput.value = medicinePrice;
+                                                    medicineManufacturerPriceInput.value = medicineManufacturerPrice;
+                                                    medicineInStockInput.value = medicineInStock;
+                                                    medicineExpirationDateInput.value = medicineExpirationDate;
+                                            
+                                                    // Đặt đường dẫn của form dựa trên medicineId
+                                                    editMedicineForm.action = '{{ path('edit_medicine', {'id': 'placeholder'}) }}'.replace('placeholder', medicineId);
+                                            
+                                                    modal.style.display = 'block';
+                                                }
+                                            
+                                                function closeModal() {
+                                                    var modal = document.getElementById('editMedicineModal');
+                                                    modal.style.display = 'none';
+                                                }
+                                            </script>
+                                            
+
+
 
                                         </ul>
                                     </div>
@@ -554,5 +560,17 @@
                             </div>
                         </div>
 
+
+                        
+         
+
+
+<script>
+function confirmDelete(url) {
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+        window.location.href = url;
+    }
+}
+</script>
                     {% endblock %}
                     

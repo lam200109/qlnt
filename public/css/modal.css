@@ -1,0 +1,46 @@
+/* Căn giữa màn hình chiều ngang và dọc */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding-top: 65px;
+    transition: opacity 0.3s ease-in-out;
+    color: #333; /* Màu chữ đen đậm */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Tăng độ đậm của box-shadow */
+}
+
+/* Đảm bảo modal-content không vượt quá chiều rộng của màn hình */
+.modal-content {
+    position: relative;
+    background-color: #dadada; /* Màu trắng */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd; /* Màu đen nhạt hơn */
+    max-width: 50%; /* Thay đổi max-width từ width thành max-width */
+}
+
+/* Thêm margin-top cho nút "Lưu" và nút "Hủy" */
+#editMedicineForm button {
+    margin-top: 10px;
+}
+
+/* CSS cho label trong modal */
+#editMedicineForm label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold; /* Tăng độ đậm của chữ trong label */
+}
+
+/* CSS cho input trong modal */
+#editMedicineForm input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
