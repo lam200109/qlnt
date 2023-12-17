@@ -61,7 +61,7 @@ class CaidatnhanvienController extends AbstractController
             $connection->executeQuery($insertUserRoleQuery, $insertUserRoleParams);
     
             // Thêm thông báo thành công
-            $this->addFlash('success', 'Vai trò đã được gán cho người dùng thành công.');
+            $this->addFlash('success', 'Tạo quyền tru cập thành công.');
         } else {
             // Thêm thông báo nếu vai trò đã được gán trước đó
             $this->addFlash('warning', 'Vai trò đã được gán cho người dùng trước đó.');

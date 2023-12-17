@@ -147,6 +147,39 @@
                 </div>
                 </div>
             </div>
+
+
+            <form method="get" action="{{ path('chiphi') }}">
+        <label for="month">Tháng:</label>
+        <select name="month" id="month">
+          <option value="1">Tháng 1</option>
+          <option value="2">Tháng 2</option>
+          <option value="3">Tháng 3</option>
+          <option value="4">Tháng 4</option>
+          <option value="5">Tháng 5</option>
+          <option value="6">Tháng 6</option>
+          <option value="7">Tháng 7</option>
+          <option value="8">Tháng 8</option>
+          <option value="9">Tháng 9</option>
+          <option value="10">Tháng 10</option>
+          <option value="11">Tháng 11</option>
+          <option value="12">Tháng 12</option>
+        </select>
+
+        <label for="year">Năm:</label>
+        <select name="year" id="year">
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <!-- Thêm các năm khác cần thiết -->
+        </select>
+
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+      </form>
+
+
+
+
             <div class="nk-block">
                 <div class="card card-bordered card-stretch">
                     <div class="card-inner-group">

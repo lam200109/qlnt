@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-<form action="{{ path('them_khach_hang') }}" method="post">
+<form action="{{ path('them_khach_hang') }}" method="post" id="themkhachhang">
           <div class="nk-block">
             <div class="card card-bordered">
               <div class="card-inner">
@@ -41,7 +41,7 @@
                   <div class="col-xxl-3 col-md-4">
                     <div class="form-group">
                       <label class="form-label" for="email">Địa chỉ</label>
-                      <input type="email" class="form-control" id="Address" name="Address" placeholder="Email" />
+                      <input type="text" class="form-control" id="Address" name="Address" placeholder="Email" />
                     </div>
                   </div>
                   <div class="col-xxl-3 col-md-4">
@@ -108,8 +108,8 @@
                               <td>{{ medicine.Concentration }}</td>
                               <td>{{ medicine.Description }}</td>
                               <td>
-                                <button type="button" class="btn btn-primary" onclick="addToCart('{{ medicine.Name }}', '{{ medicine.Price }}', '{{ medicine.InStock }}')">Thêm</button>
-                              </td>
+                              <button type="button" class="btn btn-primary" onclick="addToCart('{{ medicine.Name }}', '{{ medicine.Price }}', '{{ medicine.InStock }}', '{{ medicine.MedicineID }}')" data-product-id="{{ medicine.MedicineID }}">Thêm</button>
+                            </td>
                             </tr>
                           {% endfor %}
                         </tbody>
@@ -135,9 +135,8 @@
                         <tfoot>
                           <tr>
                             <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                            <input type="hidden" name="TongTienHD" value="">
-                            <input type="hidden" name="Price[]" value="">
-                            <input type="hidden" name="SoLuongXuat[]" value="">
+                            <input type="hidden" name="Amount" value="">
+                          
 
                             <td id="totalAmount" style="font-weight: bold;"></td>
                             <td>
@@ -156,7 +155,8 @@
                       <div class="payment-method">
                           <h2>Thanh toán bằng tiền mặt</h2>
 
-                          <button type="submit">
+
+                            <button type="button" onclick="checkAndSubmit()">
                             <img src="{{ asset('images/tienmat.jpeg') }}" alt="Tiền mặt" style="max-width: 100%; height: 100px;">
                         </button>
                         
@@ -171,7 +171,7 @@
               
                       <div class="payment-method">
                           <h2>Thanh toán qua VNPay</h2>
-                            <a href="{{ path('them_khach_hang_momo') }}"> <img src="{{ asset('images/vnpay.png') }}" alt="Tiền mặt" style="width: 100px; height: 100px;">
+                            <a href="{{ path('them_khach_hang_vnpay') }}"> <img src="{{ asset('images/vnpay.png') }}" alt="Tiền mặt" style="width: 100px; height: 100px;">
                           </a>
 
                       </div>
@@ -183,7 +183,23 @@
 
               
 
-                  
+              <script>
+    function checkAndSubmit() {
+        // Thực hiện các kiểm tra cần thiết trước khi submit
+        if (cartIsEmpty()) {
+            alert('Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi thanh toán.');
+        } else {
+            // Nếu điều kiện đúng, submit form
+            document.getElementById('themkhachhang').submit();
+        }
+    }
+
+    function cartIsEmpty() {
+        // Thực hiện kiểm tra giỏ hàng có sản phẩm không
+        var cartTable = document.getElementById('cartTable');
+        return cartTable.rows.length === 0;
+    }
+</script>    
 
              
 

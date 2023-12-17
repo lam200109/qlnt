@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Nhân viên
+{% endblock %}
+
+{% block body %}
+  <div class="nk-content">
+    <div class="container-fluid">
+      <div class="nk-content-inner">
+        <div class="nk-content-body">
+          <div class="nk-block">
+            <div class="card card-bordered">
+              <div class="card-aside-wrap">
+                <div class="card-inner card-inner-lg">
+                  <div class="nk-block-head nk-block-head-lg">
+                    <div class="nk-block-between">
+                      <div class="nk-block-head-content">
+                        <h5 class="title fw-medium">Account Activity</h5><div class="nk-block-des">
+                          <p>
+                            Here is your last 20 login activities log. <span class="text-soft"><em class="icon ni ni-info text-danger"></em></span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="nk-block-head-content align-self-start d-lg-none">
+                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <form action="{{ path('nhan_vien') }}" method="post">
+                  <div class="form-group">
+                    <div class="row g-gs">
+                      <div class="col-md-6">
+                        <label class="form-label">Tên nhân viên</label>
+                        <div class="form-control-wrap">
+                        <input type="text" name="FullName" class="form-control" id="site-name" value="">
+                        </div>
+                        <span class="form-note text-success mt-1">!</span>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">UserName</label>
+                        <div class="form-control-wrap">
+                        <input type="text" name="Username" class="form-control" id="site-name" value="Dashlite">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                <label class="form-label">Password</label>
+                <div class="form-control-wrap">
+                <input type="password" name="Password" class="form-control" id="site-name" value="">
+                </div>
+                <span class="form-note text-success mt-1">!</span>
+              </div>
+                    <button class="btn btn-primary">Thêm nhân viên</button>
+
+                  </div>
+                </form>
+
+
+
+                {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            
+            
+
+
+                  <div class="nk-block card card-bordered">
+                    <table class="table table-ulogs">
+                      <thead class="thead-light">
+                        <tr>
+                          <th class="tb-col-os">
+                            <span class="overline-title">UserID <span class="d-sm-none">/ IP</span></span>
+                          </th>
+                          <th class="tb-col-ip">
+                            <span class="overline-title">FullName</span>
+                          </th>
+                          <th class="tb-col-time">
+                            <span class="overline-title">Ngày bắt đầu làm</span>
+                          </th>
+                          <th class="tb-col-time">
+                            <span class="overline-title">Số điện thoại</span>
+                          </th>
+                          <th class="tb-col-action">
+                            <span class="overline-title">&nbsp;</span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+
+
+                        {% for user in users %}
+                        <tr>
+                            <td class="tb-col-os">{{ user.UserID }}</td>
+                            <td class="tb-col-ip">
+                                <span class="sub-text">{{ user.FullName }}</span>
+                            </td>
+                            <td class="tb-col-time">
+                                <span class="sub-text">{{ user.CreatedDate }}</span>
+                            </td>
+                            <td class="tb-col-time">
+                                <span class="sub-text">{{ user.Phone }}</span>
+                            </td>
+                            <td class="tb-col-action">
+                                <a href="{{ path('delete_user', {'id': user.UserID}) }}" class="link-cross me-sm-n1" onclick="return confirm('Are you sure you want to delete this user?');">
+                                    <em class="icon ni ni-cross"></em>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    
+
+
+
+           
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                <div class="card-inner-group" data-simplebar>
+                  <div class="card-inner">
+                    <h3 class="nk-block-title page-title">Cài đặt</h3>
+                    <div class="nk-block-des text-soft">
+                      <p>Tại đây bạn có thể thay đổi và chỉnh sửa nhu cầu của mình</p>
+                    </div>
+                  </div>
+                  <div class="card-inner p-0">
+                    <ul class="link-list-menu">
+                      <li>
+                        <a class="active" href="{{ path('cai_dat_nhan_vien') }}">
+                          <em class="icon ni ni-account-setting"></em>
+                          <span>Cấp quyền</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ path('email') }}">
+                          <em class="icon ni ni-lock-alt-fill"></em>
+                          <span>E-mail</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/demo7/pharmacy/security-settings.html">
+                          <em class="icon ni ni-shield-star-fill"></em>
+                          <span>Security</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ path('nhan_vien') }}">
+                          <em class="icon ni ni-activity-round-fill"></em>
+                          <span>Nhân viên</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

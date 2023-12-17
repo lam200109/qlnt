@@ -80,58 +80,141 @@
                         <small class="text-muted del fs-13px"></small> {{ '₫'|trans }}{{ medicine['Price']|number_format }}
                       </div>
 
-                      <button type="button" class="btn btn-primary open-modal" data-toggle="modal" data-target="#modalDefault{{ medicine['MedicineID'] }}" data-product="{{ medicine | json_encode }}">
-      Modal Default
-    </button>
-                                        </div>
+                      <button type="button" class="btn btn-primary open-modal"
+                      data-target="#modalDefault{{ medicine['MedicineID'] }}"
+                      data-medicine-id="{{ medicine['MedicineID'] }}"
+                      data-medicine-name="{{ medicine['Name'] }}"
+                      data-medicine-price="{{ medicine['Price'] }}">Đặt thuốc</button>
+                                </div>
                   </div>
                 </div>
 
+                 <!-- Modal -->
+                 <div class="modal" id="modalDefault{{ medicine['MedicineID'] }}">
+                 <div class="modal-dialog">
+                   <div class="modal-content">
+                     <!-- Modal Header -->
+                     <div class="modal-header">
+                       <h4 class="modal-title">Xác nhận đặt thuốc</h4>
+                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+               
+                     <!-- Modal Body -->
+                     <div class="modal-body">
+                       <!-- Nội dung modal ở đây -->
+                       <p>Bạn có chắc chắn muốn đặt <strong class="medicineName"></strong> không?</p>
+                       <p>Giá: <span class="medicinePrice"></span></p>
+                       <label for="quantity">Số lượng:</label>
+                       <input type="number" id="quantity{{ medicine['MedicineID'] }}" name="quantity" min="1" value="1">
+                      </div>
+               
+                     <!-- Modal Footer -->
+                     <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                       <button type="button" class="btn btn-primary" onclick="confirmOrder()">Xác nhận</button>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               
 
-
-
-                <div class="modal fade" id="modalDefault{{ medicine['MedicineID'] }}" tabindex="-1" role="dialog" aria-labelledby="modalDefaultLabel{{ medicine['MedicineID'] }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                  <h5 class="modal-title" id="modalDefaultLabel{{ medicine['MedicineID'] }}">{{ medicine['Name'] }}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <!-- Nội dung chi tiết sản phẩm -->
-                      <p>{{ medicine['Description'] }}</p>
-                    </div>
-                    <div class="modal-footer">
-                      <!-- Thêm vào giỏ hàng -->
-                      <button type="button" class="btn btn-secondary" onclick="addToCart()">Thêm vào giỏ hàng</button>
-                      <!-- Mua ngay -->
-                      <button type="button" class="btn btn-primary" onclick="buyNow()">Mua ngay</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    
               {% endfor %}
 
-              <!-- Add this where you want the modal to appear in your HTML file -->
-          
-            
-            <script>
-              function addToCart() {
-                // TODO: Thêm sản phẩm vào giỏ hàng
-                alert('Sản phẩm đã được thêm vào giỏ hàng.');
-                // Đóng modal
-                $('#modalDefault').modal('hide');
-              }
-            
-              function buyNow() {
-                // TODO: Xử lý mua ngay, có thể chuyển hướng đến trang thanh toán
-                alert('Bạn đã chọn mua ngay sản phẩm.');
-                // Đóng modal
-                $('#modalDefault').modal('hide');
-              }
-            </script>
+
+<!-- Đoạn mã JavaScript để mở modal và xử lý sự kiện nút Xác nhận và Hủy -->
+<!-- Đoạn mã JavaScript -->
+<!-- Đoạn mã JavaScript -->
+<script>
+  // Hàm mở modal
+  function openModal(targetModal, medicineId, medicineName, medicinePrice) {
+    // Hiển thị tên thuốc và giá trong modal
+    $(targetModal).find('.medicineName').text(medicineName);
+    $(targetModal).find('.medicinePrice').text(medicinePrice);
+
+    // Lưu thông tin thuốc trong biến global để sử dụng sau này
+    window.currentMedicine = {
+      id: medicineId,
+      name: medicineName,
+      price: medicinePrice
+    };
+
+    // Đặt giá trị mặc định cho input quantity
+    $(targetModal).find('.quantity-input').val(1);
+
+    // Hiển thị modal
+    $(targetModal).modal('show');
+  }
+
+  // Lắng nghe sự kiện click cho nút mở modal
+  $('.open-modal').click(function () {
+    var targetModal = $(this).data('target');
+    var medicineId = $(this).data('medicine-id');
+    var medicineName = $(this).data('medicine-name');
+    var medicinePrice = $(this).data('medicine-price');
+
+    // Gọi hàm mở modal
+    openModal(targetModal, medicineId, medicineName, medicinePrice);
+  });
+
+  // Hàm xác nhận đặt hàng
+// Hàm xác nhận đặt hàng
+function confirmOrder() {
+
+    // Lấy thông tin thuốc từ biến global
+    var medicineId = window.currentMedicine.id;
+    var medicineName = window.currentMedicine.name;
+    var medicinePrice = window.currentMedicine.price;
+    
+    // Lấy giá trị mới của #quantity
+    var quantity = parseInt($('#quantity' + medicineId).val(), 10);
+    console.log('Data sent to server:', JSON.stringify({
+    medicineId: medicineId,
+    quantity: quantity,
+    price: medicinePrice
+}));
+
+  
+    // Gửi Ajax request đến đường dẫn /dat-thuoc-order với dữ liệu đặt hàng
+    $.ajax({
+        url: '/dat-thuoc-order',
+        method: 'POST',
+        contentType: 'application/json',  // Đảm bảo gửi dữ liệu dưới định dạng JSON
+        data: JSON.stringify({
+        medicineId: medicineId,
+        quantity: quantity,
+        price: medicinePrice
+    }),
+        success: function (response) {
+            // Xử lý phản hồi từ server (nếu cần)
+            console.log('ok', response);
+
+            // Đóng modal sau khi xác nhận
+            $('#modalDefault' + medicineId).modal('hide');
+        },
+        error: function (xhr, status, error) {
+            console.error('Server returned non-success:', xhr.status, error);
+        }
+    });
+
+    // Cập nhật giá trị mặc định của #quantity cho lần sau
+    $('#quantity' + medicineId).val(1);
+}
+
+
+  // Lắng nghe sự kiện click cho nút hủy bỏ trong modal
+  $('.modal-footer .btn-secondary').click(function () {
+    // Đóng modal
+    var medicineId = window.currentMedicine.id;
+    $('#modalDefault' + medicineId).modal('hide');
+  });
+</script>
+
+
+
+
+
+
             </div>
           </div>
           <div class="nk-add-product toggle-slide toggle-slide-right toggle-screen-any" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar="init">
@@ -231,8 +314,6 @@
     </div>
   </div>
 
-  {% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
       $(document).ready(function () {
         // Lắng nghe sự kiện thay đổi trong ô tìm kiếm
@@ -264,5 +345,4 @@
         }
       })
     </script>
-  {% endblock %}
 {% endblock %}

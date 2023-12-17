@@ -6,11 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Request;
 
 class NguonthuController extends AbstractController
 {
     #[Route('/nguonthu', name: 'nguonthu')]
-    public function index(Connection $connection): Response
+    public function index(Connection $connection, Request $request): Response
     {
         $sql = "SELECT SalesInvoices.SalesInvoiceID, SalesInvoices.CustomerID, SalesInvoices.Date, SalesInvoices.IncomeType, 
         FORMAT(SalesInvoices.Amount, 2) AS Amount, Customers.Name
@@ -19,6 +20,12 @@ class NguonthuController extends AbstractController
  ";
 
 $result = $connection->executeQuery($sql)->fetchAllAssociative();
+$month = $request->query->get('month');
+$year = $request->query->get('year');
+
+// Gán giá trị mặc định nếu tháng và năm không có giá trị
+$month = $month ?: date('n');  // Sử dụng tháng hiện tại nếu không có giá trị
+$year = $year ?: date('Y');    // Sử dụng năm hiện tại nếu không có giá trị
 
 
 

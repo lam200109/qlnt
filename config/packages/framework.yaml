@@ -1,4 +1,6 @@
 framework:
+    mailer:
+        dsn: 'smtp://localhost'
     router:
         default_uri: 'dang_nhap'
     annotations: true

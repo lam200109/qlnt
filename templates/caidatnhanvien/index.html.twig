@@ -116,19 +116,13 @@
                     <div class="card-inner p-0">
                       <ul class="link-list-menu">
                         <li>
-                          <a href="{{ path('cai_dat') }}">
-                            <em class="icon ni ni-setting-alt-fill"></em>
-                            <span>Cài đặt chung</span>
-                          </a>
-                        </li>
-                        <li>
                           <a class="active" href="{{ path('cai_dat_nhan_vien') }}">
                             <em class="icon ni ni-account-setting"></em>
-                            <span>Nhân viên</span>
+                            <span>Cấp quyền</span>
                           </a>
                         </li>
                         <li>
-                          <a href="/demo7/pharmacy/email-settings.html">
+                          <a href="{{ path('email') }}">
                             <em class="icon ni ni-lock-alt-fill"></em>
                             <span>E-mail</span>
                           </a>
@@ -140,9 +134,9 @@
                           </a>
                         </li>
                         <li>
-                          <a href="/demo7/pharmacy/account-log.html">
+                          <a href="{{ path('nhan_vien') }}">
                             <em class="icon ni ni-activity-round-fill"></em>
-                            <span>Account activity</span>
+                            <span>Nhân viên</span>
                           </a>
                         </li>
                       </ul>

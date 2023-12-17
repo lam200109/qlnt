@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
@@ -10,42 +11,49 @@ use Doctrine\DBAL\Connection;
 class ChiphiController extends AbstractController
 {
     #[Route('/chiphi', name: 'chiphi')]
-    public function index(Connection $connection): Response
+    public function index(Request $request, Connection $connection): Response
     {
-        // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 1 cho tháng hiện tại
-        $sqlTotalEarningsPaid = "SELECT SUM(TotalEarnings) AS TotalEarningsPaid FROM Salary WHERE PaymentStatus = 1 AND DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')";
-        $totalEarningsPaid = $connection->executeQuery($sqlTotalEarningsPaid)->fetchOne();
+        // Lấy tháng và năm từ dữ liệu nhập liệu của người dùng
+        $month = $request->query->get('month');
+        $year = $request->query->get('year');
 
-        // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 0 cho tháng hiện tại
-        $sqlTotalEarningsNotPaid = "SELECT SUM(TotalEarnings) AS TotalEarningsNotPaid FROM Salary WHERE PaymentStatus = 0 AND DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')";
-        $totalEarningsNotPaid = $connection->executeQuery($sqlTotalEarningsNotPaid)->fetchOne();
+        // Gán giá trị mặc định nếu tháng và năm không có giá trị
+        $month = $month ?: date('n');  // Sử dụng tháng hiện tại nếu không có giá trị
+        $year = $year ?: date('Y');    // Sử dụng năm hiện tại nếu không có giá trị
+
+        // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 1 cho tháng và năm đã chọn
+        $sqlTotalEarningsPaid = "SELECT SUM(TotalEarnings) AS TotalEarningsPaid FROM Salary WHERE PaymentStatus = 1 AND MONTH(Date) = :month AND YEAR(Date) = :year";
+        $totalEarningsPaid = $connection->executeQuery($sqlTotalEarningsPaid, ['month' => $month, 'year' => $year])->fetchOne();
+
+        // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 0 cho tháng và năm đã chọn
+        $sqlTotalEarningsNotPaid = "SELECT SUM(TotalEarnings) AS TotalEarningsNotPaid FROM Salary WHERE PaymentStatus = 0 AND MONTH(Date) = :month AND YEAR(Date) = :year";
+        $totalEarningsNotPaid = $connection->executeQuery($sqlTotalEarningsNotPaid, ['month' => $month, 'year' => $year])->fetchOne();
 
         // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 1 cho tháng trước
-        $sqlTotalEarningsPaidLastMonth = "SELECT SUM(TotalEarnings) AS TotalEarningsPaidLastMonth FROM Salary WHERE PaymentStatus = 1 AND DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%Y-%m')";
-        $totalEarningsPaidLastMonth = $connection->executeQuery($sqlTotalEarningsPaidLastMonth)->fetchOne();
+        $sqlTotalEarningsPaidLastMonth = "SELECT SUM(TotalEarnings) AS TotalEarningsPaidLastMonth FROM Salary WHERE PaymentStatus = 1 AND MONTH(Date) = :lastMonth AND YEAR(Date) = :year";
+        $totalEarningsPaidLastMonth = $connection->executeQuery($sqlTotalEarningsPaidLastMonth, ['lastMonth' => $month - 1, 'year' => $year])->fetchOne();
 
         // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 0 cho tháng trước
-        $sqlTotalEarningsNotPaidLastMonth = "SELECT SUM(TotalEarnings) AS TotalEarningsNotPaidLastMonth FROM Salary WHERE PaymentStatus = 0 AND DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%Y-%m')";
-        $totalEarningsNotPaidLastMonth = $connection->executeQuery($sqlTotalEarningsNotPaidLastMonth)->fetchOne();
+        $sqlTotalEarningsNotPaidLastMonth = "SELECT SUM(TotalEarnings) AS TotalEarningsNotPaidLastMonth FROM Salary WHERE PaymentStatus = 0 AND MONTH(Date) = :lastMonth AND YEAR(Date) = :year";
+        $totalEarningsNotPaidLastMonth = $connection->executeQuery($sqlTotalEarningsNotPaidLastMonth, ['lastMonth' => $month - 1, 'year' => $year])->fetchOne();
 
+        // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng và năm đã chọn
+        $sqlTotalExpenseThisMonth = "SELECT SUM(Amount) AS TotalExpenseThisMonth FROM PurchaseInvoices WHERE MONTH(Date) = :month AND YEAR(Date) = :year";
+        $totalExpenseThisMonth = $connection->executeQuery($sqlTotalExpenseThisMonth, ['month' => $month, 'year' => $year])->fetchOne();
 
-           // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng hiện tại
-           $sqlTotalExpenseThisMonth = "SELECT SUM(Amount) AS TotalExpenseThisMonth FROM PurchaseInvoices WHERE DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')";
-           $totalExpenseThisMonth = $connection->executeQuery($sqlTotalExpenseThisMonth)->fetchOne();
-   
-           // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng trước
-           $sqlTotalExpenseLastMonth = "SELECT SUM(Amount) AS TotalExpenseLastMonth FROM PurchaseInvoices WHERE DATE_FORMAT(Date, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%Y-%m')";
-           $totalExpenseLastMonth = $connection->executeQuery($sqlTotalExpenseLastMonth)->fetchOne();
-   
-           // Tính toán % so với tháng trước
-           $percentageExpenseChange = 0;
-           if ($totalExpenseLastMonth != 0) {
-               $percentageExpenseChange = (($totalExpenseThisMonth - $totalExpenseLastMonth) / $totalExpenseLastMonth) * 100;
-           }
-   
-           // Round the percentage to 2 decimal places
-           $percentageExpenseChange = round($percentageExpenseChange, 2);
-   
+        // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng trước và năm đã chọn
+        $sqlTotalExpenseLastMonth = "SELECT SUM(Amount) AS TotalExpenseLastMonth FROM PurchaseInvoices WHERE MONTH(Date) = :lastMonth AND YEAR(Date) = :year";
+        $totalExpenseLastMonth = $connection->executeQuery($sqlTotalExpenseLastMonth, ['lastMonth' => $month - 1, 'year' => $year])->fetchOne();
+
+        // Tính toán % so với tháng trước
+        $percentageExpenseChange = 0;
+        if ($totalExpenseLastMonth != 0) {
+            $percentageExpenseChange = (($totalExpenseThisMonth - $totalExpenseLastMonth) / $totalExpenseLastMonth) * 100;
+        }
+
+        // Round the percentage to 2 decimal places
+        $percentageExpenseChange = round($percentageExpenseChange, 2);
+
         // Tính toán % so với tháng trước
         $percentageChange = 0;
         if ($totalEarningsPaidLastMonth != 0) {
@@ -55,13 +63,14 @@ class ChiphiController extends AbstractController
         // Round the percentage to 2 decimal places
         $percentageChange = round($percentageChange, 2);
 
-        // Truy vấn thông tin chi phí từ bảng PurchaseInvoices và Distributors
+        // Truy vấn thông tin chi phí từ bảng PurchaseInvoices và Distributors cho tháng và năm đã chọn
         $sqlChiphi = "SELECT PurchaseInvoices.PurchaseInvoiceID, PurchaseInvoices.DistributorID, 
             PurchaseInvoices.Date, PurchaseInvoices.ExpenseType, 
             FORMAT(PurchaseInvoices.Amount, 2) AS Amount, Distributors.DistributorName
             FROM PurchaseInvoices
-            JOIN Distributors ON PurchaseInvoices.DistributorID = Distributors.DistributorID";
-        $result = $connection->executeQuery($sqlChiphi)->fetchAllAssociative();
+            JOIN Distributors ON PurchaseInvoices.DistributorID = Distributors.DistributorID
+            WHERE MONTH(PurchaseInvoices.Date) = :month AND YEAR(PurchaseInvoices.Date) = :year";
+        $result = $connection->executeQuery($sqlChiphi, ['month' => $month, 'year' => $year])->fetchAllAssociative();
 
         return $this->render('chiphi/index.html.twig', [
             'controller_name' => 'ChiphiController',

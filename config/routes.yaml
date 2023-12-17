@@ -23,6 +23,10 @@ them_khach_hang:
 them_khach_hang_momo:
     path: /them-khach-hang-momo
     controller: App\Controller\ThemkhachhangController::momopayment
+
+them_khach_hang_vnpay:
+    path: /them-khach-hang-vnpay
+    controller: App\Controller\ThemkhachhangController::vnpay
     
 search_medicine:
     path: /search-medicine
@@ -90,13 +94,6 @@ so_ke_toan_san_xuat:
     path: /so-ke-toan-san-xuat
     controller: App\Controller\SoketoansanxuatController::index
 
-danh_sach_nhan_vien:
-    path: /danh-sach-nhan-vien
-    controller: App\Controller\DanhsachnhanvienController::index
-
-thong_tin_nhan_vien:
-    path: /thong-tin-nhan-vien/{id}
-    controller: App\Controller\ThongtinnhanvienController::index
 
 cham_cong:
     path: /cham-cong
@@ -172,8 +169,23 @@ don_dat_hang:
     controller: App\Controller\DondathangController::index
 
 chi_tiet_don_dat_hang:
-    path: /don-dat-hang/{id}
+    path: /chi-tiet-don-dat-hang/{id}
     controller: App\Controller\DondathangController::chitietdondathang
+
+xac_nhan_don_dat_hang:
+    path: /xac-nhan-don-dat-hang
+    controller: App\Controller\DondathangController::acceptDondathang
+    methods: ['GET', 'POST']
+
+danh_sach_nhan_vien:
+    path: /danh-sach-nhan-vien
+    controller: App\Controller\DanhsachnhanvienController::index
+
+thong_tin_nhan_vien:
+    path: /thong-tin-nhan-vien/{id}
+    controller: App\Controller\ThongtinnhanvienController::index
+
+
     
 add_permission:
     path: /add_permission
@@ -196,3 +208,15 @@ delete_medicine:
     path: /danh-sach-thuoc/medicine/delete/{id}
     controller: 'App\Controller\DanhsachthuocController::deleteMedicine'
     methods: ['GET', 'DELETE']
+
+nhan_vien:
+    path: /nhan-vien
+    controller: App\Controller\NhanvienController::index
+
+
+email:
+    path: /email
+    controller: App\Controller\EmailController::index
+
+
+

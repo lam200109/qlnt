@@ -1,167 +1,196 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Báo cáo mua hàng{% endblock %}
+{% block title %}
+  Báo cáo mua hàng
+{% endblock %}
 
 {% block body %}
-<div class="nk-content ">
+  <div class="nk-content">
     <div class="container-fluid">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-                <div class="nk-block-head nk-block-head-sm">
-                    <div class="nk-block-between g-3">
-                        <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Báo cáo mua hàng</h3>
-                        </div>
-                        <div class="nk-block-head-content">
-                            <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-icon btn-primary d-md-none">
-                                <em class="icon ni ni-plus"></em>
-                            </a>
-                            <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-primary d-none d-md-inline-flex">
-                                <em class="icon ni ni-plus"></em>
-                                <span>Add Purchase</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="nk-block">
-                    <div class="card card-bordered card-stretch">
-                        <div class="card-inner-group">
-                            <div class="card-inner position-relative card-tools-toggle">
-                                <div class="card-title-group">
-                                    <div class="card-tools">
-                                        <div class="form-control-wrap">
-                                            <div class="input-daterange date-picker-range input-group">
-                                                <input type="text" class="form-control" placeholder="Start Date"/>
-                                                <div class="input-group-addon">TO</div>
-                                                <input type="text" class="form-control" placeholder="End Date"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-tools me-n1">
-                                        <ul class="btn-toolbar gx-1">
-                                            <li>
-                                                <a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search">
-                                                    <em class="icon ni ni-search"></em>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-search search-wrap" data-search="search">
-                                        <div class="card-body">
-                                            <div class="search-content">
-                                                <a href="#" class="search-back btn btn-icon toggle-search" data-target="search">
-                                                    <em class="icon ni ni-arrow-left"></em>
-                                                </a>
-                                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name">
-                                                <button class="search-submit btn btn-icon">
-                                                    <em class="icon ni ni-search"></em>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-search search-wrap" data-search="search">
-                                    <div class="card-body">
-                                        <div class="search-content">
-                                            <a href="#" class="search-back btn btn-icon toggle-search" data-target="search">
-                                                <em class="icon ni ni-arrow-left"></em>
-                                            </a>
-                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name">
-                                            <button class="search-submit btn btn-icon">
-                                                <em class="icon ni ni-search"></em>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner p-0">
-                                <div class="nk-tb-list nk-tb-ulist">
-                                    <div class="nk-tb-item nk-tb-head">
-                                        <div class="nk-tb-col nk-tb-col-check">
-                                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                <input type="checkbox" class="custom-control-input" id="uid">
-                                                <label class="custom-control-label" for="uid"></label>
-                                            </div>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span>Số hoá đơn</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-mb">
-                                            <span class="sub-text">Tên nhà sản xuất</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <span class="sub-text">Ghi chú</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-lg">
-                                            <span class="sub-text">Ngày</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span>Tổng tiền</span>
-                                        </div>
-                                    </div>
-                                    {% for purchaseInvoice in purchaseInvoices %}
-                                    <div class="nk-tb-item">
-                                        <div class="nk-tb-col nk-tb-col-check">
-                                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                <input type="checkbox" class="custom-control-input" id="uid1">
-                                                <label class="custom-control-label" for="uid1"></label>
-                                            </div>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="tb-odr-id">
-                                                <a href="/demo7/pharmacy/invoice-details.html">#{{ purchaseInvoice.PurchaseInvoiceID }}</a>
-                                            </span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-mb">
-                                            <span class="fw-medium">#{{ purchaseInvoice.DistributorName }}</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <span>{{ purchaseInvoice.Note }}</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-lg">
-                                            <span>{{ purchaseInvoice.Date|date("d/m/Y") }}</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="tb-amount">
-                                                {{ purchaseInvoice.Amount }} <span class="currency">VNĐ</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="card-inner">
-                                <ul class="pagination justify-content-center justify-content-md-start">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Prev</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <span class="page-link">
-                                            <em class="icon ni ni-more-h"></em>
-                                        </span>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">6</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">7</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="nk-content-inner">
+        <div class="nk-content-body">
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between g-3">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Báo cáo mua hàng</h3>
+              </div>
+              <div class="nk-block-head-content">
+                <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-primary d-none d-md-inline-flex">
+                  <em class="icon ni ni-plus"></em>
+                  <span>Add Purchase</span>
+                </a>
+              </div>
             </div>
+          </div>
+          <div class="nk-block">
+            <div class="card card-bordered card-stretch">
+              <div class="col-xxl-6 col-md-6">
+                <div class="card h-100">
+                  <div class="nk-ecwg nk-ecwg1">
+                    <div class="card-inner">
+                      <div class="card-title-group">
+                        <div class="card-title">
+                          <h6 class="title">Tổng tiền nhập hàng</h6>
+                        </div>
+                        <div class="card-tools">
+                          <a href="#" class="link">View Report</a>
+                        </div>
+                      </div>
+                      <div class="data">
+                        <div class="amount">${{ totalAmount ?? 0 }}</div>
+                        <div class="info">
+                          <strong>${{ lastMonthAmount ?? 0 }}</strong>
+                          in last month
+                        </div>
+                      </div>
+                  
+                    </div>
+                    <div class="nk-ecwg1-ck">
+                      <canvas class="ecommerce-line-chart-s1" id="totalSales"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-inner-group">
+                <div class="card-inner position-relative card-tools-toggle">
+                  <div class="card-title-group">
+                    <form method="get" action="{{ path('baocaomuahang') }}">
+                      <label for="month">Tháng:</label>
+                      <select name="month" id="month">
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
+                      </select>
+
+                      <label for="year">Năm:</label>
+                      <select name="year" id="year">
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <!-- Thêm các năm khác cần thiết -->
+                      </select>
+
+                      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </form>
+                    <div class="card-tools me-n1">
+                      <ul class="btn-toolbar gx-1">
+                        <li>
+                          <a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="card-search search-wrap" data-search="search">
+                      <div class="card-body">
+                        <div class="search-content">
+                          <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                          <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name" />
+                          <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-search search-wrap" data-search="search">
+                    <div class="card-body">
+                      <div class="search-content">
+                        <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                        <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name" />
+                        <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-inner p-0">
+                  <div class="nk-tb-list nk-tb-ulist">
+                    <div class="nk-tb-item nk-tb-head">
+                      <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                          <input type="checkbox" class="custom-control-input" id="uid" />
+                          <label class="custom-control-label" for="uid"></label>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col">
+                        <span>Số hoá đơn</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-mb">
+                        <span class="sub-text">Tên nhà sản xuất</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <span class="sub-text">Ghi chú</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-lg">
+                        <span class="sub-text">Ngày</span>
+                      </div>
+                      <div class="nk-tb-col">
+                        <span>Tổng tiền</span>
+                      </div>
+                    </div>
+                    {% for purchaseInvoice in purchaseInvoices %}
+                      <div class="nk-tb-item">
+                        <div class="nk-tb-col nk-tb-col-check">
+                          <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid1" />
+                            <label class="custom-control-label" for="uid1"></label>
+                          </div>
+                        </div>
+                        <div class="nk-tb-col">
+                          <span class="tb-odr-id"><a href="/demo7/pharmacy/invoice-details.html">#{{ purchaseInvoice.PurchaseInvoiceID }}</a></span>
+                        </div>
+                        <div class="nk-tb-col tb-col-mb">
+                          <span class="fw-medium">#{{ purchaseInvoice.DistributorName }}</span>
+                        </div>
+                        <div class="nk-tb-col tb-col-md">
+                          <span>{{ purchaseInvoice.Note }}</span>
+                        </div>
+                        <div class="nk-tb-col tb-col-lg">
+                          <span>{{ purchaseInvoice.Date|date('d/m/Y') }}</span>
+                        </div>
+                        <div class="nk-tb-col">
+                          <span class="tb-amount">{{ purchaseInvoice.Amount }} <span class="currency">VNĐ</span></span>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="card-inner">
+                  <ul class="pagination justify-content-center justify-content-md-start">
+                    <li class="page-item">
+                      <a class="page-link" href="#">Prev</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                      <span class="page-link"><em class="icon ni ni-more-h"></em></span>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">6</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">7</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}

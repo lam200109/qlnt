@@ -73,30 +73,7 @@
                                             <h6 class="title">Thuốc bán chạy nhất</h6>
                                             <p>Trong 30 ngày gần đây</p>
                                         </div>
-                                        <div class="card-tools mt-n1 me-n1">
-                                            <div class="drodown">
-                                                <a href="#" class="dropdown-toggle dropdown-indicator btn btn-sm btn-outline-light btn-white" data-bs-toggle="dropdown">30 Days</a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-opt no-bdr">
-                                                        <li>
-                                                            <a href="#">
-                                                                <span>7 Days</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <span>15 Days</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <span>30 Days</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                  
                                     </div>
                                     <div class="progress-list gy-3">
                                         <div class="progress-wrap">
@@ -118,15 +95,33 @@
                                     <div class="card-inner-group">
                                         <div class="card-inner position-relative card-tools-toggle">
                                             <div class="card-title-group">
-                                                <div class="card-tools">
-                                                    <div class="form-control-wrap">
-                                                        <div class="input-daterange date-picker-range input-group">
-                                                            <input type="text" class="form-control" placeholder="Start Date"/>
-                                                            <div class="input-group-addon">TO</div>
-                                                            <input type="text" class="form-control" placeholder="End Date"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <form method="get" action="{{ path('baocaobanhang') }}">
+                                        <label for="month">Tháng:</label>
+                                        <select name="month" id="month">
+                                            <option value="1">Tháng 1</option>
+                                            <option value="2">Tháng 2</option>
+                                            <option value="3">Tháng 3</option>
+                                            <option value="4">Tháng 4</option>
+                                            <option value="5">Tháng 5</option>
+                                            <option value="6">Tháng 6</option>
+                                            <option value="7">Tháng 7</option>
+                                            <option value="8">Tháng 8</option>
+                                            <option value="9">Tháng 9</option>
+                                            <option value="10">Tháng 10</option>
+                                            <option value="11">Tháng 11</option>
+                                            <option value="12">Tháng 12</option>
+                                        </select>
+                                    
+                                        <label for="year">Năm:</label>
+                                        <select name="year" id="year">
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <!-- Thêm các năm khác cần thiết -->
+                                        </select>
+                                    
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    </form>
                                                 <div class="card-tools me-n1">
                                                     <ul class="btn-toolbar gx-1">
                                                         <li>

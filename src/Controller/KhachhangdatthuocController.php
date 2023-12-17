@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Request;
 
 class KhachhangdatthuocController extends AbstractController
 {
@@ -57,17 +58,14 @@ class KhachhangdatthuocController extends AbstractController
     
 
     #[Route('/khach-hang-dat-thuoc/{id}', name: 'app_chitietkhachhangdatthuoc')]
-    public function chitietkhachhangdatthuoc($id, SessionInterface $session): Response
+    public function chitietkhachhangdatthuoc($id, SessionInterface $session, Request $request): Response
     {
         $session->start();
     
         $customerId = $session->get('customer_id');
     
-        // Kiểm tra xem $customerId và $id có khớp không
-        if ($customerId != $id) {
-            throw $this->createNotFoundException('Không có quyền truy cập chi tiết của khách hàng có ID ' . $id);
-        }
-    
+        $id = $request->get('id');
+
         // Thực hiện truy vấn để lấy thông tin chi tiết của khách hàng và đơn hàng
         $query = "
             SELECT c.*, si.*, sid.*, m.*
@@ -75,14 +73,14 @@ class KhachhangdatthuocController extends AbstractController
             LEFT JOIN salesinvoices si ON c.CustomerID = si.CustomerID
             LEFT JOIN salesinvoicedetails sid ON si.SalesInvoiceID = sid.SalesInvoiceID
             LEFT JOIN medicines m ON sid.MedicineID = m.MedicineID
-            WHERE c.CustomerID = :customerId
+            WHERE c.CustomerID = :customerId AND si.SalesInvoiceID = :id
         ";
 
         $query1 = "
             SELECT * FROM Customers WHERE CustomerID = :customerId
         ";
-    
-        $result = $this->dbalConnection->executeQuery($query, ['customerId' => $customerId])->fetchAllAssociative();
+        $result = $this->dbalConnection->executeQuery($query, ['customerId' => $customerId, 'id' => $id])->fetchAllAssociative();
+
         $result1 = $this->dbalConnection->executeQuery($query1, ['customerId' => $customerId])->fetchAllAssociative();
 
         if (!$result) {
