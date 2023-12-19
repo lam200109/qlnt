@@ -38,24 +38,31 @@ class EmailController extends AbstractController
 
 
     #[Route('/send-email', name: 'send_email', methods: ['POST'])]
-    public function sendEmail(Request $request): Response
+    public function sendEmail(Request $request, MailerInterface $mailer): Response
     {
-        // Lấy dữ liệu từ form
-        $recipientEmail = $request->request->get('recipient_email');
-        $content = $request->request->get('email_content');
-
-        // Tạo một đối tượng Email
-        $email = (new Email())
-            ->from('lam200109@gmail.com')
-            ->to($recipientEmail)
-            ->subject('Test email')
-            ->text($content);
-
-        // Gửi email
-        $this->mailer->send($email);
-
-        // Chuyển hướng hoặc hiển thị thông báo thành công
-        $this->addFlash('success', 'Email sent successfully!');
-        return $this->redirectToRoute('email');
-    }
+         // Lấy dữ liệu từ form
+         $recipientEmail = $request->request->get('recipient_email');
+         $emailContent = $request->request->get('email_content');
+ 
+         // Kiểm tra xem có địa chỉ email và nội dung email hay không
+         if ($recipientEmail && $emailContent) {
+             // Tạo một đối tượng Email
+             $email = (new Email())
+                 ->from($_ENV['MAILER_FROM'])
+                 ->to($recipientEmail)
+                 ->subject('Subject of the email')
+                 ->html($emailContent);
+ 
+             // Gửi email
+             $mailer->send($email);
+ 
+             // Thêm thông báo flash hoặc xử lý khác nếu cần
+             $this->addFlash('success', 'Email has been sent successfully!');
+         } else {
+             // Thông báo lỗi nếu địa chỉ email hoặc nội dung email không được nhập
+             $this->addFlash('error', 'Please enter both email address and email content.');
+         }
+ 
+         return $this->redirectToRoute('email');
+     }
 }

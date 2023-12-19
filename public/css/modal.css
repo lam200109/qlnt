@@ -20,6 +20,7 @@
     padding: 20px;
     border: 1px solid #ddd; /* Màu đen nhạt hơn */
     max-width: 50%; /* Thay đổi max-width từ width thành max-width */
+    max-width: 4200px;
 }
 
 /* Thêm margin-top cho nút "Lưu" và nút "Hủy" */

@@ -24,7 +24,13 @@
 
 
                                             <form method="post" action="{{ path('them_thuoc_moi') }}" enctype="multipart/form-data">
-
+                                            <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Hình ảnh</label>
+                                                <input type="file" class="form-control" name="imageFile">
+                                            </div>
+                                        </div>
+                                        
                                                 <div class="row gy-4">
                                                     <div class="col-xxl-3 col-md-4">
                                                         <div class="form-group">
@@ -127,6 +133,7 @@
                                                     <a href="{{ path('download_excel_template') }}" class="btn btn-success" download="Dulieumau.xlsx">Tải về dữ liệu mẫu</a>
                                                 </div>
                                                 </div>
+                                                
 
                                             </form>
 

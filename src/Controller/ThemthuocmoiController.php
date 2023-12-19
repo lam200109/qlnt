@@ -68,13 +68,13 @@ class ThemthuocmoiController extends AbstractController
         $instock = 0;
         $manufacturer_price = floatval($manufacturer_price);
         $formatted_date = date('Y-m-d', strtotime($expiration_date));
-
+    
         // Kiểm tra xem ít nhất một trường dữ liệu đã được nhập
         if ($name || $generic || $SKU || $concentration || $category || $manufacturer_price || $expiration_date || $status || $description) {
             // Thực hiện xử lý dữ liệu, ví dụ: lưu vào cơ sở dữ liệu
             $sql = "
-                INSERT INTO Medicines (Name, GenericName, SKU, Concentration, Category, Price, ManufacturerPrice, InStock, ExpirationDate, Status, Description)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO Medicines (Name, GenericName, SKU, Concentration, Category, Price, ManufacturerPrice, InStock, ExpirationDate, Description)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ";
     
             $connection->executeQuery($sql, [
@@ -87,16 +87,26 @@ class ThemthuocmoiController extends AbstractController
                 $manufacturer_price,
                 $instock,
                 $formatted_date,
-                $status,
                 $description,
             ]);
     
             // Lấy giá trị của MedicineID vừa được chèn
             $lastInsertedId = $connection->lastInsertId();
     
-            // Cập nhật MedicineID
-            $sqlUpdateMedicineID = "UPDATE Medicines SET MedicineID = ? WHERE MedicineID = ?";
-            $connection->executeQuery($sqlUpdateMedicineID, [$lastInsertedId, $lastInsertedId]);
+            // Xử lý tải lên hình ảnh
+            $imageFile = $request->files->get('imageFile');
+            $yourImageUploadDirectory = '/Users/nguyenlam/Documents/Symfony/qlnt/public/images';
+
+            if ($imageFile instanceof UploadedFile) {
+                // Xử lý file ảnh ở đây, ví dụ lưu vào thư mục và lưu đường dẫn vào cơ sở dữ liệu
+                $imageFileName = md5(uniqid()) . '.' . $imageFile->guessExtension();
+                $imageFile->move($yourImageUploadDirectory, $imageFileName);
+                $imagePath = '/images/' . $imageFileName;
+
+                // Lưu đường dẫn vào cơ sở dữ liệu
+                $sqlUpdateImage = "UPDATE Medicines SET Image = ? WHERE MedicineID = ?";
+                $connection->executeQuery($sqlUpdateImage, [$imagePath, $lastInsertedId]);
+            }
     
             // Thêm flash message
             $this->addFlash('success', 'Thuốc từ form đã được thêm thành công!');
@@ -105,6 +115,7 @@ class ThemthuocmoiController extends AbstractController
             $this->addFlash('warning', 'Ít nhất một trường dữ liệu cần được nhập từ form hoặc file Excel.');
         }
     }
+    
     
 
     /**

@@ -213,6 +213,9 @@ nhan_vien:
     path: /nhan-vien
     controller: App\Controller\NhanvienController::index
 
+xoa_nhan_vien:
+    path: /nhan-vien
+    controller: App\Controller\NhanvienController::xoaNhanvien
 
 email:
     path: /email

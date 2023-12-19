@@ -40,10 +40,12 @@ security:
             # ...
 
     access_control:
-        - { path: ^/them-khach-hang, roles: ['BanThuocAccess', 'AdminAccess'] }
-        - { path: ^/trang-quan-ly-khach-hang, roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
-        - { path: ^/nguon-thu, roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
-        - { path: ^/(nhap-thuoc|them-thuoc-moi), roles: ['NhapHangAccess', 'AdminAccess'] }
+        - { path: ^/(them-khach-hang|don-dat-hang|danh-sach-thuoc|chi-tiet-thuoc), roles: ['BanThuocAccess', 'AdminAccess'] }
+        - { path: ^/(danh-sach-khach-hang|don-dat-online), roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
+        - { path: ^/(chi-phi|nguon-thu|chi-tiet-hoa-don|danh-sach-nhan-vien|thong-tin-nhan-vien|cham-cong), roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
+        - { path: ^/(bao-cao-ban-hang|bao-cao-mua-hang|bao-cao-ton-kho|nhap-thuoc|them-thuoc-moi|chi-tiet-thuoc), roles: ['NhapHangAccess', 'AdminAccess'] }
+        - { path: ^/cai-dat-nhan-vien, roles: AdminAccess }
+
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

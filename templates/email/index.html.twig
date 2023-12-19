@@ -24,96 +24,98 @@
                     </div>
                   </div>
                   <div class="nk-block">
-                  <form action="{{ path('send_email') }}" method="post" class="gy-3 form-settings">
-   <div class="row g-3 align-center">
-      <div class="col-lg-5">
-         <div class="form-group">
-            <label class="form-label" for="recipient_email">Email</label>
-            <span class="form-note">Specify the email of your hospital.</span>
-         </div>
-      </div>
-      <div class="col-lg-7">
-         <div class="form-group">
-            <div class="form-control-wrap">
-            <select class="form-select js-select2" data-placeholder="You Can Select Multiple Users">
-            {% for user in result %}
-            <option value="{{ user.Email }}">{{ user.Email }}</option>
-            {% endfor %}
-        </select>
-            </div>
-         </div>
-      </div>
-   </div>
+                    <form action="{{ path('send_email') }}" method="post" class="gy-3 form-settings">
+                      <div class="row g-3 align-center">
+                        <div class="col-lg-5">
+                          <div class="form-group">
+                            <label class="form-label" for="recipient_email">Email</label>
+                            <span class="form-note">Specify the email of your hospital.</span>
+                          </div>
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="form-group">
+                            <div class="form-control-wrap">
+                              <select class="form-select js-select2" name="recipient_email" data-placeholder="You Can Select Multiple Users">
+                                {% for user in result %}
+                                  <option value="{{ user.Email }}">{{ user.Email }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-   <div class="row g-3 align-center">
-      <div class="col-lg-5">
-         <div class="form-group">
-            <label class="form-label">Nội dung</label>
-            <span class="form-note">Specify the content of your hospital email.</span>
-         </div>
-      </div>
-      <div class="col-lg-7">
-         <div class="form-group">
-            <div class="form-control-wrap">
-               <textarea class="form-control" name="email_content" required></textarea>
-            </div>
-         </div>
-      </div>
-   </div>
+                      <div class="row g-3 align-center">
+                        <div class="col-lg-5">
+                          <div class="form-group">
+                            <label class="form-label">Nội dung</label>
+                            <span class="form-note">Specify the content of your hospital email.</span>
+                          </div>
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="form-group">
+                            <div class="form-control-wrap">
+                              <textarea class="form-control" name="email_content" required></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-   <div class="row g-3">
-      <div class="col-lg-7">
-         <div class="form-group mt-2">
-            <button type="submit" class="btn btn-lg btn-primary">Update</button>
-         </div>
-      </div>
-   </div>
-</form>
-{% if success_message is defined %}
-    <div class="alert alert-success">
-        {{ success_message }}
-    </div>
-{% endif %}
+                      <div class="row g-3">
+                        <div class="col-lg-7">
+                          <div class="form-group mt-2">
+                            <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    {% for flash_message in app.flashes('success') %}
+                  <div class="alert alert-success">{{ flash_message }}</div>
+              {% endfor %}
+              
+              {% for flash_message in app.flashes('error') %}
+                  <div class="alert alert-danger">{{ flash_message }}</div>
+              {% endfor %}
                   </div>
                 </div>
                 <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
-                <div class="card-inner-group" data-simplebar>
-                  <div class="card-inner">
-                    <h3 class="nk-block-title page-title">Cài đặt</h3>
-                    <div class="nk-block-des text-soft">
-                      <p>Tại đây bạn có thể thay đổi và chỉnh sửa nhu cầu của mình</p>
+                  <div class="card-inner-group" data-simplebar>
+                    <div class="card-inner">
+                      <h3 class="nk-block-title page-title">Cài đặt</h3>
+                      <div class="nk-block-des text-soft">
+                        <p>Tại đây bạn có thể thay đổi và chỉnh sửa nhu cầu của mình</p>
+                      </div>
+                    </div>
+                    <div class="card-inner p-0">
+                      <ul class="link-list-menu">
+                        <li>
+                          <a class="active" href="{{ path('cai_dat_nhan_vien') }}">
+                            <em class="icon ni ni-account-setting"></em>
+                            <span>Cấp quyền</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('email') }}">
+                            <em class="icon ni ni-lock-alt-fill"></em>
+                            <span>E-mail</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/demo7/pharmacy/security-settings.html">
+                            <em class="icon ni ni-shield-star-fill"></em>
+                            <span>Security</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('nhan_vien') }}">
+                            <em class="icon ni ni-activity-round-fill"></em>
+                            <span>Nhân viên</span>
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-                  <div class="card-inner p-0">
-                    <ul class="link-list-menu">
-                      <li>
-                        <a class="active" href="{{ path('cai_dat_nhan_vien') }}">
-                          <em class="icon ni ni-account-setting"></em>
-                          <span>Cấp quyền</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="{{ path('email') }}">
-                          <em class="icon ni ni-lock-alt-fill"></em>
-                          <span>E-mail</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/demo7/pharmacy/security-settings.html">
-                          <em class="icon ni ni-shield-star-fill"></em>
-                          <span>Security</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="{{ path('nhan_vien') }}">
-                          <em class="icon ni ni-activity-round-fill"></em>
-                          <span>Nhân viên</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>

@@ -31,7 +31,7 @@
                         <div class="col-md-6">
                           <label class="form-label">Chọn nhân viên</label>
                           <div class="form-control-wrap">
-                            <select class="form-select js-select2" data-placeholder="You Can Select Multiple Users">
+                            <select class="form-select js-select2" name="user_id" data-placeholder="You Can Select Multiple Users">
                               {% for user in result %}
                                 <option value="{{ user.UserID }}">{{ user.FullName }}</option>
                               {% endfor %}
@@ -39,6 +39,19 @@
                           </div>
                           <span class="form-note text-success mt-1">!</span>
                         </div>
+
+                        <div class="col-md-6">
+                      <label class="form-label">Nhân viên</label>
+                      <div class="form-control-wrap">
+                        <select class="form-select js-select2" name="role_id" data-placeholder="You Can Select Multiple Users">
+                          {% for user in roles %}
+                            <option value="{{ user.RoleID }}">{{ user.RoleName }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <span class="form-note text-success mt-1">!</span>
+                    </div>
+
                         <div class="col-md-6">
                           <label class="form-label">Chọn quyền</label>
                           <div class="form-control-wrap">
@@ -49,7 +62,7 @@
                             </select>
                           </div>
                         </div>
-                      </div>
+                      </div> <br><br><br>
                       <button class="btn btn-primary">Thêm quyền</button>
                       <button type="submit" class="btn btn-danger" formaction="{{ path('delete_permission') }}">Xoá quyền</button>
 
@@ -76,7 +89,7 @@
                             <span class="overline-title">Role</span>
                           </th>
                           <th class="tb-col-time">
-                            <span class="overline-title">Joined on</span>
+                            <span class="overline-title">Permission</span>
                           </th>
                           <th class="tb-col-action">
                             <span class="overline-title">&nbsp;</span>
@@ -91,14 +104,13 @@
                               <span class="sub-text">{{ user.Email }}</span>
                             </td>
                             <td class="tb-col-time">
+                          <span class="sub-text">{{ user.RoleNames }}</span>
+                        </td>
+                            <td class="tb-col-time">
                               <span class="sub-text">{{ user.PermissionNames }}</span>
                             </td>
-                            <td class="tb-col-time">
-                              <span class="badge badge-dim bg-warning">{{ user.CreatedDate|date('d M Y') }}</span>
-                            </td>
-                            <td class="tb-col-action">
-                              <a href="#" class="link-cross me-sm-n1"><em class="icon ni ni-cross"></em></a>
-                            </td>
+                          
+                    
                           </tr>
                         {% endfor %}
                       </tbody>

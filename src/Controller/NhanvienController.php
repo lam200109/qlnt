@@ -19,6 +19,8 @@ class NhanvienController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $fullName = $request->request->get('FullName');
+            $phone = $request->request->get('Phone');
+
             $username = $request->request->get('Username');
             $password = $request->request->get('Password');
             $now = new \DateTime();
@@ -26,15 +28,19 @@ class NhanvienController extends AbstractController
             
             // Thực hiện xử lý dữ liệu, ví dụ: lưu vào cơ sở dữ liệu
             // (Bạn cần thêm logic lưu vào cơ sở dữ liệu tại đây)
-            $sql = "INSERT INTO Users (FullName, Username, Password, CreatedDate) VALUES (:fullName, :username, :password, :createdDate)";
+            $sql = "INSERT INTO Users (FullName, Phone, Username, Password, CreatedDate) VALUES (:fullName, :phpne, :username, :password, :createdDate)";
             $params = [
                 'fullName' => $fullName,
+                'phone' => $phone,
                 'username' => $username,
                 'password' => $password,
                 'createdDate' => $createdDate,
             ];
 
             $connection->executeQuery($sql, $params);
+
+
+
 
             // Hiển thị thông báo thành công hoặc chuyển hướng đến trang khác
             $this->addFlash('success', 'Thêm nhân viên thành công!');
@@ -51,7 +57,8 @@ class NhanvienController extends AbstractController
     #[Route('/nhanvien/delete/{id}', name: 'delete_user')]
     public function deleteUser(Connection $connection, $id): Response
     {
-        // Thực hiện xóa người dùng với ID tương ứng từ cơ sở dữ liệu
+$deleteUserRolesQuery = "DELETE FROM UserRoles WHERE UserID = :id";
+$connection->executeQuery($deleteUserRolesQuery, ['id' => $id]);
         $sql = "DELETE FROM Users WHERE UserID = :id";
         $params = ['id' => $id];
         $connection->executeQuery($sql, $params);
