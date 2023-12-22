@@ -68,7 +68,7 @@
                   </div>
                   <div class="data">
                       <div class="data-group">
-                          <div class="amount">${{ todayIncome | number_format(2) }}</div>
+                          <div class="amount">{{ todayIncome|format_vnd}}</div>
                           <div class="nk-ecwg6-ck">
                               <canvas class="ecommerce-line-chart-s3" id="toDay"></canvas>
                           </div>
@@ -97,7 +97,7 @@
                       </div>
                       <div class="data">
                           <div class="data-group">
-                              <div class="amount">${{ thisWeekIncome | number_format(2) }}</div>
+                              <div class="amount">{{ thisWeekIncome |format_vnd }}</div>
                               <div class="nk-ecwg6-ck">
                                   <canvas class="ecommerce-line-chart-s3" id="thisWeek"></canvas>
                               </div>
@@ -125,7 +125,7 @@
                       </div>
                       <div class="data">
                           <div class="data-group">
-                              <div class="amount">${{ thisMonthIncome | number_format(2) }}</div>
+                              <div class="amount">{{ thisMonthIncome |format_vnd }}</div>
                               <div class="nk-ecwg6-ck">
                                   <canvas class="ecommerce-line-chart-s3" id="thisMonth"></canvas>
                               </div>
@@ -153,7 +153,7 @@
                     </div>
                     <div class="data">
                         <div class="data-group">
-                            <div class="amount">${{ thisYearIncome | number_format(2) }}</div>
+                            <div class="amount">{{ thisYearIncome |format_vnd }}</div>
                             <div class="nk-ecwg6-ck">
                                 <canvas class="ecommerce-line-chart-s3" id="thisYear"></canvas>
                             </div>
@@ -296,12 +296,18 @@
                           <span>{{ row.IncomeType }}</span>
                         </div>
                         <div class="nk-tb-col">
-                          <span class="tb-amount">{{ row.Amount }}</span>
-                        </div>
+                      <span class="tb-amount">{{ row.Amount|format_vnd }}</span>
+                    </div>
                       </div>
                     {% endfor %}
                   </div>
                 </div>
+
+
+
+
+
+                
                 <div class="card-inner">
                   <div class="nk-block-between-md g-3">
                     <div class="g">
@@ -328,7 +334,7 @@
                           <a class="page-link" href="#">Next</a>
                         </li>
                       </ul>
-                    </div>
+                    </div><button id="exportBtn" class="btn btn-primary">Export Excel</button>
                     <div class="g">
                       <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
                         <div>Page</div>
@@ -367,4 +373,32 @@
       </div>
     </div>
   </div>
+
+  <script>
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    exportToExcel();
+  });
+
+  function exportToExcel() {
+    const rows = document.querySelectorAll('.nk-tb-item');
+    const data = [];
+
+    rows.forEach(function(row) {
+      const rowData = [];
+      const columns = row.querySelectorAll('.nk-tb-col');
+
+      columns.forEach(function(column) {
+        rowData.push(column.textContent.trim());
+      });
+
+      data.push(rowData);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'Dữ liệu bán hàng.xlsx');
+  }
+</script>
+
 {% endblock %}

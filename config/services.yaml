@@ -47,6 +47,9 @@ services:
         class: 'App\Security\AuthenticationSuccessHandler'
         arguments: ['@router']
 
+    App\Twig\AppExtension:
+            tags:
+                - { name: twig.extension }
 
     Symfony\Component\Routing\Generator\UrlGeneratorInterface:
         alias: router.default

@@ -28,7 +28,7 @@ class NhanvienController extends AbstractController
             
             // Thực hiện xử lý dữ liệu, ví dụ: lưu vào cơ sở dữ liệu
             // (Bạn cần thêm logic lưu vào cơ sở dữ liệu tại đây)
-            $sql = "INSERT INTO Users (FullName, Phone, Username, Password, CreatedDate) VALUES (:fullName, :phpne, :username, :password, :createdDate)";
+            $sql = "INSERT INTO Users (FullName, Phone, Username, Password, CreatedDate) VALUES (:fullName, :phone, :username, :password, :createdDate)";
             $params = [
                 'fullName' => $fullName,
                 'phone' => $phone,

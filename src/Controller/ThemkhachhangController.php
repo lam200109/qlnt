@@ -57,10 +57,12 @@ class ThemkhachhangController extends AbstractController
             foreach ($prices as $index => $price) {
                 $quantity = $quantities[$index] ?? 0;
                 $total = $price * $quantity;
+                $medicineID = $_POST['MedicineID'][$index] ?? 0;
 
-                $sqlInsertSalesInvoiceDetail = "INSERT INTO SalesInvoiceDetails (SalesInvoiceID, Price, Quantity, Total) VALUES (:salesInvoiceID, :price, :quantity, :total)";
+                $sqlInsertSalesInvoiceDetail = "INSERT INTO SalesInvoiceDetails (SalesInvoiceID, MedicineID, Price, Quantity, Total) VALUES (:salesInvoiceID, :medicineID, :price, :quantity, :total)";
                 $connection->executeStatement($sqlInsertSalesInvoiceDetail, [
                     'salesInvoiceID' => $salesInvoiceID,
+                    'medicineID' => $medicineID,
                     'price' => $price,
                     'quantity' => $quantity,
                     'total' => $total,

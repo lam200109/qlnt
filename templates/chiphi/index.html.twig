@@ -76,7 +76,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">${{ totalExpenseThisMonth | number_format(2) }}</div>
+                                    <div class="amount">{{ totalExpenseThisMonth |format_vnd }}</div>
                                     <div class="nk-ecwg6-ck">
                                         <canvas class="ecommerce-line-chart-s3" id="rents"></canvas>
                                     </div>
@@ -85,12 +85,12 @@
                                     {% if percentageExpenseChange > 0 %}
                                         <span class="change up text-success">
                                             <em class="icon ni ni-arrow-long-up"></em>
-                                            {{ percentageExpenseChange | number_format(2) }}%
+                                            {{ percentageExpenseChange|format_vnd }}%
                                         </span>
                                     {% elseif percentageExpenseChange < 0 %}
                                         <span class="change down text-danger">
                                             <em class="icon ni ni-arrow-long-down"></em>
-                                            {{ percentageExpenseChange | number_format(2) }}%
+                                            {{ percentageExpenseChange|format_vnd }}%
                                         </span>
                                     {% else %}
                                         <span class="change text-primary">0%</span>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="data">
                     <div class="data-group">
-                        <div class="amount">${{ totalEarningsPaid | number_format(2) }}</div>
+                        <div class="amount">{{ totalEarningsPaid|format_vnd }}</div>
                         <div class="nk-ecwg6-ck">
                             <canvas class="ecommerce-line-chart-s3" id="rents"></canvas>
                         </div>
@@ -124,12 +124,12 @@
                         {% if percentageChange > 0 %}
                             <span class="change up text-success">
                                 <em class="icon ni ni-arrow-long-up"></em>
-                                {{ percentageChange | number_format(2) }}%
+                                {{ percentageChange |format_vnd }}%
                             </span>
                         {% elseif percentageChange < 0 %}
                             <span class="change down text-danger">
                                 <em class="icon ni ni-arrow-long-down"></em>
-                                {{ percentageChange | number_format(2) }}%
+                                {{ percentageChange |format_vnd }}%
                             </span>
                         {% else %}
                             <span class="change text-primary">0%</span>
@@ -306,7 +306,7 @@
                                         <span>{{ row.ExpenseType }}</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span class="tb-amount">{{ row.Amount }}</span>
+                                        <span class="tb-amount">{{ row.Amount|format_vnd }}</span>
                                     </div>
                                 </div>
                                  {% endfor %}
@@ -341,7 +341,8 @@
                                             <a class="page-link" href="#">Next</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> <button id="exportExcelBtn" class="btn btn-primary">Export Excel</button>
+
                                 <div class="g">
                                     <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
                                         <div>Page</div>
@@ -380,4 +381,31 @@
     </div>
 </div>
 </div>
+
+<script>
+document.getElementById('exportExcelBtn').addEventListener('click', function() {
+    // Lấy dữ liệu từ trang web
+    var data = [];
+
+    {% for row in result %}
+        var rowData = [
+            "{{ row.PurchaseInvoiceID }}",
+            "{{ row.DistributorName }}",
+            "{{ row.Date }}",
+            "{{ row.ExpenseType }}",
+            "{{ row.Amount|format_vnd }}"
+        ];
+
+        data.push(rowData);
+    {% endfor %}
+
+    // Tạo workbook và worksheet
+    var ws = XLSX.utils.aoa_to_sheet([['PurchaseInvoiceID', 'DistributorName', 'Date', 'ExpenseType', 'Amount']].concat(data));
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'PurchaseInvoices');
+
+    // Xuất file Excel
+    XLSX.writeFile(wb, 'Chi phí.xlsx');
+});
+</script>
 {% endblock %}

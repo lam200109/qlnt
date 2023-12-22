@@ -2,350 +2,325 @@
 
 {% extends 'base.html.twig' %}
 {% block content %}
-    {% set filteredData = attendanceData %}
-    {{ dump(filteredData) }}
-    <!-- Nội dung cụ thể của template con -->
-    <div class="nk-tb-item">
-        <!-- ... -->
-    </div>
+  {% set filteredData = attendanceData %}
+  {{ dump(filteredData) }}
+  <!-- Nội dung cụ thể của template con -->
+  <div class="nk-tb-item">
+    <!-- ... -->
+  </div>
 {% endblock %}
-{% block title %}Chấm công{% endblock %}
+{% block title %}
+  Chấm công
+{% endblock %}
 
 {% block body %}
-<div class="nk-content ">
-                        <div class="container-fluid">
-                            <div class="nk-content-inner">
-                                <div class="nk-content-body">
-                                    <div class="nk-block-head nk-block-head-sm">
-                                        <div class="nk-block-between">
-                                            <div class="nk-block-head-content">
-                                                <h3 class="nk-block-title page-title">Chấm công</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-block">
-                                        <div class="row gy-5">
-                                            <div class="col-lg-12">
-                                                <div class="nk-block-head">
-                                                    <div class="nk-block-head-content">
-                                                        <h5 class="nk-block-title title">Thêm thông tin điểm danh</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="card card-bordered">
-                                                    <div class="card-inner">
-                                                            <div class="row gy-4">
-                                                                <div class="col-xxl-4 col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="form-label" for="member">Nhân viên</label>
-                                                                        <input type="text" class="form-control" id="member" placeholder="Member" name="" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xxl-4 col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="form-label">Ngày</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <div class="form-icon form-icon-right">
-                                                                                <em class="icon ni ni-calendar"></em>
-                                                                            </div>
-                                                                            <input type="text" class="form-control date-picker" data-date-format="yyyy-mm-dd" name="" placeholder="yyyy-mm-dd">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xxl-4 col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="form-label">Đăng nhập</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <input type="text" class="form-control time-picker" placeholder="06.00 AM">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="form-group">
-                                                                        <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                                                            <li>
-                                                                                <button type="submit" class="btn btn-primary ">Lưu thông tin</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="{{ path('cham_cong') }}" class="nk-menu-link">
-                                                                                    <button data-bs-dismiss="modal" class="btn btn-danger">Tự chấm công</button>
-                                                                                </a>
-
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {% for flashMessage in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-
-{% for flashMessage in app.flashes('danger') %}
-    <div class="alert alert-danger">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-                                            <div class="col-lg-12">
-                                                <div class="nk-block-head">
-                                                    <div class="nk-block-head-content">
-                                                        <h5 class="nk-block-title title">Danh sách điểm danh</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="nk-block">
-                                                    <div class="card card-bordered card-stretch">
-                                                        <div class="card-inner-group">
-                                                            <div class="card-inner position-relative card-tools-toggle">
-                                                                <div class="card-title-group">
-
-                                                                    <div class="card-tools">
-                                                                        <div class="form-control-wrap">
-                                                                            <div class="input-daterange date-picker-range input-group">
-                                                                                <input type="text" class="form-control" id="startDatePicker" placeholder="Start Date"/>
-                                                                                    <div class="input-group-addon">TO</div>
-                                                                                <input type="text" class="form-control" id="endDatePicker" placeholder="End Date"/>
-                                                                                    <button class="btn btn-primary" id="filterButton">Filter</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        flatpickr("#startDatePicker", {
-            dateFormat: "d/m/Y",
-        });
-
-        flatpickr("#endDatePicker", {
-            dateFormat: "d/m/Y",
-        });
-
-        document.getElementById('filterButton').addEventListener('click', function () {
-            var startDate = document.getElementById('startDatePicker').value;
-            var endDate = document.getElementById('endDatePicker').value;
-
-            // Thay đổi URL khi nhấn nút "Filter"
-            window.location.href = '/cham-cong?startDate=' + startDate + '&endDate=' + endDate;
-        });
-    });
-</script>
-
-
-
-                                                                    <div class="card-tools me-n1">
-                                                                        <ul class="btn-toolbar gx-1">
-                                                                            <li>
-                                                                                <a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search">
-                                                                                    <em class="icon ni ni-search"></em>
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="card-search search-wrap" data-search="search">
-                                                                        <div class="card-body">
-                                                                            <div class="search-content">
-                                                                                <a href="#" class="search-back btn btn-icon toggle-search" data-target="search">
-                                                                                    <em class="icon ni ni-arrow-left"></em>
-                                                                                </a>
-                                                                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name">
-                                                                                <button class="search-submit btn btn-icon">
-                                                                                    <em class="icon ni ni-search"></em>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner p-0">
-                                                                <div class="nk-tb-list nk-tb-ulist">
-                                                                    <div class="nk-tb-item nk-tb-head  bg-lighter">
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="sub-text">Member</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-sm">
-                                                                            <span class="sub-text">Date</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span class="sub-text">Sign In</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col tb-col-md">
-                                                                            <span class="sub-text">Sign Out</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col">
-                                                                            <span class="sub-text">Stay Time</span>
-                                                                        </div>
-                                                                        <div class="nk-tb-col nk-tb-col-tools">
-                                                                            <ul class="nk-tb-actions gx-1 my-n1">
-                                                                                <li>
-                                                                                    <div class="drodown">
-                                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown">
-                                                                                            <em class="icon ni ni-more-h"></em>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                                                            <ul class="link-list-opt no-bdr">
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#editAttendence">
-                                                                                                        <em class="icon ni ni-edit"></em>
-                                                                                                        <span>Edit Selected</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li>
-                                                                                                    <a data-bs-toggle="modal" href="#modalDelete">
-                                                                                                        <em class="icon ni ni-trash"></em>
-                                                                                                        <span>Remove Selected</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                 
-{% for entry in filteredData %}
-<div class="nk-tb-item">
-    <div class="nk-tb-col">
-        <a href="#">
-            <div class="user-card">
-                <div class="user-info">
-                    <span class="tb-lead">{{ entry.FullName }}</span>
+  <div class="nk-content">
+    <div class="container-fluid">
+      <div class="nk-content-inner">
+        <div class="nk-content-body">
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Chấm công</h3>
+              </div>
+            </div>
+          </div>
+          <div class="nk-block">
+            <div class="row gy-5">
+              <div class="col-lg-12">
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Thêm thông tin điểm danh</h5>
+                  </div>
                 </div>
-            </div>
-        </a>
-    </div>
-    <div class="nk-tb-col tb-col-sm">
-        <span>{{ entry.Date|date('d/m/Y') }}</span>
-    </div>
-    <div class="nk-tb-col tb-col-md">
-        <span>{{ entry.LoginTime|date('H:i A') }}</span>
-    </div>
-    <div class="nk-tb-col tb-col-md">
-        <span>{{ entry.LogoutTime|date('H:i A') }}</span>
-    </div>
-    {% set totalHours = entry.TotalHours %}
-        {% if totalHours <= '30min' %}
-            <div class="nk-tb-col">
-                <span class="badge badge-dim bg-danger">{{ totalHours }}</span>
-            </div>
-        {% elseif totalHours <= '1h' %}
-            <div class="nk-tb-col">
-                <span class="badge badge-dim bg-warning">{{ totalHours }}</span>
-            </div>
-        {% else %}
-            <div class="nk-tb-col">
-                <span class="badge badge-dim bg-primary">{{ totalHours }}</span>
-            </div>
-        {% endif %}
-    <div class="nk-tb-col nk-tb-col-tools">
-        <ul class="nk-tb-actions gx-1">
-            <li>
-                <div class="drodown">
-                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                        <em class="icon ni ni-more-h"></em>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <ul class="link-list-opt no-bdr">
-                            <li>
-                                <a data-bs-toggle="modal" href="#editAttendance">
-                                    <em class="icon ni ni-edit"></em>
-                                    <span>Edit</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="modal" href="#modalDelete">
-                                    <em class="icon ni ni-trash"></em>
-                                    <span>Remove</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-{% endfor %}
-
-
-
-
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner">
-                                                                <div class="nk-block-between-md g-3">
-                                                                    <div class="g">
-                                                                        <ul class="pagination justify-content-center justify-content-md-start">
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">Prev</a>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">1</a>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">2</a>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <span class="page-link">
-                                                                                    <em class="icon ni ni-more-h"></em>
-                                                                                </span>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">6</a>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">7</a>
-                                                                            </li>
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="#">Next</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="g">
-                                                                        <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
-                                                                            <div>Page</div>
-                                                                            <div>
-                                                                                <select class="form-select form-select-sm js-select2" data-search="on" data-dropdown="xs center">
-                                                                                    <option value="page-1">1</option>
-                                                                                    <option value="page-2">2</option>
-                                                                                    <option value="page-4">4</option>
-                                                                                    <option value="page-5">5</option>
-                                                                                    <option value="page-6">6</option>
-                                                                                    <option value="page-7">7</option>
-                                                                                    <option value="page-8">8</option>
-                                                                                    <option value="page-9">9</option>
-                                                                                    <option value="page-10">10</option>
-                                                                                    <option value="page-11">11</option>
-                                                                                    <option value="page-12">12</option>
-                                                                                    <option value="page-13">13</option>
-                                                                                    <option value="page-14">14</option>
-                                                                                    <option value="page-15">15</option>
-                                                                                    <option value="page-16">16</option>
-                                                                                    <option value="page-17">17</option>
-                                                                                    <option value="page-18">18</option>
-                                                                                    <option value="page-19">19</option>
-                                                                                    <option value="page-20">20</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div>OF 102</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card card-bordered">
+                  <div class="card-inner">
+                    <div class="row gy-4">
+                      <div class="col-xxl-4 col-sm-6">
+                        <div class="form-group">
+                          <label class="form-label" for="member">Nhân viên</label>
+                          <input type="text" class="form-control" id="member" placeholder="Member" name="" required />
                         </div>
+                      </div>
+                      <div class="col-xxl-4 col-sm-6">
+                        <div class="form-group">
+                          <label class="form-label">Ngày</label>
+                          <div class="form-control-wrap">
+                            <div class="form-icon form-icon-right">
+                              <em class="icon ni ni-calendar"></em>
+                            </div>
+                            <input type="text" class="form-control date-picker" data-date-format="yyyy-mm-dd" name="" placeholder="yyyy-mm-dd" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xxl-4 col-sm-6">
+                        <div class="form-group">
+                          <label class="form-label">Đăng nhập</label>
+                          <div class="form-control-wrap">
+                            <input type="text" class="form-control time-picker" placeholder="06.00 AM" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                            <li>
+                              <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                            </li>
+                            <li>
+                              {# <a href="{{ path('cham_cong') }}" class="nk-menu-link">
+                                                                                    <button data-bs-dismiss="modal" class="btn btn-danger">Tự chấm công</button>
+                                                                                </a> #}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {% for flashMessage in app.flashes('success') %}
+                <div class="alert alert-success">{{ flashMessage }}</div>
+              {% endfor %}
+
+              {% for flashMessage in app.flashes('danger') %}
+                <div class="alert alert-danger">{{ flashMessage }}</div>
+              {% endfor %}
+              <div class="col-lg-12">
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Danh sách điểm danh</h5>
+                  </div>
+                </div>
+                <div class="nk-block">
+                  <div class="card card-bordered card-stretch">
+                    <div class="card-inner-group">
+                      <div class="card-inner position-relative card-tools-toggle">
+                        <div class="card-title-group">
+                          <div class="card-tools">
+                            <div class="form-control-wrap">
+                              <div class="input-daterange date-picker-range input-group">
+                                <input type="text" class="form-control" id="startDatePicker" placeholder="Start Date" />
+                                <div class="input-group-addon">TO</div>
+                                <input type="text" class="form-control" id="endDatePicker" placeholder="End Date" />
+                                <button class="btn btn-primary" id="filterButton">Filter</button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                              flatpickr('#startDatePicker', {
+                                dateFormat: 'd/m/Y'
+                              })
+                            
+                              flatpickr('#endDatePicker', {
+                                dateFormat: 'd/m/Y'
+                              })
+                            
+                              document.getElementById('filterButton').addEventListener('click', function () {
+                                var startDate = document.getElementById('startDatePicker').value
+                                var endDate = document.getElementById('endDatePicker').value
+                            
+                                // Thay đổi URL khi nhấn nút "Filter"
+                                window.location.href = '/cham-cong?startDate=' + startDate + '&endDate=' + endDate
+                              })
+                            })
+                          </script>
+
+                          <div class="card-tools me-n1">
+                            <ul class="btn-toolbar gx-1">
+                              <li>
+                                <a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-search search-wrap" data-search="search">
+                            <div class="card-body">
+                              <div class="search-content">
+                                <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name" />
+                                <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-inner p-0">
+                        <div class="nk-tb-list nk-tb-ulist">
+                          <div class="nk-tb-item nk-tb-head bg-lighter">
+                            <div class="nk-tb-col">
+                              <span class="sub-text">Member</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-sm">
+                              <span class="sub-text">Date</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                              <span class="sub-text">Sign In</span>
+                            </div>
+                            <div class="nk-tb-col tb-col-md">
+                              <span class="sub-text">Sign Out</span>
+                            </div>
+                            <div class="nk-tb-col">
+                              <span class="sub-text">Stay Time</span>
+                            </div>
+                            <div class="nk-tb-col nk-tb-col-tools">
+                              <ul class="nk-tb-actions gx-1 my-n1">
+                                <li>
+                                  <div class="drodown">
+                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                      <ul class="link-list-opt no-bdr">
+                                        <li>
+                                          <a data-bs-toggle="modal" href="#editAttendence">
+                                            <em class="icon ni ni-edit"></em>
+                                            <span>Edit Selected</span>
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a data-bs-toggle="modal" href="#modalDelete">
+                                            <em class="icon ni ni-trash"></em>
+                                            <span>Remove Selected</span>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          {% for entry in filteredData %}
+                            <div class="nk-tb-item">
+                              <div class="nk-tb-col">
+                                <a href="#">
+                                  <div class="user-card">
+                                    <div class="user-info">
+                                      <span class="tb-lead">{{ entry.FullName }}</span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </div>
+                              <div class="nk-tb-col tb-col-sm">
+                                <span>{{ entry.Date|date('d/m/Y') }}</span>
+                              </div>
+                              <div class="nk-tb-col tb-col-md">
+                                <span>{{ entry.LoginTime|date('H:i A') }}</span>
+                              </div>
+                              <div class="nk-tb-col tb-col-md">
+                                <span>{{ entry.LogoutTime|date('H:i A') }}</span>
+                              </div>
+                              {% set totalHours = entry.TotalHours %}
+                              {% if totalHours <= '30min' %}
+                                <div class="nk-tb-col">
+                                  <span class="badge badge-dim bg-danger">{{ totalHours }}</span>
+                                </div>
+                              {% elseif totalHours <= '1h' %}
+                                <div class="nk-tb-col">
+                                  <span class="badge badge-dim bg-warning">{{ totalHours }}</span>
+                                </div>
+                              {% else %}
+                                <div class="nk-tb-col">
+                                  <span class="badge badge-dim bg-primary">{{ totalHours }}</span>
+                                </div>
+                              {% endif %}
+                              <div class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1">
+                                  <li>
+                                    <div class="drodown">
+                                      <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                      <div class="dropdown-menu dropdown-menu-end">
+                                        <ul class="link-list-opt no-bdr">
+                                          <li>
+                                            <a data-bs-toggle="modal" href="#editAttendance">
+                                              <em class="icon ni ni-edit"></em>
+                                              <span>Edit</span>
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a data-bs-toggle="modal" href="#modalDelete">
+                                              <em class="icon ni ni-trash"></em>
+                                              <span>Remove</span>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="card-inner">
+                        <div class="nk-block-between-md g-3">
+                          <div class="g">
+                            <ul class="pagination justify-content-center justify-content-md-start">
+                              <li class="page-item">
+                                <a class="page-link" href="#">Prev</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">1</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                              </li>
+                              <li class="page-item">
+                                <span class="page-link"><em class="icon ni ni-more-h"></em></span>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">6</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">7</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="g">
+                            <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
+                              <div>Page</div>
+                              <div>
+                                <select class="form-select form-select-sm js-select2" data-search="on" data-dropdown="xs center">
+                                  <option value="page-1">1</option>
+                                  <option value="page-2">2</option>
+                                  <option value="page-4">4</option>
+                                  <option value="page-5">5</option>
+                                  <option value="page-6">6</option>
+                                  <option value="page-7">7</option>
+                                  <option value="page-8">8</option>
+                                  <option value="page-9">9</option>
+                                  <option value="page-10">10</option>
+                                  <option value="page-11">11</option>
+                                  <option value="page-12">12</option>
+                                  <option value="page-13">13</option>
+                                  <option value="page-14">14</option>
+                                  <option value="page-15">15</option>
+                                  <option value="page-16">16</option>
+                                  <option value="page-17">17</option>
+                                  <option value="page-18">18</option>
+                                  <option value="page-19">19</option>
+                                  <option value="page-20">20</option>
+                                </select>
+                              </div>
+                              <div>OF 102</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DanhsachthuocController extends AbstractController
 {
-    #[Route('/danhsachthuoc', name: 'danhsachthuoc')]
+    #[Route('/danh-sach-thuoc', name: 'danhsachthuoc')]
     public function index(Connection $connection): Response
     {
+        
         $sql = "SELECT * FROM Medicines
         ";
         

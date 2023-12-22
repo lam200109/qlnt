@@ -14,12 +14,20 @@ class NguonthuController extends AbstractController
     public function index(Connection $connection, Request $request): Response
     {
         $sql = "SELECT SalesInvoices.SalesInvoiceID, SalesInvoices.CustomerID, SalesInvoices.Date, SalesInvoices.IncomeType, 
-        FORMAT(SalesInvoices.Amount, 2) AS Amount, Customers.Name
+        CAST(SalesInvoices.Amount AS DECIMAL(10,2)) AS Amount, Customers.Name
  FROM SalesInvoices
- JOIN Customers ON SalesInvoices.CustomerID = Customers.CustomerID;        
+ JOIN Customers ON SalesInvoices.CustomerID = Customers.CustomerID;
+       
  ";
 
 $result = $connection->executeQuery($sql)->fetchAllAssociative();
+
+
+
+
+
+
+
 $month = $request->query->get('month');
 $year = $request->query->get('year');
 

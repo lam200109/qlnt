@@ -24,7 +24,8 @@ class ChitiethoadonController extends AbstractController
     $mainTable = '';
     $detailsTable = '';
     $additionalTables = ''; // Chuỗi thêm vào câu truy vấn cho bảng bổ sung
-    
+    $isChiPhi = false; // Mặc định là false
+
     // Kiểm tra nếu URL chứa "/nguon-thu" thì route trước đó là "/nguon-thu"
     if (strpos($referer, '/nguon-thu') !== false) {
         $idColumn = 'SalesInvoiceID';
@@ -37,6 +38,8 @@ class ChitiethoadonController extends AbstractController
         $mainTable = 'PurchaseInvoices';
         $detailsTable = 'PurchaseInvoiceDetails';
         $additionalTables = ", Distributors.*"; // Chọn tất cả các cột từ bảng Distributors
+        $isChiPhi = true; // Đánh dấu là chi phí
+
     } 
     // Nếu không phải cả hai trường hợp trên, có thể xác định một giá trị mặc định hoặc xử lý khác
     else {
@@ -78,7 +81,6 @@ class ChitiethoadonController extends AbstractController
 
     // Thực hiện truy vấn
     $invoices = $connection->executeQuery($sql, ['id' => $id])->fetchAllAssociative();
-    
     // Kiểm tra nếu không có hoá đơn với ID tương ứng
     if (!$invoices) {
         throw $this->createNotFoundException('Không tìm thấy hoá đơn với ID ' . $id);
@@ -89,6 +91,14 @@ class ChitiethoadonController extends AbstractController
         'result' => $invoices,
         'sqlQuery' => $sql,
         'invoiceId' => $id,
+        'isChiPhi' => $isChiPhi, // Truyền biến này vào template
+
     ]);
 }
 }
+
+
+
+
+
+

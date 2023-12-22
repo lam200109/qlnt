@@ -1,130 +1,134 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Chi tiết hoá đơn{% endblock %}
+{% block title %}
+  Chi tiết hoá đơn
+{% endblock %}
 
 {% block body %}
-{# <div>
+  {# <div>
     <h2>SQL Query:</h2>
     <pre>{{ sqlQuery }} {{ dump(result)}}</pre>
 </div> #}
-<div class="nk-content ">
+  <div class="nk-content">
     <div class="container-fluid">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-                <div class="nk-block-head">
-                    <h3 class="nk-block-title page-title">
-                        Hoá đơn <strong class="text-primary small">
-                            #{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}
-                        </strong>
-                    </h3>
-                    <div class="nk-block-des text-soft">
-                        <ul class="list-inline">
-                            <li>
-                                Tạo lúc: <span class="text-base">{{ result[0].CreatedDate|date('d M, Y h:i A') }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="nk-block">
-                    <div class="invoice">
-                        <div class="invoice-action">
-                        <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" id="printInvoiceBtn" onclick="printInvoice()" target="_blank">
-                    <em class="icon ni ni-printer-fill"></em>
-                            </a>
-                        <div id="invoiceContent"></div>
+      <div class="nk-content-inner">
+        <div class="nk-content-body">
+          <div class="nk-block-head">
+            <h3 class="nk-block-title page-title">
+            {% if isChiPhi %}
+                Hoá Đơn Nhập
+              {% else %}
+                Hoá Đơn Bán Thuốc
+              {% endif %}<strong class="text-primary small">#{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}</strong>
+            </h3>
 
-                        </div>
-                        <div class="invoice-wrap">
-                            <div class="invoice-brand text-center">
-                                <img src="/demo7/images/logo-dark.png" srcset="/demo7/images/logo-dark2x.png 2x" alt="">
-                            </div>
-                            <div class="invoice-head">
-                                <div class="invoice-contact">
-                                    <span class="overline-title">Invoice To</span>
-                                    <div class="invoice-contact-info">
-                                        <h4 class="title">
-                                                {{  result[0].DistributorName ?? result[0].CustomerName }}
-                                        </h4>
-                                        <ul class="list-plain">
-                                            <li>
-                                                <em class="icon ni ni-map-pin-fill"></em>
-                                                <span> Địa chỉ: {{ result[0].Address ?? '' }}</span>
-                                            </li>
-                                            <li>
-                                                <em class="icon ni ni-call-fill"></em>
-                                                <span> Số điện thoại: {{ result[0].Phone ?? '' }}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="invoice-desc">
-                                    <h3 class="title">Hoá đơn</h3>
-                                    <ul class="list-plain">
-                                        <li class="invoice-id">
-                                            <span>ID hoá đơn</span>
-                                            :<span>{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}</span>
-                                        </li>
-                                        <li class="invoice-date">
-                                            <span>Ngày</span>
-                                            :<span>{{ result[0].Date|date('d M, Y') }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="invoice-bills">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th class="w-150px">ID sản phẩm</th>
-                                                <th class="w-60">Mô tả</th>
-                                                <th>Giá</th>
-                                                <th>Số lượng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for item in result %}
-                                                <tr>
-                                                    <td>{{ item.MedicineID }}</td>
-                                                    <td>{{ item.Name }}</td>
-                                                    <td>{{ item.Price is not null ? item.Price|number_format(2, '.', ',') : 'N/A' }}</td>
-                                                    <td>{{ item.Quantity }}</td>
-                                                    </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2"></td>
-                                                <td colspan="2">Subtotal</td>
-                                                <td>0</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"></td>
-                                                <td colspan="2">Processing fee</td>
-                                                <td>0</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"></td>
-                                                <td colspan="2">TAX</td>
-                                                <td>0</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"></td>
-                                                <td colspan="2">Tổng hoá đơn</td>
-                                            <td>{{ result[0].Amount is not null ? result[0].Amount|number_format(2, '.', ',') : 'N/A' }}</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div class="nk-notes ff-italic fs-12px text-soft">Invoice was created on a computer and is valid without the signature and seal. </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="nk-block-des text-soft">
+              <ul class="list-inline">
+                <li>
+                  Tạo lúc: <span class="text-base">{{ result[0].CreatedDate|date('d M, Y h:i A') }}</span>
+                </li>
+              </ul>
             </div>
+          </div>
+          <div class="nk-block">
+            <div class="invoice">
+              <div class="invoice-action">
+                <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" id="printInvoiceBtn" onclick="printInvoice()" target="_blank"><em class="icon ni ni-printer-fill"></em></a>
+                <div id="invoiceContent"></div>
+              </div>
+              <div class="invoice-wrap">
+                <div class="invoice-brand text-center">
+                  <img src="/demo7/images/logo-dark.png" srcset="/demo7/images/logo-dark2x.png 2x" alt="" />
+                </div>
+                <div class="invoice-head">
+                  <div class="invoice-contact">
+                    <span class="overline-title">Invoice To</span>
+                    <div class="invoice-contact-info">
+                      <h4 class="title">{{ result[0].DistributorName ?? result[0].CustomerName }}</h4>
+                      <ul class="list-plain">
+                        <li>
+                          <em class="icon ni ni-map-pin-fill"></em>
+                          <span>Địa chỉ: {{ result[0].Address ?? '' }}</span>
+                        </li>
+                        <li>
+                          <em class="icon ni ni-call-fill"></em>
+                          <span>Số điện thoại: {{ result[0].Phone ?? '' }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="invoice-desc">
+                    <h3 class="title">
+                      {% if isChiPhi %}
+                        Hoá Đơn Nhập
+                      {% else %}
+                        Hoá Đơn Bán Thuốc
+                      {% endif %}
+                    </h3>
+                    <ul class="list-plain">
+                      <li class="invoice-id">
+                        <span>ID hoá đơn</span>
+                        :<span>{{ result[0].PurchaseInvoiceID ?? result[0].SalesInvoiceID }}</span>
+                      </li>
+                      <li class="invoice-date">
+                        <span>Ngày</span>
+                        :<span>{{ result[0].Date|date('d M, Y') }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="invoice-bills">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th class="w-150px">ID sản phẩm</th>
+                          <th class="w-60">Mô tả</th>
+                          <th>Giá</th>
+                          <th>Số lượng</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in result %}
+                          <tr>
+                            <td>{{ item.MedicineID }}</td>
+                            <td>{{ item.Name }}</td>
+                            <td>{{ item.Price is not null ? item.Price|format_vnd }}</td>
+                            <td>{{ item.Quantity }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="2"></td>
+                          <td colspan="2">Subtotal</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"></td>
+                          <td colspan="2">Processing fee</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"></td>
+                          <td colspan="2">TAX</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"></td>
+                          <td colspan="2">Tổng hoá đơn</td>
+                          <td>{{ result[0].Amount is not null ? result[0].Amount|format_vnd }}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <div class="nk-notes ff-italic fs-12px text-soft">Invoice was created on a computer and is valid without the signature and seal.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-
+  </div>
 {% endblock %}

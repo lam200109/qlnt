@@ -25,33 +25,7 @@
           </div>
           <div class="nk-block">
             <div class="card card-bordered card-stretch">
-              <div class="col-xxl-6 col-md-6">
-                <div class="card h-100">
-                  <div class="nk-ecwg nk-ecwg1">
-                    <div class="card-inner">
-                      <div class="card-title-group">
-                        <div class="card-title">
-                          <h6 class="title">Tổng tiền nhập hàng</h6>
-                        </div>
-                        <div class="card-tools">
-                          <a href="#" class="link">View Report</a>
-                        </div>
-                      </div>
-                      <div class="data">
-                        <div class="amount">${{ totalAmount ?? 0 }}</div>
-                        <div class="info">
-                          <strong>${{ lastMonthAmount ?? 0 }}</strong>
-                          in last month
-                        </div>
-                      </div>
-                  
-                    </div>
-                    <div class="nk-ecwg1-ck">
-                      <canvas class="ecommerce-line-chart-s1" id="totalSales"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
               <div class="card-inner-group">
                 <div class="card-inner position-relative card-tools-toggle">
                   <div class="card-title-group">
@@ -79,7 +53,11 @@
                         <option value="2025">2025</option>
                         <!-- Thêm các năm khác cần thiết -->
                       </select>
-
+                    <label for="startDate">Ngày bắt đầu:</label>
+                    <input type="date" name="startDate" id="startDate">
+                
+                    <label for="endDate">Ngày kết thúc:</label>
+                    <input type="date" name="endDate" id="endDate">
                       <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                     </form>
                     <div class="card-tools me-n1">

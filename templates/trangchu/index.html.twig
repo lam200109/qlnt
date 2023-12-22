@@ -1,635 +1,1141 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trang chủ{% endblock %}
+{% block title %}
+	Trang chủ
+{% endblock %}
 
 {% block body %}
-    
-<div class="nk-content ">
-<div class="container-fluid">
-    <div class="nk-content-inner">
-        <div class="nk-content-body">
-            <div class="nk-block-head nk-block-head-sm">
-                <div class="nk-block-between">
-                    <div class="nk-block-head-content">
+	{% if is_granted('QuanLyKhachHangAccess') or is_granted('AdminAccess') or is_granted('BanThuocAccess') or is_granted('NhapHangAccess') or is_granted('BaoCaoTaiChinhAccess') %}
+		<div class="nk-content">
+			<div class="container-fluid">
+				<div class="nk-content-inner">
+					<div class="nk-content-body">
+						<div class="nk-block-head nk-block-head-sm">
+							<div class="nk-block-between">
+								<div class="nk-block-head-content">
+									{% for flashMessage in app.flashes('success') %}
+										<div class="alert alert-success">{{ flashMessage }}</div>
+									{% endfor %}
 
-    
-{% for flashMessage in app.flashes('success') %}
-<div class="alert alert-success">
-    {{ flashMessage }}
-</div>
-{% endfor %}
+									{% for flashMessage in app.flashes('danger') %}
+										<div class="alert alert-danger">{{ flashMessage }}</div>
+									{% endfor %}
 
-{% for flashMessage in app.flashes('danger') %}
-<div class="alert alert-danger">
-    {{ flashMessage }}
-</div>
-{% endfor %}
+									{# ... Các phần khác của template #}
 
-{# ... Các phần khác của template #}
+									<h3 class="nk-block-title page-title">
+										Dashboard
+										{% if app.user %}
+											{{ app.user.permissions|join(', ') }}
+											{% else %}
 
-                        <h3 class="nk-block-title page-title">Dashboard</h3>
-                        <div class="nk-block-des text-soft">
-                            <p>Welcome to DashLite Pharmacy Dashboard Template.</p>
-                        </div>
-                    </div>
-                    <div class="nk-block-head-content">
-                        <div class="toggle-wrap nk-block-tools-toggle">
-                            <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
-                                <em class="icon ni ni-more-v"></em>
-                            </a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-bs-toggle="dropdown">
-                                                <em class="d-none d-sm-inline icon ni ni-calender-date"></em>
-                                                <span>
-                                                    <span class="d-none d-md-inline">Last</span>
-                                                    30 Days
-                                                </span>
-                                                <em class="dd-indc icon ni ni-chevron-right"></em>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span>Last 30 Days</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span>Last 6 Months</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span>Last 1 Years</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="nk-block-tools-opt">
-                                        <a href="#" class="btn btn-primary">
-                                            <em class="icon ni ni-reports"></em>
-                                            <span>Reports</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="nk-block">
-                <div class="row g-gs">
-                    <div class="col-xxl-3 col-sm-6">
-                        <div class="card">
-                        
-                            <div class="nk-ecwg nk-ecwg6">
-                                <div class="card-inner">
-                                <div class="card-title-group">
-                                    <div class="card-title">
-                                        <h6 class="title">Today's Sales</h6>
-                                    </div>
-                                </div>
-                                <div class="data">
-                                    <div class="data-group">
-                                        <div class="amount">${{ currentWeekTotal | number_format(2) }}</div>
-                                        <div class="nk-ecwg6-ck">
-                                            <canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
-                                        </div>
-                                    </div>
-
-                                    {# lên hoặc xuống #}
-                                    <div class="info">
-                                        <span class="change {% if changePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
-                                            <em class="icon ni {% if changePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
-                                            {{ changePercentage | default('N/A') | number_format(2) }}%
-                                        </span>
-                                        <span>vs. last week</span>
-                                    </div>
+										{% endif %}
+									</h3>
+									<div class="nk-block-des text-soft"></div>
+								</div>
+								<div class="nk-block-head-content">
+									<div class="toggle-wrap nk-block-tools-toggle">
+										<a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+											<em class="icon ni ni-more-v"></em>
+										</a>
+										<div class="toggle-expand-content" data-content="pageMenu">
+											<ul class="nk-block-tools g-3">
+												<li>
+													<div class="drodown">
+														<a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-bs-toggle="dropdown">
+															<em class="d-none d-sm-inline icon ni ni-calender-date"></em>
+															<span>
+																<span class="d-none d-md-inline">Last</span>
+																30 Days
+															</span>
+															<em class="dd-indc icon ni ni-chevron-right"></em>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<ul class="link-list-opt no-bdr">
+																<li>
+																	<a href="#">
+																		<span>Last 30 Days</span>
+																	</a>
+																</li>
+																<li>
+																	<a href="#">
+																		<span>Last 6 Months</span>
+																	</a>
+																</li>
+																<li>
+																	<a href="#">
+																		<span>Last 1 Years</span>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</li>
+												<li class="nk-block-tools-opt">
+													<a href="#" class="btn btn-primary">
+														<em class="icon ni ni-reports"></em>
+														<span>Reports</span>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
 
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-sm-6">
-                        <div class="card">
-                            <div class="nk-ecwg nk-ecwg6">
-                                <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title">
-                                            <h6 class="title">Today's Revenue</h6>
-                                        </div>
-                                    </div>
-                                    <div class="data">
-                                        <div class="data-group">
-                                            <div class="amount">$12,338</div>
-                                            <div class="nk-ecwg6-ck">
-                                                <canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <span class="change down text-danger">
-                                                <em class="icon ni ni-arrow-long-down"></em>
-                                                2.34%
-                                            </span>
-                                            <span>vs. last week</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-sm-6">
-                        <div class="card">
-                            <div class="nk-ecwg nk-ecwg6">
-                                <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title ">
-                                            <h6 class="title">Today's Customer</h6>
-                                        </div>
-                                    </div>
-                                    <div class="data">
-                                        <div class="data-group">
-                                            <div class="amount">$20,847</div>
-                                            <div class="nk-ecwg6-ck">
-                                                <canvas class="ecommerce-line-chart-s3" id="labIncome"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <span class="change up text-danger">
-                                                <em class="icon ni ni-arrow-long-up"></em>
-                                                4.63%
-                                            </span>
-                                            <span>vs. last week</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-sm-6">
-                        <div class="card">
-                            <div class="nk-ecwg nk-ecwg6">
-                                <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title">
-                                            <h6 class="title">Today's Expense</h6>
-                                        </div>
-                                    </div>
-                                    <div class="data">
-                                        <div class="data-group">
-                                            <div class="amount">${{ todayExpense | number_format(2) }}</div>
-                                            <div class="nk-ecwg6-ck">
-                                                <canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <span class="change {% if expenseChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
-                                                <em class="icon ni {% if expenseChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
-                                                {{ expenseChangePercentage | default('N/A') | number_format(2) }}%
-                                            </span>
-                                            <span>vs. last week</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card is-dark h-100">
-                            <div class="nk-ecwg nk-ecwg1">
-                                <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title">
-                                            <h6 class="title">Total Sales</h6>
-                                        </div>
-                                        <div class="card-tools">
-                                            <a href="#" class="link">View Report</a>
-                                        </div>
-                                    </div>
-                                    <div class="data">
-                                        <div class="amount">${{ currentMonthTotal | number_format(2) }}</div>
-                                        <div class="info">
-                                            <strong>${{ lastMonthTotal | number_format(2) }}</strong>
-                                            in last month
-                                        </div>
-                                    </div>
+						<div class="nk-block">
+							<div class="row g-gs">
 
-                                        {# lên hoặc xuống #}
-                                    <div class="info">
-                                        <span class="change {% if monthChangePercentage > 0 %}up text-danger{% else %}down text-success{% endif %}">
-                                            <em class="icon ni {% if monthChangePercentage > 0 %}ni-arrow-long-up{% else %}ni-arrow-long-down{% endif %}"></em>
-                                            {{ monthChangePercentage | default('N/A') | number_format(2) }}%
-                                        </span>
-                                        <span>vs. last month</span>
-                                    </div>
+								{% if is_granted('NhapHangAccess') %}
+									<div class="col-xxl-6 col-md-6">
+										<div class="card card-full">
+											<div class="card-inner d-flex flex-column h-100">
+												<div class="card-title-group mb-3">
+													<div class="card-title">
+														<h6 class="title">Thuốc bán chạy nhất</h6>
+														<p>Trong 30 ngày gần đây</p>
+													</div>
+												</div>
 
-                                    
-                                    <div class="data">
-                                <h6 class="sub-title">This week so far</h6>
-                                <div class="data-group">
-                                    <div class="amount">${{ totalAmount|number_format(2, '.', ',') }}</div>
-                                    <div class="info text-right">
-                                        <span class="change up {{ percentChange > 0 ? 'text-danger' : 'text-success' }}">
-                                            <em class="icon ni {{ percentChange > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
-                                            {{ percentChange|number_format(2, '.', ',') }}%
-                                        </span>
-                                        <br>
-                                        <span>vs. last week</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                            
-                            
-                                </div>
-                                <div class="nk-ecwg1-ck">
-                                    <canvas class="ecommerce-line-chart-s1" id="totalSales"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+												{% for medicine in top3SellingMedicines %}
+													<div class="progress-list gy-3">
+														<div class="progress-wrap">
+															<div class="progress-text">
+																<div class="progress-label">{{ medicine.medicine_name }}</div>
+																<div class="progress-amount">{{ medicine.sales_percentage }}%</div>
+															</div>
+															<div class="progress progress-md">
+																<div class="progress-bar" data-progress="{{ medicine.sales_percentage }}" style="width: {{ medicine.sales_percentage }}%;"></div>
+															</div>
+														</div>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								{% endif %}
 
 
-                    <div class="col-xxl-5 col-md-6">
-                    <div class="card card-full">
-                        <div class="nk-ecwg nk-ecwg8 h-100">
-                            <div class="card-inner">
-                                <div class="card-title-group mb-3">
-                                    <div class="card-title">
-                                        <h6 class="title">Doanh thu tổng quan</h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <div class="dropdown">
-                                            <a href="#" class="dropdown-toggle link link-light link-sm dropdown-indicator" data-bs-toggle="dropdown">Weekly</a>
-                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span>Daily</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="active">
-                                                            <span>Weekly</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span>Monthly</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="nk-ecwg8-legends">
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#0fac81"></span>
-                                            <span>Thu nhập</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#eb6459"></span>
-                                            <span>Chi phí</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="nk-ecwg8-ck">
-                                    <canvas class="ecommerce-line-chart-s4" id="salesStatistics"></canvas>
-                                </div>
-                              
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var doanhThuData = {{ doanhThuData|json_encode|raw }};
-        var chiPhiData = {{ chiPhiData|json_encode|raw }};
+								{% if is_granted('BanThuocAccess') %}
 
-        // Sắp xếp mảng theo WeekNumber
-        doanhThuData.sort((a, b) => a.WeekNumber - b.WeekNumber);
-        chiPhiData.sort((a, b) => a.WeekNumber - b.WeekNumber);
+									<div class="col-xxl-3 col-sm-6">
+										<div class="card">
+											<div class="nk-ecwg nk-ecwg6">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">Thu nhập hôm nay</h6>
+														</div>
+													</div>
+													<div class="data">
+														<div class="data-group">
+															<div class="amount">{{ todaySalesTotal|format_vnd }}</div>
+															<div class="nk-ecwg6-ck">
+																<canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
+															</div>
+														</div>
+														<span class="change {{ percentageChange > 0 ? 'up text-danger' : 'down text-success' }}">
+															<em class="icon ni {{ percentageChange > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+															{{ percentageChange|number_format(2) }}%
+														</span>
 
-        // Chuyển đổi giá trị TotalExpense từ chuỗi sang số
-        chiPhiData.forEach(item => {
-            item.TotalExpense = parseFloat(item.TotalExpense);
+														<span>
+															so với hôm qua</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xxl-3 col-sm-6">
+										<div class="card">
+											<div class="nk-ecwg nk-ecwg6">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">Chi phí hôm nay
+															</h6>
+														</div>
+													</div>
+													<div class="data">
+														<div class="data-group">
+															<div class="amount">{{ todayExpense|format_vnd }}</div>
+															<div class="nk-ecwg6-ck">
+																<canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
+															</div>
+														</div>
+														<span class="change {{ percentageChangeExpense > 0 ? 'up text-danger' : 'down text-success' }}">
+															<em class="icon ni {{ percentageChangeExpense > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+															{{ percentageChangeExpense|number_format(2) }}%
+														</span>
+														<span>
+															so với ngày hôm qua</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xxl-3 col-sm-6"></div>
+
+									{# <div class="col-xxl-3 col-sm-6">
+									                        <div class="card">
+									                          <div class="nk-ecwg nk-ecwg6">
+									                            <div class="card-inner">
+									                              <div class="card-title-group">
+									                                <div class="card-title">
+									                                  <h6 class="title">Today's Revenue</h6>
+									                                </div>
+									                              </div>
+									                              <div class="data">
+									                                <div class="data-group">
+									                                  <div class="amount">${{ currentWeekTotal|number_format(2) }}</div>
+									                                  <div class="nk-ecwg6-ck">
+									                                    <canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
+									                                  </div>
+									                                </div>
+									                              <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span>
+									                          <span> vs. last day</span>
+									                              </div>
+									                            </div>
+									                          </div>
+									                        </div>
+									                      </div> #}
+									{# <div class="col-xxl-3 col-sm-6">
+									                              <div class="card">
+									                                  <div class="nk-ecwg nk-ecwg6">
+									                                      <div class="card-inner">
+									                                          <div class="card-title-group">
+									                                              <div class="card-title ">
+									                                                  <h6 class="title">Today's Customer</h6>
+									                                              </div>
+									                                          </div>
+									                                          <div class="data">
+									                                              <div class="data-group">
+									                                                  <div class="amount">$20,847</div>
+									                                                  <div class="nk-ecwg6-ck">
+									                                                      <canvas class="ecommerce-line-chart-s3" id="labIncome"></canvas>
+									                                                  </div>
+									                                              </div>
+									                                        <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span>
+									                          <span> vs. last week</span>
+									                                          </div>
+									                                      </div>
+									                                  </div>
+									                              </div>
+									                          </div> #}
+
+								{% endif %}
+
+
+								{% if is_granted('BaoCaoTaiChinhAccess') %}
+
+									<div class="col-xxl-3 col-sm-6">
+										<div class="card">
+											<div class="nk-ecwg nk-ecwg6">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">Doanh thu tháng nay</h6>
+														</div>
+													</div>
+													<div class="data">
+														<div class="data-group">
+															<div class="amount">{{ currentMonthTotal|format_vnd }}</div>
+															<div class="nk-ecwg6-ck">
+																<canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
+															</div>
+														</div>
+														<span class="change {{ percentageChange > 0 ? 'up text-danger' : 'down text-success' }}">
+															<em class="icon ni {{ percentageChange > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+															{{ percentageChange|number_format(2) }}%
+														</span>
+														<span>
+															so với tháng trước</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xxl-3 col-sm-6">
+										<div class="card">
+											<div class="nk-ecwg nk-ecwg6">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">Chi phí tháng này</h6>
+														</div>
+													</div>
+													<div class="data">
+														<div class="data-group">
+															<div class="amount">{{ currentMonthExpense|format_vnd }}</div>
+															<div class="nk-ecwg6-ck">
+																<canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
+															</div>
+														</div>
+														<span class="change {{ percentageChangeExpense > 0 ? 'up text-danger' : 'down text-success' }}">
+															<em class="icon ni {{ percentageChangeExpense > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+															{{ percentageChangeExpense|number_format(2) }}%
+														</span>
+														<span>
+															so với tháng trước</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									{# <div class="col-xxl-3 col-sm-6">
+									                  <div class="card">
+									                    <div class="nk-ecwg nk-ecwg6">
+									                      <div class="card-inner">
+									                        <div class="card-title-group">
+									                          <div class="card-title">
+									                            <h6 class="title">Today's Revenue</h6>
+									                          </div>
+									                        </div>
+									                        <div class="data">
+									                          <div class="data-group">
+									                            <div class="amount">${{ currentWeekTotal|number_format(2) }}</div>
+									                            <div class="nk-ecwg6-ck">
+									                              <canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
+									                            </div>
+									                          </div>
+									                        <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span>
+									                    <span> vs. last day</span>
+									                        </div>
+									                      </div>
+									                    </div>
+									                  </div>
+									                </div> #}
+									{# <div class="col-xxl-3 col-sm-6">
+									                        <div class="card">
+									                            <div class="nk-ecwg nk-ecwg6">
+									                                <div class="card-inner">
+									                                    <div class="card-title-group">
+									                                        <div class="card-title ">
+									                                            <h6 class="title">Today's Customer</h6>
+									                                        </div>
+									                                    </div>
+									                                    <div class="data">
+									                                        <div class="data-group">
+									                                            <div class="amount">$20,847</div>
+									                                            <div class="nk-ecwg6-ck">
+									                                                <canvas class="ecommerce-line-chart-s3" id="labIncome"></canvas>
+									                                            </div>
+									                                        </div>
+									                                  <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span>
+									                    <span> vs. last week</span>
+									                                    </div>
+									                                </div>
+									                            </div>
+									                        </div>
+									                    </div> #}
+
+														<div class="col-xxl-6 col-md-6">
+															<div class="card card-full">
+																<div class="card-inner d-flex flex-column h-100">
+																	<div class="card-title-group mb-3">
+																		<div class="card-title">
+																			<h6 class="title">Lợi nhuận thuốc bán chạy nhất trong tháng</h6>
+																			<p>Trong 30 ngày gần đây</p>
+																		</div>
+																	</div>
+					
+																	{% for medicine in top3SalesMedicines %}
+																		<div class="progress-list gy-3">
+																			<div class="progress-wrap">
+																				<div class="progress-text">
+																					<div class="progress-label">{{ medicine.medicine_name }}</div>
+																					<div class="progress-amount">{{ medicine.sales_percentage|format_vnd }}</div>
+																				</div>
+																				<div class="progress progress-md">
+																					<div class="progress-bar" data-progress="{{ medicine.sales_percentage|format_vnd }}" style="width: {{ medicine.sales_percentage }}%;"></div>
+																				</div>
+																			</div>
+																		</div>
+																	{% endfor %}
+																</div>
+															</div>
+													</div>
+
+													<div class="col-md-6 col-xxl-4">
+													<div class="card card-bordered card-full">
+														<div class="card-inner-group">
+															<div class="card-inner">
+																<div class="card-title-group">
+																	<div class="card-title">
+																		<h6 class="title">Thu nhập từ đơn online</h6>
+																	</div>
+																	<div class="card-tools">
+																	</div>
+																</div>
+															</div>
+			
+															{% for customer in onlines %}
+																<div class="card-inner card-inner-md">
+																	<div class="user-card">
+																		<div class="user-avatar bg-primary-dim">
+																			<span>{{ customer.CustomerName[:2]|upper }}</span>
+																		</div>
+																		<div class="user-info">
+																			<span class="lead-text">{{ customer.CustomerName }}</span>
+																			<span class="sub-text">{{ customer.Email }}</span>
+																		</div>
+																		<div class="user-action">
+																			<div class="drodown">
+																				
+																		<span class="lead-text">{{ customer.Amount|format_vnd }}</span>
+
+
+
+
+
+																				<div class="dropdown-menu dropdown-menu-end">
+																					<ul class="link-list-opt no-bdr">
+																						<li>
+																							<a href="/demo7/pharmacy/general-settings.html">
+																								<em class="icon ni ni-setting"></em>
+																								<span>Action Settings</span>
+																							</a>
+																						</li>
+																						<li>
+																							<a href="#">
+																								<em class="icon ni ni-notify"></em>
+																								<span>Push Notification</span>
+																							</a>
+																						</li>
+																					</ul>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															{% endfor %}
+														</div>
+													</div>
+												</div>
+
+									<div class="col-xxl-5 col-md-6">
+										<div class="card card-full">
+											<div class="nk-ecwg nk-ecwg8 h-100">
+												<div class="card-inner">
+													<div class="card-title-group mb-3">
+														<div class="card-title">
+															<h6 class="title">Sơ đồ doanh thu tổng quát</h6>
+														</div>
+													
+													</div>
+												
+													<div class="nk-ecwg8-ck">
+														<canvas class="ecommerce-line-chart-s4" id="salesStatistics" width="467" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 467px;"></canvas>
+													</div>
+													<div class="chart-label-group ps-5">
+														<div class="chart-label">01 Jul, 2023</div>
+														<div class="chart-label">30 Jul, 2023</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+
+
+
+									
+
+									<div class="col-xxl-8">
+									<div class="card card-bordered card-full">
+										<div class="card-inner">
+											<div class="card-title-group">
+												<div class="card-title">
+													<h6 class="title">
+														<span class="me-2">Giao dịch gần đây tại nhà thuốc</span>
+													</h6>
+												</div>
+
+											</div>
+										</div>
+										<div class="card-inner p-0 border-top">
+											<div class="nk-tb-list nk-tb-orders">
+												<div class="nk-tb-item nk-tb-head">
+													<div class="nk-tb-col">
+														<span>Invoice No</span>
+													</div>
+													<div class="nk-tb-col tb-col-sm">
+														<span>Customer</span>
+													</div>
+													<div class="nk-tb-col tb-col-md">
+														<span>Date</span>
+													</div>
+													<div class="nk-tb-col tb-col-lg">
+														<span>Ref</span>
+													</div>
+													<div class="nk-tb-col">
+														<span>Amount</span>
+													</div>
+													<div class="nk-tb-col">
+														<span class="d-none d-sm-inline">Status</span>
+													</div>
+													<div class="nk-tb-col">
+														<span>&nbsp;</span>
+													</div>
+												</div>
+
+												{% for invoice in invoices %}
+													<div class="nk-tb-item">
+														<div class="nk-tb-col">
+															<span class="tb-lead">
+																<a href="#">{{ invoice.invoiceNo }}</a>
+															</span>
+														</div>
+														<div class="nk-tb-col tb-col-sm">
+															<div class="user-card">
+																<div class="user-avatar user-avatar-sm bg-purple">
+																	<span>{{ invoice.customer|slice(0, 2) }}</span>
+																</div>
+																<div class="user-name">
+																	<span class="tb-lead">{{ invoice.customer }}</span>
+																</div>
+															</div>
+														</div>
+														<div class="nk-tb-col tb-col-md">
+															<span class="tb-sub">{{ invoice.date|date('m/d/Y') }}</span>
+														</div>
+														<div class="nk-tb-col tb-col-lg">
+															<span class="tb-sub text-primary">SUB-{{ invoice.invoiceNo }}</span>
+														</div>
+														<div class="nk-tb-col">
+															<span class="tb-sub tb-amount">{{ invoice.amount|number_format(2, '.', ',') }}
+																<span>USD</span>
+															</span>
+														</div>
+														<div class="nk-tb-col">
+															<span class="badge badge-dot badge-dot-xs text-success">Paid</span>
+														</div>
+														<div class="nk-tb-col nk-tb-col-action">
+															<div class="dropdown">
+																<a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+																	<em class="icon ni ni-more-h"></em>
+																</a>
+																<div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+																	<ul class="link-list-plain">
+																		<li>
+																			<a href="#">View</a>
+																		</li>
+																		<li>
+																			<a href="#">Invoice</a>
+																		</li>
+																		<li>
+																			<a href="#">Print</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+										<div class="card-inner-sm border-top text-center d-sm-none">
+											<a href="#" class="btn btn-link btn-block">See History</a>
+										</div>
+									</div>
+								</div>
+									
+								{% endif %}
+
+
+								{% if is_granted('AdminAccess') %}
+
+								
+								<div class="col-xxl-3 col-sm-6">
+								<div class="card">
+									<div class="nk-ecwg nk-ecwg6">
+										<div class="card-inner">
+											<div class="card-title-group">
+												<div class="card-title">
+													<h6 class="title">Thu nhập tuần này</h6>
+												</div>
+											</div>
+											<div class="data">
+												<div class="data-group">
+													<div class="amount">{{ currentWeekTotal|format_vnd }}</div>
+													<div class="nk-ecwg6-ck">
+														<canvas class="ecommerce-line-chart-s3" id="ipdIncome"></canvas>
+													</div>
+												</div>
+												<span class="change {{ changePercentage > 0 ? 'up text-danger' : 'down text-success' }}">
+													<em class="icon ni {{ changePercentage > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+													{{ changePercentage|number_format(2) }}%
+												</span>
+
+												<span>
+													so với tuần trước</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xxl-3 col-sm-6">
+								<div class="card">
+									<div class="nk-ecwg nk-ecwg6">
+										<div class="card-inner">
+											<div class="card-title-group">
+												<div class="card-title">
+													<h6 class="title">Chi phí tuần này
+													</h6>
+												</div>
+											</div>
+											<div class="data">
+												<div class="data-group">
+												<div class="amount">
+												{% if chiphituanhientai is defined %}
+												  {{ chiphituanhientai|format_vnd }}
+												{% else %}
+												  0
+												{% endif %}
+											  </div>
+																								  <div class="nk-ecwg6-ck">
+														<canvas class="ecommerce-line-chart-s3" id="opdIncome"></canvas>
+													</div>
+												</div>
+												<span class="change {{ phantram > 0 ? 'up text-danger' : 'down text-success' }}">
+													<em class="icon ni {{ phantram > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+													{{ phantram|number_format(2) }}%
+												</span>
+												<span>
+													so với tuần trước</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xxl-3 col-sm-6">
+						</div>
+
+									{# <div class="col-xxl-3 col-sm-6">
+									                        <div class="card">
+									                            <div class="nk-ecwg nk-ecwg6">
+									                                <div class="card-inner">
+									                                    <div class="card-title-group">
+									                                        <div class="card-title ">
+									                                            <h6 class="title">Today's Customer</h6>
+									                                        </div>
+									                                    </div>
+									                                    <div class="data">
+									                                        <div class="data-group">
+									                                            <div class="amount">$20,847</div>
+									                                            <div class="nk-ecwg6-ck">
+									                                                <canvas class="ecommerce-line-chart-s3" id="labIncome"></canvas>
+									                                            </div>
+									                                        </div>
+									                                   <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span>
+									                    <span> vs. last week</span>
+									                                    </div>
+									                                </div>
+									                            </div>
+									                        </div>
+									                    </div> #}
+								
+								{% endif %}
+
+
+								{% if is_granted('AdminAccess')   %}
+
+									<div class="col-xxl-4 col-md-6">
+										<div class="card is-dark h-100">
+											<div class="nk-ecwg nk-ecwg1">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">Total Sales</h6>
+														</div>
+													
+													</div>
+													<div class="data">
+														<div class="amount">{{ currentMonthTotal|format_vnd }}</div>
+														<div class="info">
+															<strong>{{ lastMonthTotal|format_vnd }}</strong>
+															Trong tháng trước
+														</div>
+													</div>
+
+													{# lên hoặc xuống #}
+												
+													<div class="data">
+														<h6 class="sub-title">So với tuần trước</h6>
+														<div class="data-group">
+															<div class="amount">{{ chiphituantruoc|format_vnd }}</div>
+															
+															<div class="info text-right">
+																<span class="change up {{ percentChange > 0 ? 'text-danger' : 'text-success' }}">
+																	<em class="icon ni {{ percentChange > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
+																	{{ percentChange|number_format(2, '.', ',') }}%
+																	
+																</span>
+																<br/>
+																<span>vs. last week</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="nk-ecwg1-ck">
+													<canvas class="ecommerce-line-chart-s1" id="totalSales"></canvas>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xxl-5 col-md-6">
+										<div class="card card-full">
+											<div class="nk-ecwg nk-ecwg8 h-100">
+												<div class="card-inner">
+													<div class="card-title-group mb-3">
+														<div class="card-title">
+															<h6 class="title">Doanh thu tổng quan</h6>
+														</div>
+														
+													</div>
+													<div class="nk-ecwg8-ck">
+														<canvas class="ecommerce-line-chart-s4" id="salesStatistics"></canvas>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<div class="col-xxl-3 col-md-6">
+										<div class="card h-100">
+											<div class="card-inner">
+												<div class="card-title-group mb-2">
+													<div class="card-title">
+														<h6 class="title">Tổng quan nhà thuốc</h6>
+													</div>
+												</div>
+												<ul class="nk-store-statistics">
+													<li class="item">
+														<div class="info">
+															<div class="title">Tổng đơn hàng</div>
+															<div class="count">{{ tongSoDonHang|number_format }}</div>
+														</div>
+														<em class="icon bg-primary-dim ni ni-bag"></em>
+													</li>
+													<li class="item">
+														<div class="info">
+															<div class="title">Tổng khách hàng giao dịch</div>
+															<div class="count">{{ tongSoKhachHang|number_format }}</div>
+														</div>
+														<em class="icon bg-info-dim ni ni-users"></em>
+													</li>
+													<li class="item">
+														<div class="info">
+															<div class="title">Tổng sản phẩm</div>
+															<div class="count">{{ tongSoThuoc|number_format }}</div>
+														</div>
+														<em class="icon bg-pink-dim ni ni-box"></em>
+													</li>
+													<li class="item">
+														<div class="info">
+															<div class="title">Tổng danh mục</div>
+															<div class="count">{{ tongDanhMuc|number_format }}</div>
+														</div>
+														<em class="icon bg-purple-dim ni ni-server"></em>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								{% endif %}
+
+
+								{% if is_granted('NhapHangAccess')  %}
+									<div class="col-xxl-3 col-md-6">
+										<div class="card h-100">
+											<div class="card-inner">
+												<div class="card-title-group mb-2">
+													<div class="card-title">
+														<h6 class="title">Store Statistics</h6>
+													</div>
+												</div>
+												<ul class="nk-store-statistics">
+													<li class="item">
+														<div class="info">
+															<div class="title">Products</div>
+															<div class="count">{{ tongSoThuoc|number_format }}</div>
+														</div>
+														<em class="icon bg-pink-dim ni ni-box"></em>
+													</li>
+													<li class="item">
+														<div class="info">
+															<div class="title">Categories</div>
+															<div class="count">{{ tongDanhMuc|number_format }}</div>
+														</div>
+														<em class="icon bg-purple-dim ni ni-server"></em>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+
+								{% endif %}
+
+
+								{% if is_granted('AdminAccess') or is_granted('BanThuocAccess') %}
+
+									{# <div class="col-md-6 col-xxl-4">
+										<div class="card card-bordered card-full">
+											<div class="card-inner-group">
+												<div class="card-inner">
+													<div class="card-title-group">
+														<div class="card-title">
+															<h6 class="title">New Customers</h6>
+														</div>
+														<div class="card-tools">
+															<a href="/demo7/pharmacy/customer.html" class="link">View All</a>
+														</div>
+													</div>
+												</div>
+
+												{% for customer in customerInfo %}
+													<div class="card-inner card-inner-md">
+														<div class="user-card">
+															<div class="user-avatar bg-primary-dim">
+																<span>{{ customer.Name[:2]|upper }}</span>
+															</div>
+															<div class="user-info">
+																<span class="lead-text">{{ customer.Name }}</span>
+																<span class="sub-text">{{ customer.Email }}</span>
+															</div>
+															<div class="user-action">
+																<div class="drodown">
+																	<a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false">
+																		<em class="icon ni ni-more-h"></em>
+																	</a>
+																	<div class="dropdown-menu dropdown-menu-end">
+																		<ul class="link-list-opt no-bdr">
+																			<li>
+																				<a href="/demo7/pharmacy/general-settings.html">
+																					<em class="icon ni ni-setting"></em>
+																					<span>Action Settings</span>
+																				</a>
+																			</li>
+																			<li>
+																				<a href="#">
+																					<em class="icon ni ni-notify"></em>
+																					<span>Push Notification</span>
+																				</a>
+																			</li>
+																		</ul>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+									</div> #}
+									{# <div class="col-xxl-8">
+										<div class="card card-bordered card-full">
+											<div class="card-inner">
+												<div class="card-title-group">
+													<div class="card-title">
+														<h6 class="title">
+															<span class="me-2">Transaction</span>
+															<a href="#" class="link d-none d-sm-inline">See History</a>
+														</h6>
+													</div>
+													<div class="card-tools">
+														<ul class="card-tools-nav">
+															<li>
+																<a href="#">
+																	<span>Paid</span>
+																</a>
+															</li>
+															<li>
+																<a href="#">
+																	<span>Pending</span>
+																</a>
+															</li>
+															<li class="active">
+																<a href="#">
+																	<span>All</span>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="card-inner p-0 border-top">
+												<div class="nk-tb-list nk-tb-orders">
+													<div class="nk-tb-item nk-tb-head">
+														<div class="nk-tb-col">
+															<span>Invoice No</span>
+														</div>
+														<div class="nk-tb-col tb-col-sm">
+															<span>Customer</span>
+														</div>
+														<div class="nk-tb-col tb-col-md">
+															<span>Date</span>
+														</div>
+														<div class="nk-tb-col tb-col-lg">
+															<span>Ref</span>
+														</div>
+														<div class="nk-tb-col">
+															<span>Amount</span>
+														</div>
+														<div class="nk-tb-col">
+															<span class="d-none d-sm-inline">Status</span>
+														</div>
+														<div class="nk-tb-col">
+															<span>&nbsp;</span>
+														</div>
+													</div>
+
+													{% for invoice in invoices %}
+														<div class="nk-tb-item">
+															<div class="nk-tb-col">
+																<span class="tb-lead">
+																	<a href="#">{{ invoice.invoiceNo }}</a>
+																</span>
+															</div>
+															<div class="nk-tb-col tb-col-sm">
+																<div class="user-card">
+																	<div class="user-avatar user-avatar-sm bg-purple">
+																		<span>{{ invoice.customer|slice(0, 2) }}</span>
+																	</div>
+																	<div class="user-name">
+																		<span class="tb-lead">{{ invoice.customer }}</span>
+																	</div>
+																</div>
+															</div>
+															<div class="nk-tb-col tb-col-md">
+																<span class="tb-sub">{{ invoice.date|date('m/d/Y') }}</span>
+															</div>
+															<div class="nk-tb-col tb-col-lg">
+																<span class="tb-sub text-primary">SUB-{{ invoice.invoiceNo }}</span>
+															</div>
+															<div class="nk-tb-col">
+																<span class="tb-sub tb-amount">{{ invoice.amount|number_format(2, '.', ',') }}
+																	<span>USD</span>
+																</span>
+															</div>
+															<div class="nk-tb-col">
+																<span class="badge badge-dot badge-dot-xs text-success">Paid</span>
+															</div>
+															<div class="nk-tb-col nk-tb-col-action">
+																<div class="dropdown">
+																	<a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+																		<em class="icon ni ni-more-h"></em>
+																	</a>
+																	<div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+																		<ul class="link-list-plain">
+																			<li>
+																				<a href="#">View</a>
+																			</li>
+																			<li>
+																				<a href="#">Invoice</a>
+																			</li>
+																			<li>
+																				<a href="#">Print</a>
+																			</li>
+																		</ul>
+																	</div>
+																</div>
+															</div>
+														</div>
+													{% endfor %}
+												</div>
+											</div>
+											<div class="card-inner-sm border-top text-center d-sm-none">
+												<a href="#" class="btn btn-link btn-block">See History</a>
+											</div>
+										</div>
+									</div> #}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="popup" id="popup">
+				<div class="popup-content">
+					<span class="close" id="popup-close-btn" onclick="closePopup()">&times;</span>
+					<p id="popup-message">Thông báo của bạn đã được cập nhật!</p>
+				</div>
+			</div>
+
+
+		{% endif %}
+
+
+		<!-- Thêm mã JavaScript để kiểm tra đăng nhập và hiển thị thông báo từ Local Storage -->
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var loggedInUser = localStorage.getItem('loggedInUser');
+
+// Kiểm tra xem người dùng có đăng nhập hay không
+if (loggedInUser) {
+var storedMessage = localStorage.getItem('popupMessage');
+
+if (storedMessage) {
+alert('Thông báo từ ' + loggedInUser + ': ' + storedMessage);
+// Hoặc bạn có thể sử dụng một cách khác để hiển thị thông báo tùy chỉnh ở đây
+// Đồng thời, sau khi đã sử dụng thông báo, bạn có thể xóa nó khỏi Local Storage
+localStorage.removeItem('popupMessage');
+}
+
+// Xóa tên người dùng khỏi Local Storage sau khi đã sử dụng thông báo
+localStorage.removeItem('loggedInUser');
+}
+});
+		</script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var doanhThuData = {{ doanhThuData|json_encode|raw }};
+var chiPhiData = {{ chiPhiData|json_encode|raw }};
+
+// Sắp xếp mảng theo WeekNumber
+doanhThuData.sort((a, b) => a.WeekNumber - b.WeekNumber);
+chiPhiData.sort((a, b) => a.WeekNumber - b.WeekNumber);
+
+// Chuyển đổi giá trị TotalExpense từ chuỗi sang số
+chiPhiData.forEach(item => {
+item.TotalExpense = parseFloat(item.TotalExpense);
+});
+
+// Lấy thẻ canvas để vẽ biểu đồ
+var ctx = document.getElementById('salesStatistics').getContext('2d');
+
+// Tạo mảng nhãn thời gian
+var labels = doanhThuData.map(item => 'Tuần ' + item.WeekNumber);
+
+// Kiểm tra xem có bất kỳ tuần nào trong chiPhiData mà không có trong doanhThuData không
+chiPhiData.forEach(item => {
+var weekLabel = 'Tuần ' + item.WeekNumber;
+if (! labels.includes(weekLabel)) {
+labels.push(weekLabel);
+}
+});
+
+// Sắp xếp lại mảng nhãn thời gian
+labels.sort();
+
+// Tạo biểu đồ đường
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+labels: labels,
+datasets: [
+{
+label: 'Thu nhập',
+borderColor: '#0fac81',
+data: doanhThuData.map(item => item.TotalIncome)
+}, {
+label: 'Chi phí',
+borderColor: '#eb6459',
+data: chiPhiData.map(item => item.TotalExpense)
+},
+]
+}
+});
+});
+		</script>
+
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var doanhThuData = {{ doanhThuData|json_encode|raw }};
+var chiPhiData = {{ chiPhiData|json_encode|raw }};
+
+// Sắp xếp mảng theo WeekNumber
+doanhThuData.sort((a, b) => a.WeekNumber - b.WeekNumber);
+chiPhiData.sort((a, b) => a.WeekNumber - b.WeekNumber);
+
+// Chuyển đổi giá trị TotalExpense từ chuỗi sang số
+chiPhiData.forEach(item => {
+item.TotalExpense = parseFloat(item.TotalExpense);
+});
+
+// Lấy thẻ canvas để vẽ biểu đồ
+var ctx = document.getElementById('salesStatistics').getContext('2d');
+
+// Tạo mảng nhãn thời gian
+var labels = doanhThuData.map(item => 'Tuần ' + item.WeekNumber);
+
+// Kiểm tra xem có bất kỳ tuần nào trong chiPhiData mà không có trong doanhThuData không
+chiPhiData.forEach(item => {
+var weekLabel = 'Tuần ' + item.WeekNumber;
+if (! labels.includes(weekLabel)) {
+labels.push(weekLabel);
+}
+});
+
+// Sắp xếp lại mảng nhãn thời gian
+labels.sort();
+
+// Tạo biểu đồ đường
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+labels: labels,
+datasets: [
+{
+label: 'Thu nhập',
+borderColor: '#0fac81',
+data: doanhThuData.map(item => item.TotalIncome)
+}, {
+label: 'Chi phí',
+borderColor: '#eb6459',
+data: chiPhiData.map(item => item.TotalExpense)
+},
+]
+}
+});
+});
+		</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('salesStatistics').getContext('2d');
+            var salesStatistics = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Expense', 'Income'],
+                    datasets: [{
+                        label: 'Last Month',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        data: [{{ lastMonthExpense }}, {{ lastMonthIncome }}],
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         });
+    </script>
 
-        // Lấy thẻ canvas để vẽ biểu đồ
-        var ctx = document.getElementById('salesStatistics').getContext('2d');
-
-        // Tạo mảng nhãn thời gian
-        var labels = doanhThuData.map(item => 'Tuần ' + item.WeekNumber);
-
-        // Kiểm tra xem có bất kỳ tuần nào trong chiPhiData mà không có trong doanhThuData không
-        chiPhiData.forEach(item => {
-            var weekLabel = 'Tuần ' + item.WeekNumber;
-            if (!labels.includes(weekLabel)) {
-                labels.push(weekLabel);
-            }
-        });
-
-        // Sắp xếp lại mảng nhãn thời gian
-        labels.sort();
-
-        // Tạo biểu đồ đường
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Thu nhập',
-                        borderColor: '#0fac81',
-                        data: doanhThuData.map(item => item.TotalIncome),
-                    },
-                    {
-                        label: 'Chi phí',
-                        borderColor: '#eb6459',
-                        data: chiPhiData.map(item => item.TotalExpense),
-                    },
-                ],
-            },
-        });
-    });
-</script>
-
-
-
-                
-
-                    <div class="col-xxl-3 col-md-6">
-                        <div class="card h-100">
-                            <div class="card-inner">
-                                <div class="card-title-group mb-2">
-                                    <div class="card-title">
-                                        <h6 class="title">Store Statistics</h6>
-                                    </div>
-                                </div>
-                                <ul class="nk-store-statistics">
-                                    <li class="item">
-                                        <div class="info">
-                                            <div class="title">Sales</div>
-                                            <div class="count">{{ tongSoDonHang|number_format }}</div>
-                                    </div>
-                                        <em class="icon bg-primary-dim ni ni-bag"></em>
-                                    </li>
-                                    <li class="item">
-                                        <div class="info">
-                                            <div class="title">Customers</div>
-                                            <div class="count">{{ tongSoKhachHang|number_format }}</div>
-                                    </div>
-                                        <em class="icon bg-info-dim ni ni-users"></em>
-                                    </li>
-                                    <li class="item">
-                                        <div class="info">
-                                            <div class="title">Products</div>
-                                            <div class="count">{{ tongSoThuoc|number_format }}</div>
-                                    </div>
-                                        <em class="icon bg-pink-dim ni ni-box"></em>
-                                    </li>
-                                    <li class="item">
-                                        <div class="info">
-                                            <div class="title">Categories</div>
-                                        <div class="count">{{ tongDanhMuc|number_format }}</div>
-                                    </div>
-                                        <em class="icon bg-purple-dim ni ni-server"></em>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xxl-4">
-                        <div class="card card-bordered card-full">
-                            <div class="card-inner-group">
-                                <div class="card-inner">
-                                    <div class="card-title-group">
-                                        <div class="card-title">
-                                            <h6 class="title">New Customers</h6>
-                                        </div>
-                                        <div class="card-tools">
-                                            <a href="/demo7/pharmacy/customer.html" class="link">View All</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {% for customer in customerInfo %}
-                                <div class="card-inner card-inner-md">
-                                    <div class="user-card">
-                                        <div class="user-avatar bg-primary-dim">
-                                            <span>{{ customer.Name[:2]|upper }}</span>
-                                        </div>
-                                        <div class="user-info">
-                                            <span class="lead-text">{{ customer.Name }}</span>
-                                            <span class="sub-text">{{ customer.Email }}</span>
-                                        </div>
-                                        <div class="user-action">
-                                            <div class="drodown">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <em class="icon ni ni-more-h"></em>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <ul class="link-list-opt no-bdr">
-                                                        <li>
-                                                            <a href="/demo7/pharmacy/general-settings.html">
-                                                                <em class="icon ni ni-setting"></em>
-                                                                <span>Action Settings</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <em class="icon ni ni-notify"></em>
-                                                                <span>Push Notification</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                      
-                               
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-8">
-                        <div class="card card-bordered card-full">
-                            <div class="card-inner">
-                                <div class="card-title-group">
-                                    <div class="card-title">
-                                        <h6 class="title">
-                                            <span class="me-2">Transaction</span>
-                                            <a href="#" class="link d-none d-sm-inline">See History</a>
-                                        </h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <ul class="card-tools-nav">
-                                            <li>
-                                                <a href="#">
-                                                    <span>Paid</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <span>Pending</span>
-                                                </a>
-                                            </li>
-                                            <li class="active">
-                                                <a href="#">
-                                                    <span>All</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner p-0 border-top">
-                                <div class="nk-tb-list nk-tb-orders">
-                                    <div class="nk-tb-item nk-tb-head">
-                                        <div class="nk-tb-col">
-                                            <span>Invoice No</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-sm">
-                                            <span>Customer</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <span>Date</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-lg">
-                                            <span>Ref</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span>Amount</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="d-none d-sm-inline">Status</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span>&nbsp;</span>
-                                        </div>
-                                    </div>
-
-
-
-                                    {% for invoice in invoices %}
-                                    <div class="nk-tb-item">
-                                        <div class="nk-tb-col">
-                                            <span class="tb-lead">
-                                                <a href="#">{{ invoice.invoiceNo }}</a>
-                                            </span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-sm">
-                                            <div class="user-card">
-                                                <div class="user-avatar user-avatar-sm bg-purple">
-                                                    <span>{{ invoice.customer|slice(0, 2) }}</span>
-                                                </div>
-                                                <div class="user-name">
-                                                    <span class="tb-lead">{{ invoice.customer }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <span class="tb-sub">{{ invoice.date|date('m/d/Y') }}</span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-lg">
-                                            <span class="tb-sub text-primary">SUB-{{ invoice.invoiceNo }}</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="tb-sub tb-amount">
-                                                {{ invoice.amount|number_format(2, '.', ',') }} <span>USD</span>
-                                            </span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="badge badge-dot badge-dot-xs text-success">Paid</span>
-                                        </div>
-                                        <div class="nk-tb-col nk-tb-col-action">
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                                    <em class="icon ni ni-more-h"></em>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li>
-                                                            <a href="#">View</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Invoice</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Print</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                                
-
-
-                                </div>
-                            </div>
-                            <div class="card-inner-sm border-top text-center d-sm-none">
-                                <a href="#" class="btn btn-link btn-block">See History</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<div class="popup" id="popup">
-<div class="popup-content">
-  <span class="close" id="popup-close-btn" onclick="closePopup()">&times;</span>
-  <p id="popup-message">Thông báo của bạn đã được cập nhật!</p>
-</div>
-</div>
-
-
-<!-- Thêm mã JavaScript để kiểm tra đăng nhập và hiển thị thông báo từ Local Storage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var loggedInUser = localStorage.getItem('loggedInUser');
-
-    // Kiểm tra xem người dùng có đăng nhập hay không
-    if (loggedInUser) {
-      var storedMessage = localStorage.getItem('popupMessage');
-
-      if (storedMessage) {
-        alert('Thông báo từ ' + loggedInUser + ': ' + storedMessage);
-        // Hoặc bạn có thể sử dụng một cách khác để hiển thị thông báo tùy chỉnh ở đây
-        // Đồng thời, sau khi đã sử dụng thông báo, bạn có thể xóa nó khỏi Local Storage
-        localStorage.removeItem('popupMessage');
-      }
-
-      // Xóa tên người dùng khỏi Local Storage sau khi đã sử dụng thông báo
-      localStorage.removeItem('loggedInUser');
-    }
-  });
-</script>
-    
-
-
-
-
-
+	{% endif %}
 {% endblock %}

@@ -16,7 +16,7 @@ class BaocaotonkhoController extends AbstractController
     {
         // Sử dụng Connection để thực hiện truy vấn SQL
         $sql = "
-        SELECT
+        SELECT DISTINCT
         m.MedicineID AS idThuoc,
         m.Name AS TenThuoc,
         m.Price AS GiaBan,
@@ -28,7 +28,7 @@ class BaocaotonkhoController extends AbstractController
         COALESCE(SUM(six.Quantity * m.Price), 0) - COALESCE(SUM(pdn.Quantity * COALESCE(pdn.Price, 0)), 0) AS DoanhThu,
         d.DistributorName AS NhaSanXuat,
         d.Email AS Email,
-        (COALESCE(SUM(pdn.Quantity), 0) - COALESCE(SUM(six.Quantity), 0)) AS TonKhoHienTai  -- Tính tồn kho hiện tại
+        (COALESCE(SUM(pdn.Quantity), 0) - COALESCE(SUM(six.Quantity), 0)) AS TonKhoHienTai
     FROM
         Medicines m
     LEFT JOIN PurchaseInvoiceDetails pdn ON m.MedicineID = pdn.MedicineID
@@ -39,7 +39,8 @@ class BaocaotonkhoController extends AbstractController
         m.Name,
         m.Price,
         pdn.Price,
-        d.DistributorName;  
+        d.DistributorName;
+    
         ";
 
         $sql = $connection->executeQuery($sql)->fetchAllAssociative();

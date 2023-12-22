@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class ThemthuocmoiController extends AbstractController
 {
     /**
-     * @Route("/themthuocmoi", name="themthuocmoi")
+     * @Route("/them-thuoc-moi", name="themthuocmoi")
      */
     public function index(Connection $connection, Request $request, SessionInterface $session): Response
 {
