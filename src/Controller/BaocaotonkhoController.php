@@ -16,32 +16,40 @@ class BaocaotonkhoController extends AbstractController
     {
         // Sử dụng Connection để thực hiện truy vấn SQL
         $sql = "
-        SELECT DISTINCT
-        m.MedicineID AS idThuoc,
+        SELECT
+        MAX(m.MedicineID) AS idThuoc,
         m.Name AS TenThuoc,
-        m.Price AS GiaBan,
+        MAX(m.Price) AS GiaBan,
         COALESCE(SUM(pdn.Quantity), 0) AS TongSoLuongNhap,
-        COALESCE(pdn.Price, 0) AS GiaNhap,
+        COALESCE(MAX(pdn.Price), 0) AS GiaNhap,
         COALESCE(SUM(six.Quantity), 0) AS TongSoLuongXuat,
         COALESCE(SUM(pdn.Quantity * COALESCE(pdn.Price, 0)), 0) AS TongTienNhap,
         COALESCE(SUM(six.Quantity * m.Price), 0) AS TongTienXuat,
         COALESCE(SUM(six.Quantity * m.Price), 0) - COALESCE(SUM(pdn.Quantity * COALESCE(pdn.Price, 0)), 0) AS DoanhThu,
-        d.DistributorName AS NhaSanXuat,
-        d.Email AS Email,
+        MAX(d.DistributorName) AS NhaSanXuat,
+        MAX(d.Email) AS Email,
         (COALESCE(SUM(pdn.Quantity), 0) - COALESCE(SUM(six.Quantity), 0)) AS TonKhoHienTai
     FROM
         Medicines m
-    LEFT JOIN PurchaseInvoiceDetails pdn ON m.MedicineID = pdn.MedicineID
+    LEFT JOIN (
+        SELECT
+            MedicineID,
+            Quantity,
+            Price,
+            ROW_NUMBER() OVER (PARTITION BY MedicineID ORDER BY PurchaseInvoiceID DESC) AS RowNum
+        FROM
+            PurchaseInvoiceDetails
+    ) pdn ON m.MedicineID = pdn.MedicineID AND pdn.RowNum = 1
     LEFT JOIN SalesInvoiceDetails six ON m.MedicineID = six.MedicineID
     LEFT JOIN Distributors d ON m.ManufacturerID = d.DistributorID
     GROUP BY
-        m.MedicineID,
-        m.Name,
-        m.Price,
-        pdn.Price,
-        d.DistributorName;
+        m.Name
+    ORDER BY
+        TonKhoHienTai ASC;
     
-        ";
+";
+
+    
 
         $sql = $connection->executeQuery($sql)->fetchAllAssociative();
 

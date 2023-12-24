@@ -10,7 +10,7 @@
             <div class="nk-block-head nk-block-head-sm">
                 <div class="nk-block-between">
                     <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Nguồn chi</h3>
+                        <h3 class="nk-block-title page-title">Nhập thuốc</h3>
                     </div>
                     <div class="nk-block-head-content">
                         <div class="toggle-wrap nk-block-tools-toggle">
@@ -85,17 +85,17 @@
                                     {% if percentageExpenseChange > 0 %}
                                         <span class="change up text-success">
                                             <em class="icon ni ni-arrow-long-up"></em>
-                                            {{ percentageExpenseChange|format_vnd }}%
+                                            {{ percentageExpenseChange }}%
                                         </span>
                                     {% elseif percentageExpenseChange < 0 %}
                                         <span class="change down text-danger">
                                             <em class="icon ni ni-arrow-long-down"></em>
-                                            {{ percentageExpenseChange|format_vnd }}%
+                                            {{ percentageExpenseChange }}%
                                         </span>
                                     {% else %}
                                         <span class="change text-primary">0%</span>
                                     {% endif %}
-                                    <span>vs. last month</span>
+                                    <span>So với tháng trước</span>
                                 </div>
                             </div>
                         </div>
@@ -120,22 +120,7 @@
                             <canvas class="ecommerce-line-chart-s3" id="rents"></canvas>
                         </div>
                     </div>
-                    <div class="info">
-                        {% if percentageChange > 0 %}
-                            <span class="change up text-success">
-                                <em class="icon ni ni-arrow-long-up"></em>
-                                {{ percentageChange |format_vnd }}%
-                            </span>
-                        {% elseif percentageChange < 0 %}
-                            <span class="change down text-danger">
-                                <em class="icon ni ni-arrow-long-down"></em>
-                                {{ percentageChange |format_vnd }}%
-                            </span>
-                        {% else %}
-                            <span class="change text-primary">0%</span>
-                        {% endif %}
-                        <span>vs. last month</span>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -270,9 +255,9 @@
                                     <div class="nk-tb-col tb-col-mb">
                                         <span class="sub-text">ID hoá đơn</span>
                                     </div>
-                                    <div class="nk-tb-col">
+                                    {# <div class="nk-tb-col">
                                         <span class="sub-text">Tên nhà sản xuất</span>
-                                    </div>
+                                    </div> #}
                                     <div class="nk-tb-col tb-col-lg">
                                         <span class="sub-text">Ngày</span>
                                     </div>
@@ -296,9 +281,9 @@
                                             <a href="{{ path('chi_tiet_hoa_don', { 'id': row.PurchaseInvoiceID }) }}">{{ row.PurchaseInvoiceID}}</a>
                                         </span>
                                     </div>
-                                    <div class="nk-tb-col">
+                                    {# <div class="nk-tb-col">
                                         <span>{{ row.DistributorName }}</span>
-                                    </div>
+                                    </div> #}
                                     <div class="nk-tb-col tb-col-lg">
                                         <span>{{ row.Date }}</span>
                                     </div>
@@ -390,7 +375,6 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
     {% for row in result %}
         var rowData = [
             "{{ row.PurchaseInvoiceID }}",
-            "{{ row.DistributorName }}",
             "{{ row.Date }}",
             "{{ row.ExpenseType }}",
             "{{ row.Amount|format_vnd }}"
@@ -400,7 +384,7 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
     {% endfor %}
 
     // Tạo workbook và worksheet
-    var ws = XLSX.utils.aoa_to_sheet([['PurchaseInvoiceID', 'DistributorName', 'Date', 'ExpenseType', 'Amount']].concat(data));
+    var ws = XLSX.utils.aoa_to_sheet([['PurchaseInvoiceID', 'Date', 'ExpenseType', 'Amount']].concat(data));
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'PurchaseInvoices');
 

@@ -64,9 +64,7 @@ class ChiphiController extends AbstractController
         $percentageChange = round($percentageChange, 2);
 
         // Truy vấn thông tin chi phí từ bảng PurchaseInvoices và Distributors cho tháng và năm đã chọn
-        $sqlChiphi = "SELECT PurchaseInvoices.*, Distributors.DistributorName
-        FROM PurchaseInvoices
-        JOIN Distributors ON PurchaseInvoices.DistributorID = Distributors.DistributorID
+        $sqlChiphi = "SELECT * FROM PurchaseInvoices
         WHERE MONTH(PurchaseInvoices.Date) = :month AND YEAR(PurchaseInvoices.Date) = :year;
         ;
  ";

@@ -14,13 +14,7 @@
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Báo cáo mua hàng</h3>
               </div>
-              <div class="nk-block-head-content">
-                <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                <a data-bs-toggle="modal" href="#addPurchase" class="btn btn-primary d-none d-md-inline-flex">
-                  <em class="icon ni ni-plus"></em>
-                  <span>Add Purchase</span>
-                </a>
-              </div>
+            
             </div>
           </div>
           <div class="nk-block">
@@ -32,6 +26,8 @@
                     <form method="get" action="{{ path('baocaomuahang') }}">
                       <label for="month">Tháng:</label>
                       <select name="month" id="month">
+                    <option value=""></option>
+
                         <option value="1">Tháng 1</option>
                         <option value="2">Tháng 2</option>
                         <option value="3">Tháng 3</option>
@@ -48,6 +44,8 @@
 
                       <label for="year">Năm:</label>
                       <select name="year" id="year">
+                    <option value=""></option>
+
                         <option value="2023">2023</option>
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
@@ -139,31 +137,8 @@
                     {% endfor %}
                   </div>
                 </div>
-                <div class="card-inner">
-                  <ul class="pagination justify-content-center justify-content-md-start">
-                    <li class="page-item">
-                      <a class="page-link" href="#">Prev</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                      <span class="page-link"><em class="icon ni ni-more-h"></em></span>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">6</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">7</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </div>
+              <button id="exportExcelBtn" class="btn btn-primary" onclick="exportPurchaseInvoicesToExcel()">Xuất Excel</button>
+
               </div>
             </div>
           </div>
@@ -171,4 +146,33 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function exportPurchaseInvoicesToExcel() {
+        // Tạo một mảng dữ liệu từ danh sách hóa đơn mua hàng
+        var data = [['Mã hóa đơn', 'Nhà phân phối', 'Ghi chú', 'Ngày', 'Số tiền']];
+
+        {% for purchaseInvoice in purchaseInvoices %}
+            var rowData = [
+                "{{ purchaseInvoice.PurchaseInvoiceID }}",
+                "{{ purchaseInvoice.DistributorName }}",
+                "{{ purchaseInvoice.Note }}",
+                "{{ purchaseInvoice.Date|date('d/m/Y') }}",
+                "{{ purchaseInvoice.Amount }} VNĐ"
+            ];
+
+            data.push(rowData);
+        {% endfor %}
+
+        // Tạo đối tượng từ mảng dữ liệu
+        var ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Tạo workbook và thêm trang tính vào
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Danh sách hóa đơn mua hàng');
+
+        // Xuất file Excel
+        XLSX.writeFile(wb, 'DanhSachHoaDonMuaHang.xlsx');
+    }
+</script>
 {% endblock %}

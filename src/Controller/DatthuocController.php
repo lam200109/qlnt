@@ -97,13 +97,16 @@ class DatthuocController extends AbstractController
                 // Thêm chi tiết hóa đơn xuất vào CSDL
                 $query = "INSERT INTO SalesInvoiceDetails (SalesInvoiceID, MedicineID, Quantity, Price, Total, CreatedDate) VALUES (?, ?, ?, ?, ?, NOW())";
                 $this->connection->executeStatement($query, [$SalesInvoiceID, $medicineId, $quantity, $price, $amount]);
+                $this->addFlash('success', 'Đơn đặt hàng đã được tạo thành công.');
 
-                return new JsonResponse(['status' => 'success']);
+                return $this->redirectToRoute('dat_thuoc');
             } else {
                 return new JsonResponse(['status' => 'error', 'message' => 'Số lượng tồn kho không đủ']);
             }
         } else {
-            return new JsonResponse(['status' => 'error', 'message' => 'Tạo đơn thất bại']);
+            $this->addFlash('error', 'Số lượng tồn kho không đủ. Đơn đặt hàng không thể hoàn thành.');
+
+            return $this->redirectToRoute('dat_thuoc');
         }
     }
 }

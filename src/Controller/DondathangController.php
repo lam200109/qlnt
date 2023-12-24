@@ -28,7 +28,8 @@ class DondathangController extends AbstractController
         SELECT *
         FROM SalesInvoices si
         JOIN SalesInvoiceDetails sid ON si.SalesInvoiceID = sid.SalesInvoiceID
-        JOIN Medicines m ON sid.MedicineID = m.MedicineID;
+        JOIN Medicines m ON sid.MedicineID = m.MedicineID
+        WHERE si.Status IS NOT NULL;
         
           
         ";

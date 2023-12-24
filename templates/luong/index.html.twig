@@ -35,10 +35,10 @@
                         <div class="col-xxl-3 col-sm-6">
                             <div class="form-group">
                                 <label class="form-label" for="member">Nhân viên</label>
-                                <select class="form-control" id="member" name="PermissionName" required>
+                                <select class="form-control" id="member" name="UserID" required>
                                     <option value="" disabled selected>Chọn nhân viên</option>
                                     {% for employee in permissionname %}
-                                        <option value="{{ employee.PermissionID }}">{{ employee.PermissionName }}</option>
+                                        <option value="{{ employee.UserID }}">{{ employee.FullName }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -62,14 +62,48 @@
                               <li>
                                 <button type="submit" class="btn btn-primary">Lưu thông tin</button>
                               </li>
-                              <li>
-                                <button data-bs-dismiss="modal" class="btn btn-danger">Huỷ</button>
-                              </li>
+                             
                             </ul>
                           </div>
                         </div>
                       </div>
                     </form>
+<br>
+
+
+                    <form action="{{ path('add_luong') }}" method="post">
+                    <div class="row gy-4">
+                      <div class="col-xxl-3 col-sm-6">
+                          <div class="form-group">
+                              <label class="form-label" for="member">Nhân viên</label>
+                              <select class="form-control" id="member" name="UserID" required>
+                                  <option value="" disabled selected>Chọn nhân viên</option>
+                                  {% for employee in permissionname %}
+                                      <option value="{{ employee.UserID }}">{{ employee.FullName }}</option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+
+               
+                      <div class="col-xxl-3 col-sm-6">
+                        <div class="form-group">
+                          <label class="form-label" for="days">Lương muốn trả</label>
+                          <input type="number" class="form-control" name="totalEarning" id="days" placeholder="Working Days" required  />
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                            <li>
+                              <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                            </li>
+                           
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
 
                     {% for message in app.flashes('success') %}
                     <div class="alert alert-success">
@@ -132,15 +166,16 @@
                             <div class="nk-tb-col">
                               <span class="sub-text">Tên nhân viên</span>
                             </div>
-                            <div class="nk-tb-col tb-col-sm">
-                              <span class="sub-text">Ngày bắt đầu làm</span>
-                            </div>
+                          
                             <div class="nk-tb-col">
                               <span class="sub-text">Lương</span>
                             </div>
                             <div class="nk-tb-col tb-col-md">
                               <span class="sub-text">Tổng ngày làm trong tháng</span>
                             </div>
+                            <div class="nk-tb-col tb-col-md">
+                          <span class="sub-text">Tổng tiền phải trả</span>
+                        </div>
 
                             <div class="nk-tb-col tb-col-md">
                               <span class="sub-text">Trạng thái</span>
@@ -161,15 +196,16 @@
                                           </div>
                                       </a>
                                   </div>
-                                  <div class="nk-tb-col tb-col-sm">
-                                      <span>{{ result.CreatedDate|date('d/m/Y') }}</span>
-                                  </div>
+                             
                                   <div class="nk-tb-col">
-                                      <span class="tb-amount">{{ result.Salary }} <span class="currency">VND</span></span>
+                                      <span class="tb-amount">{{ result.TotalEarnings|format_vnd }} <span class="currency"></span></span>
                                   </div>
                                   <div class="nk-tb-col tb-col-md">
                                       <span class="badge bg-danger">{{ result.TotalDays }} Days</span>
                                   </div>
+                                  <div class="nk-tb-col tb-col-md">
+                                <span class="badge bg-primary">{{ result.TotalPayment|format_vnd }}</span>
+                            </div>
                                   <div class="nk-tb-col tb-col-md">
                                       <span class="sub-text">
                                           {% if result is defined and result.PaymentStatus is defined %}
@@ -184,7 +220,7 @@
                                       </span>
                                   </div>
                                   <div class="nk-tb-col tb-col-sm">
-                                      <button class="btn btn-dim btn-outline-primary" onclick="confirmPayment('{{ result.SalaryID }}', '{{ result.FullName }}')">Trả Lương</button>
+                                      <button class="btn btn-dim btn-outline-primary" onclick="confirmPayment('{{ result.SalaryID }}', '{{ result.FullName }}', '{{ result.TotalPayment }}')">Trả Lương</button>
                                   </div>
                               </div>
                           {% endfor %}
@@ -193,64 +229,7 @@
                       {% endif %}
                         </div>
                       </div>
-                      <div class="card-inner">
-                        <div class="nk-block-between-md g-3">
-                          <div class="g">
-                            <ul class="pagination justify-content-center justify-content-md-start">
-                              <li class="page-item">
-                                <a class="page-link" href="#">Prev</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">1</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                              </li>
-                              <li class="page-item">
-                                <span class="page-link"><em class="icon ni ni-more-h"></em></span>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">6</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">7</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="g">
-                            <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
-                              <div>Page</div>
-                              <div>
-                                <select class="form-select form-select-sm js-select2" data-search="on" data-dropdown="xs center">
-                                  <option value="page-1">1</option>
-                                  <option value="page-2">2</option>
-                                  <option value="page-4">4</option>
-                                  <option value="page-5">5</option>
-                                  <option value="page-6">6</option>
-                                  <option value="page-7">7</option>
-                                  <option value="page-8">8</option>
-                                  <option value="page-9">9</option>
-                                  <option value="page-10">10</option>
-                                  <option value="page-11">11</option>
-                                  <option value="page-12">12</option>
-                                  <option value="page-13">13</option>
-                                  <option value="page-14">14</option>
-                                  <option value="page-15">15</option>
-                                  <option value="page-16">16</option>
-                                  <option value="page-17">17</option>
-                                  <option value="page-18">18</option>
-                                  <option value="page-19">19</option>
-                                  <option value="page-20">20</option>
-                                </select>
-                              </div>
-                              <div>OF 102</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+              
                     </div>
                   </div>
                 </div>
@@ -263,45 +242,45 @@
   </div>
 
   {% block javascripts %}
-    <script>
-      function confirmPayment(SalaryID, fullName) {
-        if (confirm('Bạn có chắc chắn muốn trả lương cho nhân viên ' + fullName + '?')) {
-          // Thực hiện ajax request để cập nhật trạng thái thanh toán
-          // Gửi một yêu cầu POST đến action trong controller để xử lý cập nhật
-          // Sử dụng đúng đường dẫn đã thêm vào routes.yaml
-      
-          fetch(`/update-payment-status/${SalaryID}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              paymentStatus: true,
-              SalaryID: SalaryID // Thêm SalaryID vào body
-            })
-          })
-            .then((response) => response.text())
-            .then((data) => {
-              try {
-                const jsonData = JSON.parse(data)
-                if (jsonData.success) {
-                  alert('Đã trả lương thành công cho nhân viên ' + fullName + '!')
-                  // Nếu bạn muốn làm thêm điều gì đó sau khi cập nhật trạng thái, thêm vào đây
-                } else {
-                  throw new Error('Lỗi xác nhận thanh toán từ server.')
-                }
-              } catch (error) {
-                console.error('Error:', error)
-                alert('Đã xảy ra lỗi khi cố gắng trả lương cho nhân viên ' + fullName + '!')
-              }
-            })
-            .catch((error) => {
-              console.error('Error:', error)
-              alert('Đã xảy ra lỗi khi cố gắng trả lương cho nhân viên ' + fullName + '!')
-            })
-        }
-      }
-    </script>
+
+
+<script>
+  function confirmPayment(SalaryID, fullName, TotalPayment) {
+    if (confirm('Bạn có chắc chắn muốn trả lương cho nhân viên ' + fullName + '?')) {
+      // Thực hiện ajax request để cập nhật trạng thái thanh toán
+      // Gửi một yêu cầu POST đến action trong controller để xử lý cập nhật
+      // Sử dụng đúng đường dẫn đã thêm vào routes.yaml
+
+      fetch(`/update-payment-status/${SalaryID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          paymentStatus: true,
+          SalaryID: SalaryID, // Thêm SalaryID vào body
+          totalPayment: TotalPayment // Thêm totalPayment vào body
+        })
+      })
+        .then((response) => response.json()) // Chuyển đổi sang JSON
+        .then((data) => {
+          if (data.success) {
+            alert('Đã trả lương thành công cho nhân viên ' + fullName + '!');
+            // Nếu bạn muốn làm thêm điều gì đó sau khi cập nhật trạng thái, thêm vào đây
+          } else {
+            throw new Error('Lỗi xác nhận thanh toán từ server.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Đã xảy ra lỗi khi cố gắng trả lương cho nhân viên ' + fullName + '!');
+        });
+    }
+  }
+</script>
+
+
+  
     <script>
   $(document).ready(function() {
     // Lắng nghe sự kiện thay đổi trên ô chọn nhân viên
@@ -313,7 +292,7 @@
       $.ajax({
         url: '/get-salary',  // Đường dẫn đến action xử lý lấy lương
         method: 'POST',
-        data: { PermissionID: selectedPermissionID },
+        data: { UserID: selectedPermissionID },
         success: function(response) {
           // Hiển thị lương trong ô nhập liệu
           $('#salary').val(response.salary);
@@ -324,6 +303,32 @@
       });
     });
   });
+</script>
+
+<script type="text/javascript">
+    function exportToExcel() {
+        var data = [];
+
+        {% for result in results %}
+            var row = [
+                "{{ result.FullName }}",
+                "{{ result.TotalEarnings }} VND",
+                "{{ result.TotalDays }} Days",
+                "{{ result.TotalPayment }}",
+                "{% if result is defined and result.PaymentStatus is defined %}{% if result.PaymentStatus %}Đã thanh toán{% else %}Chưa trả lương{% endif %}{% else %}Trạng thái không khả dụng{% endif %}",
+            ];
+            data.push(row);
+        {% endfor %}
+
+        var ws = XLSX.utils.aoa_to_sheet([['Họ và Tên', 'Tổng Thu Nhập', 'Số Ngày Làm Việc', 'Tổng Thanh Toán', 'Trạng Thái Thanh Toán']].concat(data));
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Danh sách lương");
+
+        var today = new Date();
+        var fileName = "DanhSachLuong_" + today.getFullYear() + "_" + (today.getMonth() + 1) + "_" + today.getDate() + ".xlsx";
+
+        XLSX.writeFile(wb, fileName);
+    }
 </script>
 
   {% endblock %}

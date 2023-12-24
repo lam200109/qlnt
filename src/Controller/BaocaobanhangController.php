@@ -60,24 +60,50 @@ public function index(Request $request, Connection $connection): Response
 
     // Lấy thông tin về sản phẩm đã bán
     $soldProductsSql = "SELECT 
-                    Medicines.Name as productName,
-                    FORMAT(SUM(SalesInvoiceDetails.Total), 0) as totalAmount,
-                    'Bán hàng' as productCategory,
-                    SUM(SalesInvoiceDetails.Quantity) as totalQuantity
-                FROM 
-                    SalesInvoiceDetails
-                JOIN 
-                    Medicines ON SalesInvoiceDetails.MedicineID = Medicines.MedicineID
-                WHERE 
-                    (MONTH(SalesInvoiceDetails.CreatedDate) = :month OR :month IS NULL)
-                    AND (YEAR(SalesInvoiceDetails.CreatedDate) = :year OR :year IS NULL)
-                GROUP BY 
-                    SalesInvoiceDetails.MedicineID
-                ORDER BY 
-                    totalAmount DESC";
+    Medicines.Name as productName,
+    FORMAT(SUM(SalesInvoiceDetails.Total), 0) as totalAmount,
+    'Bán hàng' as productCategory,
+    SUM(SalesInvoiceDetails.Quantity) as totalQuantity
+FROM 
+    SalesInvoiceDetails
+JOIN 
+    Medicines ON SalesInvoiceDetails.MedicineID = Medicines.MedicineID
+WHERE 
+    (MONTH(SalesInvoiceDetails.CreatedDate) = :month OR :month IS NULL)
+    AND (YEAR(SalesInvoiceDetails.CreatedDate) = :year OR :year IS NULL)
+GROUP BY 
+    Medicines.Name
+ORDER BY 
+    totalAmount DESC";
+
 
     $soldProducts = $connection->executeQuery($soldProductsSql, ['month' => $month, 'year' => $year])->fetchAllAssociative();
 
+
+
+
+    $sql = '
+    SELECT 
+    Medicines.Name,
+    SUM(SalesInvoiceDetails.Quantity) AS totalQuantity
+FROM 
+    SalesInvoiceDetails
+JOIN 
+    Medicines ON SalesInvoiceDetails.MedicineID = Medicines.MedicineID
+JOIN 
+    SalesInvoices ON SalesInvoiceDetails.SalesInvoiceID = SalesInvoices.SalesInvoiceID
+WHERE 
+    SalesInvoices.Date >= CURRENT_DATE() - INTERVAL 30 DAY
+GROUP BY 
+    Medicines.Name
+ORDER BY 
+    totalQuantity DESC
+LIMIT 3;
+
+';
+
+// Thực hiện truy vấn
+$result = $connection->fetchAllAssociative($sql);
     // Truyền dữ liệu vào view
     return $this->render('baocaobanhang/index.html.twig', [
         'totalAmount' => $totalAmount,
@@ -87,7 +113,10 @@ public function index(Request $request, Connection $connection): Response
         'soldProducts' => $soldProducts,
         'selectedMonth' => $month,
         'selectedYear' => $year,
+        'bestSellingMedicines' => $result,
+
     ]);
+
 }
 
 }

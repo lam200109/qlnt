@@ -42,15 +42,15 @@
                                     </a>
                                     <div class="toggle-expand-content" data-content="pageMenu">
                                         <ul class="nk-block-tools g-3">
-                                            <li>
+                                            {# <li>
                                                 <div class="form-control-wrap">
                                                     <div class="form-icon form-icon-right">
                                                         <em class="icon ni ni-search"></em>
                                                     </div>
                                                     <input type="text" class="form-control" id="default-04" placeholder="Quick search by name"></div>
-                                                </li>
+                                                </li> #}
                                                 <li>
-                                                    <div class="drodown">
+                                                    {# <div class="drodown">
                                                         <a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-bs-toggle="dropdown">
                                                             <em class="d-none d-sm-inline icon ni ni-filter-alt"></em>
                                                             <span>
@@ -85,7 +85,7 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                    </div>
+                                                    </div> #}
                                                 </li>
                                                 <li class="nk-block-tools-opt">
                                                     <a href="{{ path('them_thuoc_moi') }}" class="btn btn-icon btn-primary d-md-none">
@@ -105,6 +105,17 @@
                             </div>
                         </div>
                         <div class="nk-block">
+                        <div class="nk-block-between-md g-4">
+    <!-- ... các phần khác ... -->
+    <div class="nk-block-tools" id="pageMenu">
+        <div class="nk-search-box">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm theo tên thuốc" id="searchMedicineInput">
+            </div>
+        </div>
+    </div>
+</div>
+
                             <div class="card card-bordered">
                                 <div class="card-inner-group">
                                     <div class="card-inner p-0">
@@ -346,120 +357,7 @@
             </div>
         </div>
 
-        <div class="card-inner">
-            <div class="nk-block-between-md g-3">
-                <div class="g">
-                    <ul class="pagination justify-content-center justify-content-md-start">
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <em class="icon ni ni-chevrons-left"></em>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <span class="page-link">
-                                <em class="icon ni ni-more-h"></em>
-                            </span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                6
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                7
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <em class="icon ni ni-chevrons-right"></em>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="g">
-                    <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
-                        <div>
-                            Page
-                        </div>
-                        <div>
-                            <select class="form-select form-select-sm js-select2" data-search="on" data-dropdown="xs center">
-                                <option value="page-1">
-                                    1
-                                </option>
-                                <option value="page-2">
-                                    2
-                                </option>
-                                <option value="page-4">
-                                    4
-                                </option>
-                                <option value="page-5">
-                                    5
-                                </option>
-                                <option value="page-6">
-                                    6
-                                </option>
-                                <option value="page-7">
-                                    7
-                                </option>
-                                <option value="page-8">
-                                    8
-                                </option>
-                                <option value="page-9">
-                                    9
-                                </option>
-                                <option value="page-10">
-                                    10
-                                </option>
-                                <option value="page-11">
-                                    11
-                                </option>
-                                <option value="page-12">
-                                    12
-                                </option>
-                                <option value="page-13">
-                                    13
-                                </option>
-                                <option value="page-14">
-                                    14
-                                </option>
-                                <option value="page-15">
-                                    15
-                                </option>
-                                <option value="page-16">
-                                    16
-                                </option>
-                                <option value="page-17">
-                                    17
-                                </option>
-                                <option value="page-18">
-                                    18
-                                </option>
-                                <option value="page-19">
-                                    19
-                                </option>
-                                <option value="page-20">
-                                    20
-                                </option>
-                            </select>
-                        </div>
-                        <div>
-                            OF 102
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div></div><div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
 <div class="nk-block-head">
@@ -563,6 +461,29 @@
 
                         
          
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("searchMedicineInput").addEventListener("input", function () {
+            var searchTerm = this.value.toLowerCase();
+
+            // Ẩn tất cả các hàng
+            var rows = document.querySelectorAll('.nk-tb-item');
+            rows.forEach(function (row) {
+                row.style.display = 'none';
+            });
+
+            // Hiển thị các hàng chứa tên thuốc chứa từ khóa tìm kiếm
+            var matchingRows = document.querySelectorAll('.nk-tb-item span.tb-sub');
+            matchingRows.forEach(function (matchingRow) {
+                var medicineName = matchingRow.textContent.toLowerCase();
+                if (medicineName.includes(searchTerm)) {
+                    matchingRow.closest('.nk-tb-item').style.display = '';
+                }
+            });
+        });
+    });
+</script>
+
 
 
 <script>

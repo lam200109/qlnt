@@ -38,48 +38,7 @@
 										<a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
 											<em class="icon ni ni-more-v"></em>
 										</a>
-										<div class="toggle-expand-content" data-content="pageMenu">
-											<ul class="nk-block-tools g-3">
-												<li>
-													<div class="drodown">
-														<a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-bs-toggle="dropdown">
-															<em class="d-none d-sm-inline icon ni ni-calender-date"></em>
-															<span>
-																<span class="d-none d-md-inline">Last</span>
-																30 Days
-															</span>
-															<em class="dd-indc icon ni ni-chevron-right"></em>
-														</a>
-														<div class="dropdown-menu dropdown-menu-end">
-															<ul class="link-list-opt no-bdr">
-																<li>
-																	<a href="#">
-																		<span>Last 30 Days</span>
-																	</a>
-																</li>
-																<li>
-																	<a href="#">
-																		<span>Last 6 Months</span>
-																	</a>
-																</li>
-																<li>
-																	<a href="#">
-																		<span>Last 1 Years</span>
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</li>
-												<li class="nk-block-tools-opt">
-													<a href="#" class="btn btn-primary">
-														<em class="icon ni ni-reports"></em>
-														<span>Reports</span>
-													</a>
-												</li>
-											</ul>
-										</div>
-									</div>
+										
 								</div>
 							</div>
 						</div>
@@ -88,7 +47,7 @@
 						<div class="nk-block">
 							<div class="row g-gs">
 
-								{% if is_granted('NhapHangAccess') %}
+								{% if is_granted('NhapHangAccess') or is_granted('BanThuocAccess')  %}
 									<div class="col-xxl-6 col-md-6">
 										<div class="card card-full">
 											<div class="card-inner d-flex flex-column h-100">
@@ -178,9 +137,13 @@
 										</div>
 									</div>
 
-									<div class="col-xxl-3 col-sm-6"></div>
+									{# <div class="col-xxl-3 col-sm-6"></div> #}
 
 									{# <div class="col-xxl-3 col-sm-6">
+
+
+			
+
 									                        <div class="card">
 									                          <div class="nk-ecwg nk-ecwg6">
 									                            <div class="card-inner">
@@ -204,6 +167,8 @@
 									                        </div>
 									                      </div> #}
 									{# <div class="col-xxl-3 col-sm-6">
+
+
 									                              <div class="card">
 									                                  <div class="nk-ecwg nk-ecwg6">
 									                                      <div class="card-inner">
@@ -225,7 +190,64 @@
 									                                      </div>
 									                                  </div>
 									                              </div>
-									                          </div> #}
+									                          </div>  #}
+
+															  {# <div class="col-md-6 col-xxl-4">
+															  <div class="card card-bordered card-full">
+																  <div class="card-inner-group">
+																	  <div class="card-inner">
+																		  <div class="card-title-group">
+																			  <div class="card-title">
+																				  <h6 class="title">Thu nhập từ đơn online</h6>
+																			  </div>
+																			  <div class="card-tools">
+																			  </div>
+																		  </div>
+																	  </div>
+					  
+																	  {% for customer in onlines %}
+																		  <div class="card-inner card-inner-md">
+																			  <div class="user-card">
+																				  <div class="user-avatar bg-primary-dim">
+																					  <span>{{ customer.CustomerName[:2]|upper }}</span>
+																				  </div>
+																				  <div class="user-info">
+																					  <span class="lead-text">{{ customer.CustomerName }}</span>
+																					  <span class="sub-text">{{ customer.Email }}</span>
+																				  </div>
+																				  <div class="user-action">
+																					  <div class="drodown">
+																						  
+																				  <span class="lead-text">{{ customer.Amount|format_vnd }}</span>
+		  
+		  
+		  
+		  
+		  
+																						  <div class="dropdown-menu dropdown-menu-end">
+																							  <ul class="link-list-opt no-bdr">
+																								  <li>
+																									  <a href="/demo7/pharmacy/general-settings.html">
+																										  <em class="icon ni ni-setting"></em>
+																										  <span>Action Settings</span>
+																									  </a>
+																								  </li>
+																								  <li>
+																									  <a href="#">
+																										  <em class="icon ni ni-notify"></em>
+																										  <span>Push Notification</span>
+																									  </a>
+																								  </li>
+																							  </ul>
+																						  </div>
+																					  </div>
+																				  </div>
+																			  </div>
+																		  </div>
+																	  {% endfor %}
+																  </div>
+															  </div>
+														  </div>
 
 								{% endif %}
 
@@ -336,7 +358,7 @@
 									                        </div>
 									                    </div> #}
 
-														<div class="col-xxl-6 col-md-6">
+														{# <div class="col-xxl-6 col-md-6">
 															<div class="card card-full">
 																<div class="card-inner d-flex flex-column h-100">
 																	<div class="card-title-group mb-3">
@@ -361,7 +383,7 @@
 																	{% endfor %}
 																</div>
 															</div>
-													</div>
+													</div> #}
 
 													<div class="col-md-6 col-xxl-4">
 													<div class="card card-bordered card-full">
@@ -515,8 +537,7 @@
 															<span class="tb-sub text-primary">SUB-{{ invoice.invoiceNo }}</span>
 														</div>
 														<div class="nk-tb-col">
-															<span class="tb-sub tb-amount">{{ invoice.amount|number_format(2, '.', ',') }}
-																<span>USD</span>
+															<span class="tb-sub tb-amount">{{ invoice.amount|format_vnd }}
 															</span>
 														</div>
 														<div class="nk-tb-col">
@@ -654,40 +675,28 @@
 
 								{% if is_granted('AdminAccess')   %}
 
-									<div class="col-xxl-4 col-md-6">
+									{# <div class="col-xxl-4 col-md-6">
 										<div class="card is-dark h-100">
 											<div class="nk-ecwg nk-ecwg1">
 												<div class="card-inner">
 													<div class="card-title-group">
 														<div class="card-title">
-															<h6 class="title">Total Sales</h6>
+															<h6 class="title">Thu nhập tháng này</h6>
 														</div>
 													
 													</div>
 													<div class="data">
 														<div class="amount">{{ currentMonthTotal|format_vnd }}</div>
-														<div class="info">
-															<strong>{{ lastMonthTotal|format_vnd }}</strong>
-															Trong tháng trước
-														</div>
+														
 													</div>
 
-													{# lên hoặc xuống #}
 												
 													<div class="data">
-														<h6 class="sub-title">So với tuần trước</h6>
+														<h6 class="sub-title">Chi phí tuần trước</h6>
 														<div class="data-group">
 															<div class="amount">{{ chiphituantruoc|format_vnd }}</div>
 															
-															<div class="info text-right">
-																<span class="change up {{ percentChange > 0 ? 'text-danger' : 'text-success' }}">
-																	<em class="icon ni {{ percentChange > 0 ? 'ni-arrow-long-up' : 'ni-arrow-long-down' }}"></em>
-																	{{ percentChange|number_format(2, '.', ',') }}%
-																	
-																</span>
-																<br/>
-																<span>vs. last week</span>
-															</div>
+															
 														</div>
 													</div>
 												</div>
@@ -696,7 +705,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div> #}
 
 									<div class="col-xxl-5 col-md-6">
 										<div class="card card-full">

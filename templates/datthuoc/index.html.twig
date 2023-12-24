@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-  <br /> <br /> <br />
   <div class="nk-content">
     <div class="container-fluid">
       <div class="nk-content-inner">
@@ -15,6 +14,17 @@
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Products</h3>
               </div>
+              {# Trong template Twig của bạn #}
+
+{% for flashType, flashMessages in app.flashes %}
+{% for flashMessage in flashMessages %}
+    <div class="alert alert-{{ flashType }} alert-dismissible fade show" role="alert">
+        {{ flashMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+{% endfor %}
+
               <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>

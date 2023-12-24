@@ -17,7 +17,7 @@
                 </div>
                 <div class="nk-block">
                     <div class="row g-gs">
-                        <div class="col-xxl-6 col-md-6">
+                        {# <div class="col-xxl-6 col-md-6">
                             <div class="card h-100">
                                 <div class="nk-ecwg nk-ecwg1">
                                     <div class="card-inner">
@@ -64,31 +64,33 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> #}
                         <div class="col-xxl-6 col-md-6">
-                            <div class="card card-full">
-                                <div class="card-inner d-flex flex-column h-100">
-                                    <div class="card-title-group mb-3">
-                                        <div class="card-title">
-                                            <h6 class="title">Thuốc bán chạy nhất</h6>
-                                            <p>Trong 30 ngày gần đây</p>
-                                        </div>
-                                  
+                        <div class="card card-full">
+                            <div class="card-inner d-flex flex-column h-100">
+                                <div class="card-title-group mb-3">
+                                    <div class="card-title">
+                                        <h6 class="title">Thuốc bán chạy nhất</h6>
+                                        <p>Trong 30 ngày gần đây</p>
                                     </div>
-                                    <div class="progress-list gy-3">
+                                </div>
+                                <div class="progress-list gy-3">
+                                    {% for medicine in bestSellingMedicines %}
                                         <div class="progress-wrap">
                                             <div class="progress-text">
-                                                <div class="progress-label">{{ bestSellingMedicine.Name ?? 0 }}</div>
-                                                <div class="progress-amount">{{ bestSellingMedicine.totalQuantity ?? 0 }}%</div>
+                                                <div class="progress-label">{{ medicine.Name }}</div>
+                                                <div class="progress-amount">{{ medicine.totalQuantity ?? 0 }}%</div>
                                             </div>
                                             <div class="progress progress-md">
-                                                <div class="progress-bar" data-progress="{{ bestSellingMedicine.totalQuantity ?? 0 }}"></div>
+                                                <div class="progress-bar" data-progress="{{ medicine.totalQuantity ?? 0 }}"></div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
                         <div class="col-xxl-12">
                             <div class="nk-block">
                                 <div class="card card-bordered card-stretch">
@@ -171,9 +173,9 @@
                                                     <div class="nk-tb-col">
                                                         <span>Tên thuốc</span>
                                                     </div>
-                                                    <div class="nk-tb-col tb-col-md">
+                                                    {# <div class="nk-tb-col tb-col-md">
                                                         <span class="sub-text">Tổng tiền</span>
-                                                    </div>
+                                                    </div> #}
                                                     <div class="nk-tb-col tb-col-lg">
                                                         <span class="sub-text">Danh mục</span>
                                                     </div>
@@ -196,11 +198,11 @@
                                                                 </span>
                                                             </a>
                                                         </div>
-                                                        <div class="nk-tb-col tb-col-md">
+                                                        {# <div class="nk-tb-col tb-col-md">
                                                             <span class="tb-amount">
                                                                 {{ product.totalAmount }} <span class="currency">VNĐ</span>
                                                             </span>
-                                                        </div>
+                                                        </div> #}
                                                         <div class="nk-tb-col tb-col-lg">
                                                             <span>{{ product.productCategory }}</span>
                                                         </div>
@@ -212,31 +214,9 @@
                                             </div>
                                         </div>
                                         <div class="card-inner">
-                                            <ul class="pagination justify-content-center justify-content-md-start">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">Prev</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">1</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">2</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <span class="page-link">
-                                                        <em class="icon ni ni-more-h"></em>
-                                                    </span>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">6</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">7</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">Next</a>
-                                                </li>
-                                            </ul>
+                                    <button id="exportExcelBtn" class="btn btn-primary" onclick="exportToExcel()">Xuất Excel</button>
+
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -248,5 +228,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    function exportToExcel() {
+        // Tạo một mảng dữ liệu từ danh sách sản phẩm
+        var data = [['Tên sản phẩm', 'Tổng giá trị', 'Danh mục', 'Số lượng']];
+
+        {% for product in soldProducts %}
+            var rowData = [
+                "{{ product.productName }}",
+                "{{ product.totalAmount }} VNĐ",
+                "{{ product.productCategory }}",
+                "{{ product.totalQuantity }}"
+            ];
+
+            data.push(rowData);
+        {% endfor %}
+
+        // Tạo đối tượng từ mảng dữ liệu
+        var ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Tạo workbook và thêm trang tính vào
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Danh sách sản phẩm');
+
+        // Xuất file Excel
+        XLSX.writeFile(wb, 'DanhSachSanPham.xlsx');
+    }
+</script>
+
+
+
 {% endblock %}
 
