@@ -50,10 +50,10 @@
                                         </div>
                                     </li>
                                     <li class="nk-block-tools-opt">
-                                        <a href="#addExpense" data-bs-toggle="modal" class="btn btn-primary">
-                                            <em class="icon ni ni-plus"></em>
-                                            <span>Add Expense</span>
-                                        </a>
+                                    <a data-bs-toggle="modal" class="btn btn-primary d-none d-md-inline-flex" id="openModalBtn" data-bs-target="#addManufactureModal">
+                                <em class="icon ni ni-plus"></em>
+                                <span>Thêm chi phí khác</span>
+                              </a>
                                     </li>
                                 </ul>
                             </div>
@@ -61,6 +61,32 @@
                     </div>
                 </div>
             </div>
+             <div class="modal fade" id="addManufactureModal" tabindex="-1" role="dialog" aria-labelledby="addManufactureLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addManufactureLabel">Thêm chi phí khác</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Thêm biểu mẫu vào đây -->
+              <form action="{{ path('chi_phi')}}" method="post" id="addDistributorForm">
+                <div class="mb-3">
+                  <label for="distributorName" class="form-label">Loại phí</label>
+                  <input type="text" class="form-control" id="distributorName" name="ExpenseType" placeholder="Nhập tên phí" required>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Tổng phí</label>
+                  <input type="text" class="form-control" id="address" name="Amount" placeholder="Nhập số tiền" required>
+                </div>
+            
+                <button type="button" name="saveButton" class="btn btn-primary" onclick="submitForm()">Lưu</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
             <div class="nk-block">
                 <div class="row g-gs">
          
@@ -126,6 +152,35 @@
         </div>
     </div>
 </div>
+
+
+<div class="col-xxl-3 col-sm-6">
+<div class="card">
+    <div class="nk-ecwg nk-ecwg6">
+        <div class="card-inner">
+            <div class="card-title-group">
+                <div class="card-title">
+                    <h6 class="title">Chi phí khác</h6>
+                </div>
+            </div>
+            <div class="data">
+                <div class="data-group">
+                    <div class="amount">{{ grandTotal|format_vnd }}</div>
+                    <div class="nk-ecwg6-ck">
+                        <canvas class="ecommerce-line-chart-s3" id="rents"></canvas>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% for flashMessage in app.flashes('success') %}
+<div class="alert alert-success">{{ flashMessage }}</div>
+{% endfor %}
+
 
 
                     
@@ -291,7 +346,7 @@
                                         <span>{{ row.ExpenseType }}</span>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <span class="tb-amount">{{ row.Amount|format_vnd }}</span>
+                                        <span class="tb-amount">{{ row.Amount|replace({',': ''})|number_format(0)                                    }}</span>
                                     </div>
                                 </div>
                                  {% endfor %}
@@ -391,5 +446,30 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
     // Xuất file Excel
     XLSX.writeFile(wb, 'Chi phí.xlsx');
 });
+</script>
+
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var openModalBtn = document.getElementById('openModalBtn');
+    var addManufactureModal = new bootstrap.Modal(document.getElementById('addManufactureModal'));
+    var addDistributorForm = document.getElementById('addDistributorForm');
+
+    openModalBtn.addEventListener('click', function () {
+      addManufactureModal.show();
+    });
+
+    // Định nghĩa hàm submitForm
+    window.submitForm = function () {
+      // Thêm logic xử lý form ở đây nếu cần
+      addDistributorForm.submit();
+    };
+
+    // Thêm xử lý sự kiện khi modal được ẩn
+    addManufactureModal._element.addEventListener('hidden.bs.modal', function () {
+      // Xóa dữ liệu nhập vào form khi modal được đóng
+      addDistributorForm.reset();
+    });
+  });
 </script>
 {% endblock %}

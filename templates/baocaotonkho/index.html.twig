@@ -19,19 +19,27 @@
               </div>
             </div>
           </div>
-          <form action="your_php_script.php" method="post">
-            <label for="filterOption">Chọn tùy chọn:</label>
-            <select id="filterOption" name="filterOption">
-              <option value="saphetdate">Sắp hết date</option>
-              <option value="saphethang">Sắp hết hàng</option>
-              <option value="contusoluong">Còn từ số lượng bao nhiêu</option>
-            </select>
-            <br /><br />
-            <label for="quantityThreshold">Số lượng tối thiểu:</label>
-            <input type="number" id="quantityThreshold" name="quantityThreshold" value="0" />
-            <br /><br />
-            <input type="submit" value="Submit" />
-          </form>
+          <form action="{{ path('bao_cao_ton_kho')}}" method="post">
+        <label for="filterOption">Chọn tùy chọn:</label>
+        <select id="filterOption" name="filterOption">
+            <option value="">Tất cả</option>
+            <option value="saphetdate">Sắp hết date</option>
+            <option value="saphethang">Sắp hết hàng</option>
+            <option value="hethang">Hết hàng</option>
+        </select>
+        <br /><br />
+      <label for="quantityThreshold">Tìm theo số lượng còn dưới</label>
+      <select id="quantityThreshold" name="quantityThreshold">
+          <option value="0">0</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="150">150</option>
+      </select>
+      
+        <br /><br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
           <div class="nk-block">
             <div class="card card-bordered card-stretch">
               <div class="card-inner-group">
@@ -72,6 +80,12 @@
                         <span class="sub-text">Tên nhà sản xuất</span>
                       </div>
                       <div class="nk-tb-col tb-col-md">
+                    <span class="sub-text">Số lô</span>
+                  </div>
+                  <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Hạn sử dụng</span>
+              </div>
+                      <div class="nk-tb-col tb-col-md">
                         <span class="sub-text">Số lượng nhập</span>
                       </div>
                       <div class="nk-tb-col tb-col-lg">
@@ -84,6 +98,8 @@
                         <span class="sub-text">Trạng thái</span>
                       </div>
                     </div>
+                    {% if result is defined and result is not empty %}
+
                     {% for result in result %}
                       <div class="nk-tb-item">
                         <div class="nk-tb-col nk-tb-col-check">
@@ -109,6 +125,11 @@
                           </a>
                         </div>
                         <div class="nk-tb-col tb-col-md">
+                      <span>{{ result.LotNumber }}</span>
+                    </div>   <div class="nk-tb-col tb-col-md">
+                  <span>{{ result.ExpirationDate }}</span>
+                </div>
+                        <div class="nk-tb-col tb-col-md">
                           <span>{{ result.TongSoLuongNhap }}</span>
                         </div>
                         <div class="nk-tb-col tb-col-lg">
@@ -128,6 +149,9 @@
                         </div>
                       </div>
                     {% endfor %}
+                    {% else %}
+    <p>No data available</p>
+{% endif %}
                   </div>
                 </div>
                 <button id="exportExcelBtn" class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>
@@ -139,31 +163,37 @@
     </div>
   </div>
 
-  <script>
-    function exportToExcel() {
-        var data = [
-            ['Tên Thuốc', 'Nhà Sản Xuất', 'Email', 'Tổng Số Lượng Nhập', 'Tổng Số Lượng Xuất', 'Tồn Kho Hiện Tại', 'Trạng Thái']
-        ];
+<script>
+  function exportToExcel() {
+    // Tạo một mảng chứa dữ liệu từ result
+    var data = [['Tên Thuốc', 'Nhà Sản Xuất', 'Email', 'Lot Number', 'Expiration Date', 'Tổng SL Nhập', 'Tổng SL Xuất', 'Tồn Kho', 'Trạng Thái']];
 
-        {% for result in result %}
-            var rowData = [
-                "{{ result.TenThuoc }}",
-                "{{ result.NhaSanXuat }}",
-                "{{ result.Email }}",
-                "{{ result.TongSoLuongNhap }}",
-                "{{ result.TongSoLuongXuat }}",
-                "{{ result.TonKhoHienTai }}",
-            "{% if result.TonKhoHienTai <= 0 %}Out of Stock{% else %}{% if result.TonKhoHienTai <= 50 %}Low{% else %}Available{% endif %}{% endif %}"
-            ];
+    // Duyệt qua danh sách kết quả và thêm dữ liệu vào mảng
+    {% for result in result %}
+      var rowData = [
+        "{{ result.TenThuoc }}",
+        "{{ result.NhaSanXuat }}",
+        "{{ result.Email }}",
+        "{{ result.LotNumber }}",
+        "{{ result.ExpirationDate }}",
+        "{{ result.TongSoLuongNhap }}",
+        "{{ result.TongSoLuongXuat }}",
+        "{{ result.TonKhoHienTai }}",
+        "{% if result.TonKhoHienTai <= 0 %}Out of Stock{% elseif result.TonKhoHienTai <= 50 %}Low{% else %}Available{% endif %}"
+      ];
+      data.push(rowData);
+    {% endfor %}
 
-            data.push(rowData);
-        {% endfor %}
+    // Tạo đối tượng từ mảng dữ liệu
+    var ws = XLSX.utils.aoa_to_sheet(data);
 
-        var ws = XLSX.utils.aoa_to_sheet(data);
-        var wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'DanhSachThuoc');
+    // Tạo workbook và thêm trang tính vào
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Danh sách thuốc');
 
-        XLSX.writeFile(wb, 'DanhSachThuoc.xlsx');
-    }
+    // Xuất file Excel
+    XLSX.writeFile(wb, 'DanhSachThuoc.xlsx');
+  }
 </script>
+
 {% endblock %}

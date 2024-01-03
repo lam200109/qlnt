@@ -38,7 +38,7 @@ class ChiphiController extends AbstractController
         $totalEarningsNotPaidLastMonth = $connection->executeQuery($sqlTotalEarningsNotPaidLastMonth, ['lastMonth' => $month - 1, 'year' => $year])->fetchOne();
 
         // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng và năm đã chọn
-        $sqlTotalExpenseThisMonth = "SELECT SUM(Amount) AS TotalExpenseThisMonth FROM PurchaseInvoices WHERE MONTH(Date) = :month AND YEAR(Date) = :year";
+        $sqlTotalExpenseThisMonth = "SELECT SUM(Amount) AS TotalExpenseThisMonth FROM PurchaseInvoices WHERE ExpenseType = 'Nhập hàng' AND MONTH(Date) = :month AND YEAR(Date) = :year";
         $totalExpenseThisMonth = $connection->executeQuery($sqlTotalExpenseThisMonth, ['month' => $month, 'year' => $year])->fetchOne();
 
         // Truy vấn để lấy ra tổng Amount của PurchaseInvoices cho tháng trước và năm đã chọn
@@ -70,6 +70,58 @@ class ChiphiController extends AbstractController
  ";
         $result = $connection->executeQuery($sqlChiphi, ['month' => $month, 'year' => $year])->fetchAllAssociative();
 
+
+        if ($request->isMethod('POST')) {
+            $expenseType = $request->request->get('ExpenseType');
+            $amount = $request->request->get('Amount');
+
+            // Kiểm tra xem cả hai trường ExpenseType và Amount đã được điền đầy đủ hay không
+            if (empty($expenseType) || empty($amount)) {
+                $this->addFlash('error', 'Vui lòng điền đầy đủ thông tin loại phí và tổng phí.');
+                return $this->redirectToRoute('chi_phi');
+            }
+
+            // Thực hiện truy vấn SQL để chèn dữ liệu
+            $sql = "INSERT INTO PurchaseInvoices (ExpenseType, Amount, Date) VALUES (?, ?, NOW())";
+            $connection->executeStatement($sql, [$expenseType, $amount]);
+
+            // Thêm flash message thành công
+            $this->addFlash('success', 'Dữ liệu đã được thêm thành công.');
+
+            // Chuyển hướng hoặc hiển thị thông báo thành công nếu cần thiết
+            return $this->redirectToRoute('chi_phi');
+        }
+
+
+// Đoạn mã SQL để tính tổng của cột TotalAmount
+$sql = "
+    SELECT 
+        SUM(TotalAmount) AS GrandTotal
+    FROM (
+        SELECT 
+            SUM(Amount) AS TotalAmount
+        FROM 
+            PurchaseInvoices
+        WHERE 
+            ExpenseType NOT IN ('Nhập hàng', 'Trả lương nhân viên')
+        GROUP BY 
+            ExpenseType
+    ) AS Subquery
+";
+
+// Thực hiện câu truy vấn và lấy kết quả
+$grandTotal = $connection->executeQuery($sql)->fetchOne();
+
+
+
+
+
+
+
+
+
+
+
         return $this->render('chiphi/index.html.twig', [
             'controller_name' => 'ChiphiController',
             'result' => $result,
@@ -81,6 +133,7 @@ class ChiphiController extends AbstractController
             'totalExpenseThisMonth' => $totalExpenseThisMonth,
             'totalExpenseLastMonth' => $totalExpenseLastMonth,
             'percentageExpenseChange' => $percentageExpenseChange,
+            'grandTotal' => $grandTotal,
         ]);
     }
 }

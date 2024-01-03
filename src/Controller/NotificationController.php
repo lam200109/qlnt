@@ -42,28 +42,23 @@ class NotificationController extends AbstractController
     
 ";
 
-$sql = $connection->executeQuery($sql)->fetchAllAssociative();
+        $sqlResult = $connection->executeQuery($sql)->fetchAllAssociative();
 
-foreach ($sql as &$item) {
-    if ($item['TonKhoHienTai'] <= 50) {
-        $item['LowStock'] = true;
-    } else {
-        $item['LowStock'] = false;
-    }
-    $item['NotificationTime'] = time(); // Lấy thời gian hiện tại
+        $result = [];
+        foreach ($sqlResult as &$item) {
+            if ($item['TonKhoHienTai'] <= 50) {
+                $item['LowStock'] = true;
+            } else {
+                $item['LowStock'] = false;
+            }
+            $item['NotificationTime'] = time(); // Lấy thời gian hiện tại
 
-    // Nếu bạn cần biến $result (nếu có) cho trang 'base.html.twig'
-    $result[] = $item;
-}
-
-// Truyền giá trị $sql (sau khi kiểm tra số lượng tồn kho) vào template của trang 'baocaotonkho/index.html.twig'
-return $this->render('baocaotonkho/index.html.twig', [
-    'result' => $sql,
-]);
-
-// Truyền giá trị $result (nếu có) vào template của trang 'base.html.twig'
-return $this->render('base.html.twig', [
-    'result' => $result ?? [],
-]);
+            // Nếu bạn cần biến $result (nếu có) cho trang 'base.html.twig'
+            $result[] = $item;
+        }
+        // Truyền giá trị $result (nếu có) vào template của trang 'base.html.twig'
+        return $this->render('base.html.twig', [
+            'result' => $result,
+        ]);
     }
 }
