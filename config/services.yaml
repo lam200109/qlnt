@@ -55,4 +55,9 @@ services:
         alias: router.default
     Symfony\Component\Routing\Generator\UrlGenerator:
         public: false
-    # Thêm các định nghĩa dịch vụ khác nếu cần
+
+
+    App\Service\NotificationManager:
+        autowire: true
+        autoconfigure: true
+

@@ -1,167 +1,145 @@
-    {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Báo cáo tồn kho{% endblock %}
+{% block title %}
+  Báo cáo tồn kho
+{% endblock %}
 
 {% block body %}
-<div class="nk-content ">
-<div class="container-fluid">
-    <div class="nk-content-inner">
+  <div class="nk-content">
+    <div class="container-fluid">
+      <div class="nk-content-inner">
         <div class="nk-content-body">
-            <div class="nk-block-head nk-block-head-sm">
-                <div class="nk-block-between g-3">
-                    <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Báo cáo tồn kho</h3>
-                    </div>
-                    <div class="nk-block-head-content">
-                        <a data-bs-toggle="modal" href="#addStock" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus"></em>
-                        </a>
-                    </div>
-                </div>
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between g-3">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Báo cáo tồn kho</h3>
+              </div>
+              <div class="nk-block-head-content">
+                <a data-bs-toggle="modal" href="#addStock" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+              </div>
             </div>
-            <form action="your_php_script.php" method="post">
-    <label for="filterOption">Chọn tùy chọn:</label>
-    <select id="filterOption" name="filterOption">
-        <option value="saphetdate">Sắp hết date</option>
-        <option value="saphethang">Sắp hết hàng</option>
-        <option value="contusoluong">Còn từ số lượng bao nhiêu</option>
-    </select>
-    <br><br>
-    <label for="quantityThreshold">Số lượng tối thiểu:</label>
-    <input type="number" id="quantityThreshold" name="quantityThreshold" value="0">
-    <br><br>
-    <input type="submit" value="Submit">
-</form>
-            <div class="nk-block">
-                <div class="card card-bordered card-stretch">
-                    <div class="card-inner-group">
-                        <div class="card-inner position-relative card-tools-toggle">
-                            <div class="card-title-group">
-                                <div class="card-tools">
-                                    <div class="form-inline flex-nowrap gx-3">
-                                   
-                                        <div class="btn-wrap">
-                                            
-                                            <span class="d-md-none">
-                                                <button class="btn btn-dim btn-outline-light btn-icon disabled">
-                                                    <em class="icon ni ni-arrow-right"></em>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-tools me-n1">
-                                </div>
-                            </div>
-                            <div class="card-search search-wrap" data-search="search">
-                                <div class="card-body">
-                                    <div class="search-content">
-                                        <a href="#" class="search-back btn btn-icon toggle-search" data-target="search">
-                                            <em class="icon ni ni-arrow-left"></em>
-                                        </a>
-                                        <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name">
-                                        <button class="search-submit btn btn-icon">
-                                            <em class="icon ni ni-search"></em>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+          </div>
+          <form action="your_php_script.php" method="post">
+            <label for="filterOption">Chọn tùy chọn:</label>
+            <select id="filterOption" name="filterOption">
+              <option value="saphetdate">Sắp hết date</option>
+              <option value="saphethang">Sắp hết hàng</option>
+              <option value="contusoluong">Còn từ số lượng bao nhiêu</option>
+            </select>
+            <br /><br />
+            <label for="quantityThreshold">Số lượng tối thiểu:</label>
+            <input type="number" id="quantityThreshold" name="quantityThreshold" value="0" />
+            <br /><br />
+            <input type="submit" value="Submit" />
+          </form>
+          <div class="nk-block">
+            <div class="card card-bordered card-stretch">
+              <div class="card-inner-group">
+                <div class="card-inner position-relative card-tools-toggle">
+                  <div class="card-title-group">
+                    <div class="card-tools">
+                      <div class="form-inline flex-nowrap gx-3">
+                        <div class="btn-wrap">
+                          <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
                         </div>
-                        <div class="card-inner p-0">
-                            <div class="nk-tb-list nk-tb-ulist">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input" id="uid">
-                                            <label class="custom-control-label" for="uid"></label>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span>Tên thuốc</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-mb">
-                                        <span class="sub-text">Tên nhà sản xuất</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="sub-text">Số lượng nhập</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="sub-text">Số lượng xuất</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span>Tồn kho</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="sub-text">Trạng thái</span>
-                                    </div>
-                                </div>
-                                {% for result in result %}
-
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input" id="uid1">
-                                            <label class="custom-control-label" for="uid1"></label>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <a href="/demo7/pharmacy/medicine-details.html">
-                                            <span class="tb-product">
-                                                <span class="title">{{ result.TenThuoc }}</span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-mb">
-                                        <a href="#">
-                                            <div class="user-card">
-                                                <div class="user-avatar bg-info-dim">
-                                                    <span>
-                                                        <em class="icon ni ni-home-fill"></em>
-                                                    </span>
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="tb-lead">{{ result.NhaSanXuat }}</span>
-                                                    <span>{{ result.Email}}</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span>{{ result.TongSoLuongNhap }}</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span>{{ result.TongSoLuongXuat }}</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                <span>{{ result.TonKhoHienTai }}</span>
-                            </div>
-                            <div class="nk-tb-col tb-col-md">
-                                {% if result.TonKhoHienTai <= 0 %}
-                                    <span class="tb-status text-danger">Out of Stock</span>
-                                {% elseif result.TonKhoHienTai <= 50 %}
-                                    <span class="tb-status text-warning">Low</span>
-                                {% else %}
-                                    <span class="tb-status text-success">Available</span>
-                                {% endif %}
-                            </div>
-                            
-                                </div>
-                            {% endfor %}
-
-                               
-                            </div>
-                        </div>
-                    <button id="exportExcelBtn" class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>
-
+                      </div>
                     </div>
+                    <div class="card-tools me-n1"></div>
+                  </div>
+                  <div class="card-search search-wrap" data-search="search">
+                    <div class="card-body">
+                      <div class="search-content">
+                        <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                        <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by name" />
+                        <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <div class="card-inner p-0">
+                  <div class="nk-tb-list nk-tb-ulist">
+                    <div class="nk-tb-item nk-tb-head">
+                      <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                          <input type="checkbox" class="custom-control-input" id="uid" />
+                          <label class="custom-control-label" for="uid"></label>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col">
+                        <span>Tên thuốc</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-mb">
+                        <span class="sub-text">Tên nhà sản xuất</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <span class="sub-text">Số lượng nhập</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-lg">
+                        <span class="sub-text">Số lượng xuất</span>
+                      </div>
+                      <div class="nk-tb-col">
+                        <span>Tồn kho</span>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <span class="sub-text">Trạng thái</span>
+                      </div>
+                    </div>
+                    {% for result in result %}
+                      <div class="nk-tb-item">
+                        <div class="nk-tb-col nk-tb-col-check">
+                          <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input" id="uid1" />
+                            <label class="custom-control-label" for="uid1"></label>
+                          </div>
+                        </div>
+                        <div class="nk-tb-col">
+                          <a href="/demo7/pharmacy/medicine-details.html"><span class="tb-product"><span class="title">{{ result.TenThuoc }}</span></span></a>
+                        </div>
+                        <div class="nk-tb-col tb-col-mb">
+                          <a href="#">
+                            <div class="user-card">
+                              <div class="user-avatar bg-info-dim">
+                                <span><em class="icon ni ni-home-fill"></em></span>
+                              </div>
+                              <div class="user-info">
+                                <span class="tb-lead">{{ result.NhaSanXuat }}</span>
+                                <span>{{ result.Email }}</span>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="nk-tb-col tb-col-md">
+                          <span>{{ result.TongSoLuongNhap }}</span>
+                        </div>
+                        <div class="nk-tb-col tb-col-lg">
+                          <span>{{ result.TongSoLuongXuat }}</span>
+                        </div>
+                        <div class="nk-tb-col">
+                          <span>{{ result.TonKhoHienTai }}</span>
+                        </div>
+                        <div class="nk-tb-col tb-col-md">
+                          {% if result.TonKhoHienTai <= 0 %}
+                            <span class="tb-status text-danger">Out of Stock</span>
+                          {% elseif result.TonKhoHienTai <= 50 %}
+                            <span class="tb-status text-warning">Low</span>
+                          {% else %}
+                            <span class="tb-status text-success">Available</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <button id="exportExcelBtn" class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-</div>
+  </div>
 
-<script>
+  <script>
     function exportToExcel() {
         var data = [
             ['Tên Thuốc', 'Nhà Sản Xuất', 'Email', 'Tổng Số Lượng Nhập', 'Tổng Số Lượng Xuất', 'Tồn Kho Hiện Tại', 'Trạng Thái']
@@ -188,5 +166,4 @@
         XLSX.writeFile(wb, 'DanhSachThuoc.xlsx');
     }
 </script>
-
 {% endblock %}

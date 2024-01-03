@@ -83,7 +83,7 @@ class DatthuocController extends AbstractController
 
         if ($IDBN) {
             // Thêm hóa đơn xuất vào CSDL
-            $query = "INSERT INTO SalesInvoices (CustomerID, Date, Amount, Status) VALUES (?, NOW(), ?,'Chưa xác nhận')";
+            $query = "INSERT INTO SalesInvoices (CustomerID, Date, IncomeType, Amount, Status) VALUES (?, NOW(),'Đơn đặt online', ?,'Chưa xác nhận')";
             $this->connection->executeStatement($query, [$IDBN, $amount]);
 
             // Lấy mã hóa đơn xuất vừa thêm vào
@@ -98,8 +98,10 @@ class DatthuocController extends AbstractController
                 $query = "INSERT INTO SalesInvoiceDetails (SalesInvoiceID, MedicineID, Quantity, Price, Total, CreatedDate) VALUES (?, ?, ?, ?, ?, NOW())";
                 $this->connection->executeStatement($query, [$SalesInvoiceID, $medicineId, $quantity, $price, $amount]);
                 $this->addFlash('success', 'Đơn đặt hàng đã được tạo thành công.');
+                return new JsonResponse(['status' => 'sucsess', 'message' => 'ok']);
 
-                return $this->redirectToRoute('dat_thuoc');
+                return $this->redirectToRoute('dat_thuoc'); // Chuyển hướng sau khi đặt hàng thành công
+
             } else {
                 return new JsonResponse(['status' => 'error', 'message' => 'Số lượng tồn kho không đủ']);
             }

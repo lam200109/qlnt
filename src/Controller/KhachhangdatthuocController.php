@@ -65,7 +65,6 @@ class KhachhangdatthuocController extends AbstractController
         $customerId = $session->get('customer_id');
     
         $id = $request->get('id');
-
         // Thực hiện truy vấn để lấy thông tin chi tiết của khách hàng và đơn hàng
         $query = "
             SELECT c.*, si.*, sid.*, m.*

@@ -138,7 +138,19 @@ function updateCartTable() {
     });
 
     // Hiển thị tổng cộng
-    totalAmountCell.textContent = totalAmount.toFixed(2);
-    hiddenTotalAmountInput.value = totalAmount.toFixed(2);
+    totalAmountCell.textContent = totalAmount.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+        hiddenTotalAmountInput.value = totalAmount.toFixed(2);
 }
+
+
+
+
+
+
+
+
+
 

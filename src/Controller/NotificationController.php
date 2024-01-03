@@ -7,10 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
 
-class BaocaotonkhoController extends AbstractController
+class NotificationController extends AbstractController
 {
     /**
-     * @Route("/baocaotonkho", name="baocaotonkho")
+     * @Route("/notification", name="notification")
      */
     public function index(Connection $connection): Response
     {
@@ -62,5 +62,8 @@ return $this->render('baocaotonkho/index.html.twig', [
 ]);
 
 // Truyền giá trị $result (nếu có) vào template của trang 'base.html.twig'
+return $this->render('base.html.twig', [
+    'result' => $result ?? [],
+]);
     }
 }

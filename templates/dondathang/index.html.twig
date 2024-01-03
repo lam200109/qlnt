@@ -38,51 +38,56 @@
                 <form action="{{ path('xac_nhan_don_dat_hang') }}" method="post">
 
                 <div class="card-inner p-0">
-                  <table class="table table-orders">
+                <table class="table table-orders">
                     <thead class="tb-odr-head">
-                      <tr class="tb-odr-item">
-                        <th class="tb-odr-info">
-                          <span class="tb-odr-id">Order ID</span><span class="tb-odr-date d-none d-md-inline-block">Date</span>
-                        </th>
-                        <th class="tb-odr-amount">
-                          <span class="tb-odr-total">Amount</span><span class="tb-odr-status d-none d-md-inline-block">Status</span>
-                        </th>
-                        <th class="tb-odr-action">&nbsp;</th>
-                      </tr>
+                        <tr class="tb-odr-item">
+                            <th class="tb-odr-info">
+                                <span class="tb-odr-id">ID hoá đơn </span> 
+                                <span class="tb-odr-date d-none d-md-inline-block">Ngày đặt</span>
+                            </th>
+                            <th class="tb-odr-amount">
+                                <span class="tb-odr-total">Thành tiền</span>
+                                <span class="tb-odr-status d-none d-md-inline-block">Trạng thái</span>
+                            </th>
+                            <th class="tb-odr-action">&nbsp;</th>
+                        </tr>
                     </thead>
                     <tbody class="tb-odr-body">
-                    {% if data is defined and (data|length) > 0 %}
-                        {% for item in data %}
-
-                          <tr class="tb-odr-item">
-                            <td class="tb-odr-info">
-                          <a href="{{ url('chi_tiet_don_dat_hang', { 'id': item.SalesInvoiceID }) }}">Hoá đơn số  {{ item.SalesInvoiceID }}</a>
-                        <span class="tb-odr-date">{{ item['Date']|date('d M Y, H:i A') }}</span>
-                            </td>
-                            <td class="tb-odr-amount">
-                              <span class="tb-odr-total"><span class="amount">${{ item['Amount']|number_format(2) }}</span></span>
-                              <span class="tb-odr-status"><span class="badge badge-dot bg-success">{{ item.Status }}</span></span>
-                            </td>
-                            
-                            <td class="tb-odr-action">
-                              <div class="tb-odr-btns d-none d-sm-inline">
-                                <a href="{{ path('chi_tiet_don_dat_hang', { id: item['SalesInvoiceID'] }) }}" target="_blank" class="btn btn-icon btn-white btn-dim btn-sm btn-primary"><em class="icon ni ni-printer-fill"></em></a>
-                                <button type="button" class="btn btn-primary" 
-                                data-medicine-id="{{ item.MedicineID }}" 
-                                data-sales-invoice-id="{{ item.SalesInvoiceID }}" 
-                                data-quantity="{{ item.Quantity }}" 
-                                onclick="confirmAction(this)">Xác nhận</button>
-                            
-                                                    </div>
-                            </td>
-                          </tr>
-
-                        {% endfor %}
+                        {% if data is defined and (data|length) > 0 %}
+                            {% for item in data %}
+                                <tr class="tb-odr-item">
+                                    <td class="tb-odr-info">
+                                    <a href="{{ url('chi_tiet_don_dat_hang', { 'id': item.CustomerID, 'sales_invoice_id': item.SalesInvoiceID }) }}">
+                                    Hoá đơn số  {{ item.SalesInvoiceID }}
+                                </a>
+                                
+                                        <span class="tb-odr-date">{{ item['Date']|date('d M Y, H:i A') }}</span>
+                                    </td>
+                                    <td class="tb-odr-amount">
+                                        <span class="tb-odr-total">
+                                      <span class="amount">${{ item['Amount']|replace({',': ''})|number_format(0) }}</span>
+                                    </span>
+                                        <span class="tb-odr-status">
+                                            <span class="badge badge-dot bg-success">{{ item.Status }}</span>
+                                        </span>
+                                    </td>
+                                    <td class="tb-odr-action">
+                                        <div class="tb-odr-btns d-none d-sm-inline">
+                                            <a href="{{ path('chi_tiet_don_dat_hang', { id: item['SalesInvoiceID'] }) }}" target="_blank" class="btn btn-icon btn-white btn-dim btn-sm btn-primary"></a>
+                                            <button type="button" class="btn btn-primary" 
+                                                data-medicine-id="{{ item.MedicineID }}" 
+                                                data-sales-invoice-id="{{ item.SalesInvoiceID }}" 
+                                                data-quantity="{{ item.Quantity }}" 
+                                                onclick="confirmAction(this)">Xác nhận</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                       {% else %}
                         <p>No data found.</p>
                       {% endif %}
                     </tbody>
-                  </table>
+                  </table>    
                 </div>
               </form>
 

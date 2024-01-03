@@ -132,21 +132,21 @@
                                                             Mã thuốc
                                                         </span>
                                                     </div>
-                                                    <div class="nk-tb-col tb-col-lg">
+                                                    {# <div class="nk-tb-col tb-col-lg">
                                                         <span>
                                                             Tên thường gọi
                                                         </span>
-                                                    </div>
+                                                    </div> #}
                                                     <div class="nk-tb-col tb-col-xxl">
                                                         <span>
                                                             Tên thuốc
                                                         </span>
                                                     </div>
-                                                    <div class="nk-tb-col tb-col-lg">
+                                                    {# <div class="nk-tb-col tb-col-lg">
                                                         <span>
                                                             Hàm lượng
                                                         </span>
-                                                    </div>
+                                                    </div> #}
                                                     <div class="nk-tb-col tb-col-sm">
                                                         <span>
                                                             Danh mục
@@ -158,9 +158,14 @@
                                                             Giá
                                                         </span>
                                                     </div>
-                                                    <div class="nk-tb-col tb-col-xxl">
+                                                    {# <div class="nk-tb-col tb-col-xxl">
                                                         <span>
                                                             Giá nhà sản xuất
+                                                        </span>
+                                                    </div> #}
+                                                      <div class="nk-tb-col tb-col-xxl">
+                                                        <span>
+                                                            Lô hàng
                                                         </span>
                                                     </div>
                                                     <div class="nk-tb-col tb-col-md">
@@ -202,21 +207,21 @@
                                                         </span>
                                                     </a>
                                                 </div>
-                                                <div class="nk-tb-col tb-col-lg">
+                                                {# <div class="nk-tb-col tb-col-lg">
                                                     <span>
                                                         {{ row.GenericName }}
                                                     </span>
-                                                </div>
+                                                </div> #}
                                                 <div class="nk-tb-col tb-col-xxl">
                                                     <span class="tb-sub">
                                                         {{ row.Name }}
                                                     </span>
                                                 </div>
-                                                <div class="nk-tb-col tb-col-lg">
+                                                {# <div class="nk-tb-col tb-col-lg">
                                                     <span>
                                                         {{ row.Concentration }}
                                                     </span>
-                                                </div>
+                                                </div> #}
                                                 <div class="nk-tb-col tb-col-sm">
                                                     <span>
                                                         {{ row.Category }}
@@ -230,14 +235,19 @@
                                                         </span>
                                                     </span>
                                                 </div>
-                                                <div class="nk-tb-col tb-col-xxl">
+                                                {# <div class="nk-tb-col tb-col-xxl">
                                                     <span class="tb-amount">
                                                         {{ row.ManufacturerPrice | number_format(0, '.', ',') }} VNĐ
                                                         <span class="currency">
                                                             đồng
                                                         </span>
                                                     </span>
-                                                </div>
+                                                </div> #}
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                <span class="tb-date">
+                                                    {{ row.LotNumber }}
+                                                </span>
+                                            </div>
                                                 <div class="nk-tb-col tb-col-md">
                                                     <span>
                                                         {{ row.InStock }}

@@ -55,28 +55,32 @@ class DondathangController extends AbstractController
 
 
     #[Route('/chi-tiet-don-dat-hang/{id}', name: 'chi_tiet_don_dat_hang')]
-    public function chitietdondathang($id, SessionInterface $session): Response
+    public function chitietdondathang($id, SessionInterface $session, Request $request): Response
     {
         // Kiểm tra xem $customerId và $id có khớp không
-        $customerId = $session->get('customer_id');
-
-        // Thực hiện truy vấn để lấy thông tin chi tiết của khách hàng và đơn hàng
+        $customerId = $request->get('id');
+        $invoiceId = $request->get('sales_invoice_id');
+        var_dump($invoiceId);
         $query = "
             SELECT c.*, si.*, sid.*, m.*
             FROM customers c
             LEFT JOIN salesinvoices si ON c.CustomerID = si.CustomerID
             LEFT JOIN salesinvoicedetails sid ON si.SalesInvoiceID = sid.SalesInvoiceID
             LEFT JOIN medicines m ON sid.MedicineID = m.MedicineID
-            WHERE c.CustomerID = :customerId
+            WHERE c.CustomerID = :customerId AND si.SalesInvoiceID = :invoiceId
         ";
-
+        
         $query1 = "
             SELECT * FROM Customers WHERE CustomerID = :customerId
         ";
-
-        $result = $this->dbalConnection->executeQuery($query, ['customerId' => $id])->fetchAllAssociative();
-        $result1 = $this->dbalConnection->executeQuery($query1, ['customerId' => $id])->fetchAllAssociative();
-
+        
+        $result = $this->dbalConnection->executeQuery($query, ['customerId' => $customerId, 'invoiceId' => $invoiceId])->fetchAllAssociative();
+        $result1 = $this->dbalConnection->executeQuery($query1, ['customerId' => $customerId])->fetchAllAssociative();
+        
+        if (!$result) {
+            throw $this->createNotFoundException('Không tìm thấy dữ liệu cho khách hàng có ID ' . $customerId);
+        }
+        
         if (!$result) {
             throw $this->createNotFoundException('Không tìm thấy dữ liệu cho khách hàng có ID ' . $id);
         }

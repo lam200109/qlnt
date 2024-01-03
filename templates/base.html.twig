@@ -14,7 +14,12 @@
     <link id="skin-default" rel="stylesheet" href="{{ asset('css/thanhtoan.css') }}" />
     <link id="skin-default" rel="stylesheet" href="{{ asset('css/popup.css') }}" />
     <link id="skin-default" rel="stylesheet" href="{{ asset('css/modal.css') }}" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Thư viện moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://moment.github.io/luxon/global/luxon.js"></script>
 
     <script>
       window.dataLayer = window.dataLayer || []
@@ -34,6 +39,7 @@
     <script src="{{ asset('js/demo-settings.js') }}"></script>
     <script src="{{ asset('js/editors.js') }}"></script>
     <script src="{{ asset('js/additem.js') }}"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
   </head>
@@ -55,18 +61,12 @@
                     <li class="nk-menu-item active">
                       <a href="#" class="nk-menu-link nk-menu-switch" data-target="navPharmacy"><span class="nk-menu-icon"><em class="icon ni ni-capsule"></em></span></a>
                     </li>
-             
-
-                   
                   </ul>
                 </div>
                 <div class="nk-sidebar-footer">
-                  <ul class="nk-menu nk-menu-md apps-menu">
-                    
-                  </ul>
+                  <ul class="nk-menu nk-menu-md apps-menu"></ul>
                 </div>
               </div>
-            
             </div>
           </div>
         </div>
@@ -82,58 +82,59 @@
                   </a>
                 </li>
 
-                {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
+                {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') or is_granted('NhapHangAccess') %}
                   <li class="nk-menu-item has-sub">
                     <a href="#" class="nk-menu-link nk-menu-toggle">
                       <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                       <span class="nk-menu-text">Khách hàng</span>
                     </a>
                     <ul class="nk-menu-sub">
-                      {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
-                        <li class="nk-menu-item">
+                      {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') or is_granted('NhapHangAccess')%}
+                      <li class="nk-menu-item">
+                    <a href="{{ path('don_dat_hang') }}" class="nk-menu-link"><span class="nk-menu-text">Đơn đặt online</span></a>
+                  </li>
+                  {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
+
+                      <li class="nk-menu-item">
                           <a href="{{ path('them_khach_hang') }}" class="nk-menu-link"><span class="nk-menu-text">Bán thuốc</span></a>
                         </li>
-                        <li class="nk-menu-item">
-                          <a href="{{ path('don_dat_hang') }}" class="nk-menu-link"><span class="nk-menu-text">Đơn đặt online</span></a>
-                        </li>
+                      {% endif %}
+
                       {% endif %}
                     </ul>
                   </li>
                 {% endif %}
 
                 {% if is_granted('QuanLyKhachHangAccess') or is_granted('AdminAccess') or is_granted('BanThuocAccess') or is_granted('NhapHangAccess') %}
-                <li class="nk-menu-item has-sub">
-                  <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-icon"><em class="icon ni ni-capsule-fill"></em></span>
-                    <span class="nk-menu-text">Thuốc</span>
-                  </a>
-                  <ul class="nk-menu-sub">
-                  {% if is_granted('BanThuocAccess') %}
-                
-                  <li class="nk-menu-item">
-                    <a href="{{ path('them_thuoc_moi') }}" class="nk-menu-link"><span class="nk-menu-text">Thêm thuốc mới</span></a>
+                  <li class="nk-menu-item has-sub">
+                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                      <span class="nk-menu-icon"><em class="icon ni ni-capsule-fill"></em></span>
+                      <span class="nk-menu-text">Thuốc</span>
+                    </a>
+                    <ul class="nk-menu-sub">
+                      {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
+                        <li class="nk-menu-item">
+                          <a href="{{ path('them_thuoc_moi') }}" class="nk-menu-link"><span class="nk-menu-text">Thêm thuốc mới</span></a>
+                        </li>
+                      {% endif %}
+                      {% if is_granted('NhapHangAccess') or is_granted('AdminAccess') %}
+                        <li class="nk-menu-item">
+                          <a href="{{ path('nhap_thuoc') }}" class="nk-menu-link"><span class="nk-menu-text">Nhập thuốc</span></a>
+                        </li>
+                      {% endif %}
+                      {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
+                        <li class="nk-menu-item">
+                          <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link"><span class="nk-menu-text">Danh sách thuốc</span></a>
+                        </li>
+                      {% endif %}
+                      {% if is_granted('QuanLyKhachHangAccess') or is_granted('AdminAccess') or is_granted('BanThuocAccess') %}
+                        <li class="nk-menu-item">
+                          <a href="{{ path('danh_sach_khach_hang') }}" class="nk-menu-link"><span class="nk-menu-text">Danh sách khách hàng</span></a>
+                        </li>
+                      {% endif %}
+                    </ul>
                   </li>
                 {% endif %}
-                    {% if is_granted('NhapHangAccess') or is_granted('AdminAccess') %}
-                      <li class="nk-menu-item">
-                        <a href="{{ path('nhap_thuoc') }}" class="nk-menu-link"><span class="nk-menu-text">Nhập thuốc</span></a>
-                      </li>
-                     
-                    {% endif %}
-                    {% if is_granted('BanThuocAccess') or is_granted('AdminAccess') %}
-                      <li class="nk-menu-item">
-                        <a href="{{ path('danh_sach_thuoc') }}" class="nk-menu-link"><span class="nk-menu-text">Danh sách thuốc</span></a>
-                      </li>
-                    {% endif %}
-                    {% if is_granted('QuanLyKhachHangAccess') or is_granted('AdminAccess') or is_granted('BanThuocAccess') %}
-                      <li class="nk-menu-item">
-                        <a href="{{ path('danh_sach_khach_hang') }}" class="nk-menu-link"><span class="nk-menu-text">Danh sách khách hàng</span></a>
-                      </li>
-                    {% endif %}
-                  </ul>
-                </li>
-              {% endif %}
-              
 
                 {% if is_granted('BaoCaoTaiChinhAccess') or is_granted('AdminAccess') %}
                   <li class="nk-menu-item has-sub">
@@ -160,7 +161,6 @@
                         <li class="nk-menu-item">
                           <a href="{{ path('danh_sach_nhan_vien') }}" class="nk-menu-link"><span class="nk-menu-text">Danh sách nhân viên</span></a>
                         </li>
-
                       {% endif %}
                     </ul>
                   </li>
@@ -181,8 +181,14 @@
                           <a href="{{ path('chi_phi') }}" class="nk-menu-link"><span class="nk-menu-text">Chi phí</span></a>
                         </li>
                         <li class="nk-menu-item">
-                      <a href="{{ path('luong') }}" class="nk-menu-link"><span class="nk-menu-text">Lương</span></a>
-                    </li>
+                          <a href="{{ path('luong') }}" class="nk-menu-link"><span class="nk-menu-text">Lương</span></a>
+                        </li>
+                        <li class="nk-menu-item">
+                        <a href="{{ path('cham_cong') }}" class="nk-menu-link">
+                          <span class="nk-menu-icon"><em class="icon ni ni-activity"></em></span>
+                          <span class="nk-menu-text">Chấm công</span>
+                        </a>
+                      </li>
                       {% endif %}
                     </ul>
                   </li>
@@ -216,13 +222,8 @@
                     </a>
                   </li>
                 {% endif %}
+             
                 <li class="nk-menu-item">
-                  <a href="{{ path('cham_cong') }}" class="nk-menu-link">
-                    <span class="nk-menu-icon"><em class="icon ni ni-activity"></em></span>
-                    <span class="nk-menu-text">Chấm công</span>
-                  </a>
-                </li>
-                    <li class="nk-menu-item">
                   <a href="{{ path('dang_xuat') }}" class="nk-menu-link">
                     <span class="nk-menu-icon"><em class="icon ni ni-user-circle-fill"></em></span>
                     <span class="nk-menu-text">Đăng xuất</span>
@@ -240,16 +241,223 @@
         <div class="nk-header nk-header-fixed nk-header-fluid">
           <div class="container-fluid">
             <div class="nk-header-wrap">
-              <div class="nk-menu-trigger d-xl-none ml-n1">
+              <div class="nk-menu-trigger d-xl-none ms-n1">
                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
               </div>
               <div class="nk-header-brand d-xl-none">
-                <a href="/demo7/index.html" class="logo-link">
-                  <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png') }} 2x" alt="logo" />
-                  <img class="logo-dark logo-img" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png') }} 2x" alt="logo-dark" />
-                </a>
+                <a href="/demo7/index.html" class="logo-link"><img class="logo-light logo-img" src="/demo7/images/logo.png" srcset="/demo7/images/logo2x.png 2x" alt="logo" /><img class="logo-dark logo-img" src="/demo7/images/logo-dark.png" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark" /></a>
               </div>
-       
+              <div class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex">
+                <em class="icon ni ni-search"></em><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search anything" />
+              </div>
+              <div class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                  <li class="dropdown chats-dropdown hide-mb-xs">
+                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                      <div class="icon-status icon-status-na">
+                        <em class="icon ni ni-comments"></em>
+                      </div>
+                    </a><div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                      <div class="dropdown-head">
+                        <span class="sub-title nk-dropdown-title">Recent Chats</span><a href="#">Setting</a>
+                      </div>
+                      <div class="dropdown-body">
+                        <ul class="chat-list">
+                          <li class="chat-item">
+                            <a class="chat-link" href="/demo7/apps-chats.html">
+                              <div class="chat-media user-avatar">
+                                <span>IH</span><span class="status dot dot-lg dot-gray"></span>
+                              </div>
+                              <div class="chat-info">
+                                <div class="chat-from">
+                                  <div class="name">Iliash Hossain</div><span class="time">Now</span>
+                                </div>
+                                <div class="chat-context">
+                                  <div class="text">You: Please confrim if you got my last messages.</div>
+                                  <div class="status delivered">
+                                    <em class="icon ni ni-check-circle-fill"></em>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="dropdown-foot center">
+                        <a href="/demo7/apps-chats.html">View All</a>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="dropdown notification-dropdown">
+                  <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                      <div class="icon-status icon-status-info">
+                          <em class="icon ni ni-bell"></em>
+                      </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                      <div class="dropdown-head">
+                          <span class="sub-title nk-dropdown-title">Notifications</span><a href="#">Mark All as Read</a>
+                      </div>
+                      <div class="dropdown-body">
+                          <div class="nk-notification" id="notification-list">
+                              {% if is_granted('NhapHangAccess') %}
+                                  {% if result is defined %}
+                                      {# In ra biến 'result' để kiểm tr
+                                      a #}
+              
+                                      {# Tiếp tục với mã của bạn #}
+                                      {% for item in result %}
+                                          {% if item.LowStock %}
+                                              {% if item.TonKhoHienTai <= 0 %}
+                                                  <!-- Hiển thị thông báo "hết" nếu tồn kho dưới hoặc bằng 0 -->
+                                                  <div class="notification">
+                                                      <p>Sản phẩm {{ item.TenThuoc }} đã hết hàng.</p>
+                                                      <script>
+                                                          // Sử dụng hàm addNotification để thêm thông báo
+                                                          addNotification('icon-circle bg-warning-dim ni ni-curve-down-right', 'The stock of {{ item.TenThuoc }} is running thấp.', 0);
+                                                      </script>
+                                                  </div>
+                                              {% elseif item.TonKhoHienTai <= 50 %}
+                                                  <!-- Hiển thị thông báo "thấp" nếu tồn kho dưới 50 -->
+                                                  <div class="notification">
+                                                      <p>Sản phẩm {{ item.TenThuoc }} có số lượng tồn kho thấp.</p>
+                                                      <script>
+                                                          // Sử dụng hàm addNotification để thêm thông báo
+                                                          addNotification('icon-circle bg-warning-dim ni ni-curve-down-right', 'The stock of {{ item.TenThuoc }} is running hết.', 0);
+                                                      </script>
+                                                  </div>
+                                              {% endif %}
+                                          {% endif %}
+                                      {% endfor %}
+                                  {% else %}
+                                      {# Xử lý khi biến 'result' không tồn tại #}
+                                      <p>Biến 'result' không tồn tại.</p>
+                                  {% endif %}
+                              {% endif %}
+                          </div>
+                      </div>
+                      <div class="dropdown-foot center">
+                          <a href="#">View All</a>
+                      </div>
+                  </div>
+              </li>
+              
+
+
+   <!-- Đoạn mã JavaScript -->
+<!-- ... (phần HTML giữ nguyên) ... -->
+
+<!-- Đoạn mã JavaScript -->
+<script>
+// Sử dụng hàm addNotification để thêm thông báo
+function addNotification(iconClass, message, time) {
+    // Tạo phần tử thông báo
+    var notificationItem = document.createElement('div');
+    notificationItem.className = 'nk-notification-item dropdown-inner';
+    notificationItem.innerHTML = `
+        <div class='nk-notification-icon'>
+            <em class='${iconClass}'></em>
+        </div>
+        <div class='nk-notification-content'>
+            <div class='nk-notification-text'>
+                ${message}
+            </div>
+            <div class='nk-notification-time'>${time}</div>
+        </div>
+    `;
+
+    // Thêm vào danh sách thông báo
+    var notificationList = document.getElementById('notification-list');
+    notificationList.appendChild(notificationItem);
+}
+
+// Sử dụng hàm addNotification để thêm thông báo với thời gian độ trễ
+function addNotificationWithDelay(iconClass, message, hoursDelay) {
+    // Tính toán thời gian hiển thị dựa trên giờ truyền vào
+    var displayTime = moment().add(hoursDelay, 'hours').format('h:mm A');
+
+    // Gọi hàm addNotification với thời gian tính được
+    addNotification(iconClass, message, displayTime);
+}
+
+// Gọi hàm addNotificationWithDelay trong vòng lặp với giờ truyền vào (ví dụ: 1 giờ)
+
+</script>
+
+
+
+                  <script>
+                    // Simulate new order notification
+                    function addNewOrderNotification() {
+                      var notificationList = document.getElementById('notification-list')
+                    
+                      // Tạo một mục thông báo mới
+                      var newNotification = document.createElement('div')
+                      newNotification.classList.add('nk-notification-item', 'dropdown-inner')
+                      newNotification.innerHTML = `
+                                <div class="nk-notification-icon">
+                                    <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                </div>
+                                <div class="nk-notification-content">
+                                    <div class="nk-notification-text">
+                                        You have a new <span>Order</span>
+                                    </div>
+                                    <div class="nk-notification-time">Just now</div>
+                                </div>
+                            `
+                    
+                      // Thêm mục thông báo vào danh sách
+                      notificationList.prepend(newNotification)
+                    }
+                    
+                    // Gọi hàm để thêm thông báo khi có đơn đặt hàng mới
+                    // Thay thế dòng sau đây bằng lời gọi hàm khi có đơn đặt hàng mới
+                    // addNewOrderNotification();
+                  </script>
+
+                  <li class="dropdown user-dropdown">
+                    <a href="#" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                      <div class="user-toggle">
+                        <div class="user-avatar sm">
+                          <em class="icon ni ni-user-alt"></em>
+                        </div>
+                      </div>
+                    </a><div class="dropdown-menu dropdown-menu-md dropdown-menu-end">
+                      <div class="dropdown-inner user-card-wrap bg-lighter">
+                        <div class="user-card">
+                          <div class="user-avatar">
+                            <span>AB</span>
+                          </div>
+                          <div class="user-info">
+                            <span class="lead-text">Abu Bin Ishtiyak</span><span class="sub-text">info@softnio.com</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-inner">
+                        <ul class="link-list">
+                          <li>
+                            <a href="/demo7/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a>
+                          </li>
+                          <li>
+                            <a href="/demo7/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a>
+                          </li>
+                          <li>
+                            <a href="/demo7/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="dropdown-inner">
+                        <ul class="link-list">
+                          <li>
+                            <a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

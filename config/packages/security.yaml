@@ -40,7 +40,7 @@ security:
             # ...
 
     access_control:
-        - { path: ^/(them-khach-hang|don-dat-hang|chi-tiet-thuoc|danh-sach-khach-hang|danh-sach-thuoc|them-thuoc-moi), roles: ['BanThuocAccess', 'AdminAccess'] }
+        - { path: ^/(them-khach-hang|chi-tiet-thuoc|danh-sach-khach-hang|danh-sach-thuoc|them-thuoc-moi), roles: ['BanThuocAccess', 'AdminAccess'] }
         - { path: ^/(danh-sach-khach-hang|don-dat-online), roles: ['QuanLyKhachHangAccess', 'AdminAccess'] }
         - { path: ^/(chi-phi|nguon-thu|chi-tiet-hoa-don|danh-sach-nhan-vien|thong-tin-nhan-vien), roles: ['BaoCaoTaiChinhAccess', 'AdminAccess'] }
         - { path: ^/(bao-cao-ban-hang|bao-cao-mua-hang|bao-cao-ton-kho|nhap-thuoc|chi-tiet-thuoc|danh-sach-thuoc), roles: ['NhapHangAccess', 'AdminAccess'] }

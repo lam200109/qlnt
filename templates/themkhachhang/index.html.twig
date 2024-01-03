@@ -102,7 +102,7 @@
                                 <img src="{{ asset(medicine['Image'] is not null and medicine['Image'] is not empty ? medicine['Image'] : 'path_to_default_image.jpg') }}" alt="" />
                               </td>
                               <td>{{ medicine.Name }}</td>
-                              <td>{{ medicine.Price }}</td>
+                              <td>{{ medicine.Price|number_format(0, ',', '.', ' ') }} VND</td>
                               <td>{{ medicine.InStock }}</td>
 
                               <td>{{ medicine.Concentration }}</td>

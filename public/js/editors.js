@@ -118,3 +118,47 @@
     ,
     e.coms.docReady.push(e.EditorInit)
 }(NioApp, jQuery);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Đoạn mã JavaScript để thêm thông báo
+function addNotification(iconClass, message, time) {
+    // Tạo phần tử thông báo
+    var notificationItem = document.createElement('div');
+    notificationItem.className = 'nk-notification-item dropdown-inner';
+    notificationItem.innerHTML = `
+        <div class='nk-notification-icon'>
+            <em class='${iconClass}'></em>
+        </div>
+        <div class='nk-notification-content'>
+            <div class='nk-notification-text'>
+                ${message}
+            </div>
+            <div class='nk-notification-time'>${time}</div>
+        </div>
+    `;
+
+    // Thêm vào danh sách thông báo
+    var notificationList = document.getElementById('notification-list');
+    notificationList.appendChild(notificationItem);
+}
+
+// Gọi hàm addNotification từ JavaScript khi cần
+// Ví dụ: addNotification('icon-circle bg-warning-dim ni ni-curve-down-right', 'The stock is running low.', 'Now');

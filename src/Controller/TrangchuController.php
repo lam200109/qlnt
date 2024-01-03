@@ -124,32 +124,33 @@ class TrangchuController extends AbstractController
         }
 
         $doanhThuQuery = "
-                            SELECT
-                                WEEK(Date) AS WeekNumber,
-                                COALESCE(SUM(Amount), 0) AS TotalIncome
-                            FROM
-                                SalesInvoices
-                            WHERE
-                                YEAR(Date) = YEAR(CURRENT_DATE())
-                            GROUP BY
-                                WeekNumber
-                            ORDER BY
-                                WeekNumber ASC
-                        ";
-
-        $chiPhiQuery = "
-                        SELECT
-                            WEEK(Date) AS WeekNumber,
-                            COALESCE(SUM(Amount), 0) AS TotalExpense
-                        FROM
-                            PurchaseInvoices
-                        WHERE
-                            YEAR(Date) = YEAR(CURRENT_DATE())
-                        GROUP BY
-                            WeekNumber
-                        ORDER BY
-                            WeekNumber ASC
-                    ";
+        SELECT
+            DATE_FORMAT(Date, '%m/%Y') AS MonthYear,
+            COALESCE(SUM(Amount), 0) AS TotalIncome
+        FROM
+            SalesInvoices
+        WHERE
+            YEAR(Date) = YEAR(CURRENT_DATE())
+        GROUP BY
+            MonthYear
+        ORDER BY
+            MonthYear ASC
+    ";
+    
+    $chiPhiQuery = "
+        SELECT
+            DATE_FORMAT(Date, '%m/%Y') AS MonthYear,
+            COALESCE(SUM(Amount), 0) AS TotalExpense
+        FROM
+            PurchaseInvoices
+        WHERE
+            YEAR(Date) = YEAR(CURRENT_DATE())
+        GROUP BY
+            MonthYear
+        ORDER BY
+            MonthYear ASC
+    ";
+    
 
 
         $doanhThuData = $connection->executeQuery($doanhThuQuery)->fetchAllAssociative();
@@ -285,25 +286,52 @@ WHERE Date = :yesterdayDate";
 
 
         $sql = "
-    SELECT 
-    SalesInvoices.*,
-    Customers.`Name` as CustomerName,
-    Customers.Address,
-    Customers.Email,
-    Customers.Phone
-FROM 
-    SalesInvoices
-JOIN 
-    Customers ON SalesInvoices.CustomerID = Customers.CustomerID
-WHERE 
-    SalesInvoices.Status = 'Đã xác nhận đơn';
-
-    LIMIT 5;
+            SELECT 
+            SalesInvoices.*,
+            Customers.`Name` as CustomerName,
+            Customers.Address,
+            Customers.Email,
+            Customers.Phone
+        FROM 
+            SalesInvoices
+        JOIN 
+            Customers ON SalesInvoices.CustomerID = Customers.CustomerID
+        WHERE 
+            SalesInvoices.Status = 'Chưa xác nhận'
+            LIMIT 5;
 ";
 
         // Thực hiện truy vấn
         $online = $connection->executeQuery($sql);
         $onlines = $online->fetchAllAssociative();
+
+        $sqldistributors = "
+           SELECT * FROM Distributors
+            LIMIT 5;
+";
+
+        // Thực hiện truy vấn
+        $distributors = $connection->executeQuery($sqldistributors);
+        $distributors = $distributors->fetchAllAssociative();
+
+
+
+        $medicine = "
+        SELECT
+            MedicineID,
+            Name,
+            InStock
+        FROM
+            Medicines
+        WHERE
+            InStock > 100
+            LIMIT 5;
+    ";
+    
+    $medicines = $connection->executeQuery($medicine)->fetchAllAssociative();
+    
+
+
 
 
 
@@ -343,6 +371,9 @@ WHERE
             'phantram' => $phantram,
             'chiphituanhientai' => $chiphituanhientai,
             'chiphituantruoc' => $chiphituantruoc,
+            'distributors' => $distributors,
+            'medicines' => $medicines
+
 
 
         ]);

@@ -25,7 +25,7 @@ class NhapthuocController extends AbstractController
 
         $distributorQuery = "SELECT * FROM Distributors";
         $userQuery = "SELECT * FROM Users";
-        $medicineQuery = "SELECT * FROM Medicines";
+        $medicineQuery = "SELECT Name, MAX(MedicineID) AS MedicineID FROM Medicines GROUP BY Name";
 
         $distributors = $connection->fetchAllAssociative($distributorQuery);
         $users = $connection->fetchAllAssociative($userQuery);
@@ -86,53 +86,65 @@ class NhapthuocController extends AbstractController
     private function processFormData(Request $request, Connection $connection, SessionInterface $session): void
     {
         $distributor = $request->request->get('DistributorID');
-        $medicineid = $request->request->get('MedicineID');
+        $selectedMedicine = $request->request->get('MedicineID');  // Giả sử giá trị chọn từ dropdown có cả MedicineID và Name
         $quantity = $request->request->get('Quantity');
         $price = $request->request->get('Price');
         $amount = $request->request->get('Amount');
         $date = $request->request->get('Date');
-        $expensetype = 'Nhập hàng';
-
-        $sql = "INSERT INTO PurchaseInvoices (DistributorID, ExpenseType, Amount, Date) 
-                VALUES (?, ?, ?, ?)";
+        $lotnumber = $request->request->get('LotNumber');
         
-        $params = [$distributor, $expensetype, $amount, $date];
-        $connection->executeQuery($sql, $params);
-
-        // Lấy giá trị của MedicineID vừa được chèn
+        // Giải mã giá trị được chọn từ dropdown (chứa cả MedicineID và Name)
+        list($medicineid, $name) = explode('|', $selectedMedicine);
+        
+        $expensetype = 'Nhập hàng';
+        
+        // Insert into PurchaseInvoices
+        $sqlInsertPurchaseInvoices = "INSERT INTO PurchaseInvoices (DistributorID, ExpenseType, Amount, Date) VALUES (?, ?, ?, ?)";
+        $paramsInsertPurchaseInvoices = [$distributor, $expensetype, $amount, $date];
+        $connection->executeQuery($sqlInsertPurchaseInvoices, $paramsInsertPurchaseInvoices);
+    
+        // Get the last inserted PurchaseInvoiceID
         $lastInsertedPurchaseInvoiceId = $connection->lastInsertId();
     
-        // Cập nhật MedicineID
+        // Update PurchaseInvoiceID
         $sqlUpdatePurchaseinvoices = "UPDATE PurchaseInvoices SET PurchaseInvoiceID = ? WHERE PurchaseInvoiceID = ?";
         $connection->executeQuery($sqlUpdatePurchaseinvoices, [$lastInsertedPurchaseInvoiceId, $lastInsertedPurchaseInvoiceId]);
-
-
-        $sql4 = "SELECT Price FROM Medicines WHERE MedicineID = ?";
-        $result = $connection->fetchAssociative($sql4, [$medicineid]);
-        $pricemedicine = $result['Price'];
-
-        if ($price <= $pricemedicine) {
-            $sql2 = "INSERT INTO PurchaseInvoiceDetails (PurchaseInvoiceID, MedicineID, Quantity, Price)
-                    VALUES (?, ?, ?, ?)";
-            $params2 = [$lastInsertedPurchaseInvoiceId, $medicineid, $quantity, $price];
-            
-            if ($connection->executeQuery($sql2, $params2)) {
-                $sql3 = "UPDATE Medicines SET InStock = InStock + ? WHERE MedicineID = ?";
-                $params3 = [$quantity, $medicineid];
-
-                if ($connection->executeQuery($sql3, $params3)) {
+    
+        // Check if the lot exists for the given MedicineID
+        $sqlCheckLot = "SELECT COUNT(*) as count FROM Medicines WHERE MedicineID = ? AND LotNumber = ?";
+        $paramsCheckLot = [$medicineid, $lotnumber];
+        $resultCheckLot = $connection->fetchAssociative($sqlCheckLot, $paramsCheckLot);
+    
+        if ($resultCheckLot['count'] > 0) {
+            // If the lot exists, update
+            $sqlUpdateMedicines = "UPDATE Medicines SET InStock = InStock + ? WHERE MedicineID = ? AND LotNumber = ?";
+            $paramsUpdateMedicines = [$quantity, $medicineid, $lotnumber];
+    
+            if ($connection->executeQuery($sqlUpdateMedicines, $paramsUpdateMedicines)) {
+                $this->addFlash('success', 'Cập nhật số lượng thuốc thành công');
+            } else {
+                $this->addFlash('error', 'Cập nhật số lượng thuốc không thành công');
+            }
+        } else {
+            // If the lot does not exist, insert
+            $sqlInsertPurchaseInvoiceDetails = "INSERT INTO PurchaseInvoiceDetails (PurchaseInvoiceID, MedicineID, Quantity, Price) VALUES (?, ?, ?, ?)";
+            $paramsInsertPurchaseInvoiceDetails = [$lastInsertedPurchaseInvoiceId, $medicineid, $quantity, $price];
+    
+            if ($connection->executeQuery($sqlInsertPurchaseInvoiceDetails, $paramsInsertPurchaseInvoiceDetails)) {
+                $sqlInsertMedicines = "INSERT INTO Medicines (Name,  LotNumber, InStock) VALUES (?, ?, ?)";
+                $paramsInsertMedicines = [$name, $lotnumber, $quantity];
+    
+                if ($connection->executeQuery($sqlInsertMedicines, $paramsInsertMedicines)) {
                     $this->addFlash('success', 'Nhập kho thành công');
                 } else {
-                    $this->addFlash('error', 'Cập nhật số lượng thuốc không thành công');
+                    $this->addFlash('error', 'Thêm mới thuốc không thành công');
                 }
             } else {
                 $this->addFlash('error', 'Thêm chi tiết hoá đơn nhập không thành công');
             }
-        } else {
-            $this->addFlash('error', 'Giá nhập phải nhỏ hơn hoặc bằng giá bán!');
         }
-
     }
+    
 
 
      /**

@@ -46,11 +46,28 @@
                                             <select class="form-select" id="ma-thuoc" name="MedicineID">
                                                 <option value="default_option">Chọn</option>
                                                 {% for medicine in medicines %}
-                                                    <option value="{{ medicine.MedicineID }}">{{ medicine.Name }}</option>
-                                                {% endfor %}
+                                            <option value="{{ medicine.MedicineID }}|{{ medicine.Name }}">{{ medicine.Name }}</option>
+                                        {% endfor %}
                                             </select>
                                         </div>
                                     </div>
+
+
+
+                                    <div class="col-xxl-3 col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Số lô</label>
+                                        <input type="number" class="form-control" name="LotNumber" placeholder="Nhập số lô">
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
                               
 
                                     <div class="col-xxl-3 col-md-4">

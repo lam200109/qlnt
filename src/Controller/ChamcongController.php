@@ -38,11 +38,11 @@ class ChamcongController extends AbstractController
                 $hasClockedInToday = $this->hasClockedInToday($connection, $userId, $date, $shiftId);
         
                 if ($hasClockedInToday) {
-                    $this->addFlash('danger', 'Bạn đã chấm công trong ngày.');
+                    // $this->addFlash('danger', 'Bạn đã chấm công trong ngày.');
                 } else {
                     // Thực hiện chấm công
                     $this->clockInToday($connection, $userId, $date, $shiftId);
-                    $this->addFlash('success', 'Chấm công thành công.');
+                    // $this->addFlash('success', 'Chấm công thành công.');
                 }
         
                 return $this->render('chamcong/index.html.twig', [
@@ -58,11 +58,11 @@ class ChamcongController extends AbstractController
             $hasClockedInToday = $this->hasClockedInToday($connection, $userId, $date, $shiftId);
         
             if ($hasClockedInToday) {
-                $this->addFlash('danger', 'Bạn đã chấm công trong ngày.');
+                // $this->addFlash('danger', 'Bạn đã chấm công trong ngày.');
             } else {
                 // Thực hiện chấm công
                 $this->clockInToday($connection, $userId, $date, $shiftId);
-                $this->addFlash('success', 'Chấm công thành công.');
+                // $this->addFlash('success', 'Chấm công thành công.');
             }
         
             return $this->redirectToRoute('trang_chu');

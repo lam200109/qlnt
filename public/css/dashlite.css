@@ -48660,3 +48660,133 @@ body.dark-mode.nk-body.ui-shady,body.dark-mode.nk-body.ui-softy {
 }
 
 /*! END @iO */
+
+
+/* CSS cho dropdown notification */
+/* Thêm một khung và đổ bóng cho dropdown */
+.notification-dropdown {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tích hợp icon thông báo vào nút dropdown */
+.nk-quick-nav-icon {
+    text-decoration: none;
+    color: #333;
+    position: relative;
+}
+
+.nk-quick-nav-icon .icon-status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ff4d4f; /* Màu của biểu tượng thông báo */
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+}
+
+/* Định dạng dropdown menu */
+.dropdown-menu-xl {
+    width: 300px;
+}
+
+/* Định dạng phần đầu dropdown */
+.dropdown-head {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 8px 8px 0 0;
+}
+
+.sub-title {
+    font-size: 14px;
+    color: #333;
+}
+
+.nk-dropdown-title {
+    margin-right: 10px;
+}
+
+/* Định dạng phần thân dropdown */
+.dropdown-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Định dạng mỗi mục thông báo */
+.nk-notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nk-notification-icon {
+    margin-right: 10px;
+}
+
+/* Định dạng nội dung và thời gian thông báo */
+.nk-notification-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.nk-notification-time {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Định dạng phần chân dropdown */
+.dropdown-foot {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    border-radius: 0 0 8px 8px;
+}
+
+.dropdown-foot a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.dropdown-foot a:hover {
+    text-decoration: underline;
+}
+
+/* Đặt lại các kiểu mặc định */
+.notification {
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.notification button {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    outline: none;
+}
+
+.notification button:hover {
+    text-decoration: underline;
+}
+
+
+.notification {
+    /* ... */
+    display: none; /* Ẩn thông báo mặc định */
+}
+
+.notification.show {
+    display: flex; /* Hiển thị thông báo khi có class 'show' */
+}

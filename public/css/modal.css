@@ -10,6 +10,9 @@
     transition: opacity 0.3s ease-in-out;
     color: #333; /* Màu chữ đen đậm */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Tăng độ đậm của box-shadow */
+    width: 800px;
+    height: 1000px;
+
 }
 
 /* Đảm bảo modal-content không vượt quá chiều rộng của màn hình */

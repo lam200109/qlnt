@@ -22,6 +22,7 @@ class ThemkhachhangController extends AbstractController
             $allData = $request->request->all();
             $prices = $allData['Price'] ?? [];
             $quantities = $allData['Quantity'] ?? [];
+            $incometype = 'Mua thuốc';
 
             // Lặp qua mảng giá trị Price để chuyển đổi thành số decimal
             foreach ($prices as &$price) {
@@ -43,11 +44,12 @@ class ThemkhachhangController extends AbstractController
             $customerID = $connection->lastInsertId();
 
             // Tạo và lưu đối tượng SalesInvoice
-            $sqlInsertSalesInvoice = "INSERT INTO SalesInvoices (CustomerID, Date, Amount) VALUES (:customerID, :date, :amount)";
+            $sqlInsertSalesInvoice = "INSERT INTO SalesInvoices (CustomerID, Date, Amount, IncomeType) VALUES (:customerID, :date, :amount, :incometype)";
             $connection->executeStatement($sqlInsertSalesInvoice, [
                 'customerID' => $customerID,
                 'date' => $allData['Date'] ?? '',
                 'amount' => $allData['Amount'] ?? 0,
+                'incometype' => $incometype,
             ]);
 
             // Lấy ID của SalesInvoice vừa được thêm

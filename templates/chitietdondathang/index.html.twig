@@ -12,7 +12,7 @@
         <div class="nk-content-body">
           <div class="nk-block-head">
             <div class="nk-block-head-content">
-              <a href="{{ path('khach_hang_dat_thuoc') }}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a><a href="/demo7/invoice-list.html" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+              <a href="{{ path('don_dat_hang') }}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a><a href="/demo7/invoice-list.html" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
               </div>
               <div class="invoice-head">
                 <div class="invoice-contact">
-                  <span class="overline-title">Invoice To</span>
+                  <span class="overline-title">Đơn đặt hàng</span>
                   <div class="invoice-contact-info">
                     <h4 class="title">{{ data1[0]['Name'] }}</h4>
                     <ul class="list-plain">
@@ -42,13 +42,13 @@
                   </div>
                 </div>
                 <div class="invoice-desc">
-                  <h3 class="title">Invoice</h3>
+                  <h3 class="title">Hoá đơn</h3>
                   <ul class="list-plain">
                     <li class="invoice-id">
-                      <span>Invoice ID</span>:<span>{{ data[0]['SalesInvoiceID'] }}</span>
+                      <span>Số hoá đơn</span>:<span>{{ data[0]['SalesInvoiceID'] }}</span>
                     </li>
                     <li class="invoice-date">
-                      <span>Date</span>:<span>{{ data[0]['SalesInvoiceID']|date('d M Y') }}</span>
+                      <span>Date</span>:<span>{{ data[0]['Date']|date('d M Y') }}</span>
                     </li>
                   </ul>
                 </div>
@@ -58,11 +58,11 @@
                   <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th class="w-150px">Item ID</th>
-                        <th class="w-60">Description</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Amount</th>
+                        <th class="w-150px">Mã thuốc</th>
+                        <th class="w-60">Tên thuốc</th>
+                        <th>Giá</th>
+                        <th>Số lượng đặt</th>
+                        <th>Tổng cộng</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -80,12 +80,11 @@
                     <tfoot>
                       <tr>
                         <td colspan="2"></td>
-                        <td colspan="2">Grand Total</td>
+                        <td colspan="2">Thành tiền</td>
                         <td>{{ data[0]['Amount']|number_format(2, '.', ',')|replace({ '.00': '' }) }} VNĐ</td>
                       </tr>
                     </tfoot>
                   </table>
-                  <div class="nk-notes ff-italic fs-12px text-soft">Invoice was created on a computer and is valid without the signature and seal.</div>
                 </div>
               </div>
             </div>

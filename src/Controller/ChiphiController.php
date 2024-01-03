@@ -22,7 +22,7 @@ class ChiphiController extends AbstractController
         $year = $year ?: date('Y');    // Sử dụng năm hiện tại nếu không có giá trị
 
         // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 1 cho tháng và năm đã chọn
-        $sqlTotalEarningsPaid = "SELECT SUM(TotalEarnings) AS TotalEarningsPaid FROM Salary WHERE PaymentStatus = 1 AND MONTH(Date) = :month AND YEAR(Date) = :year";
+        $sqlTotalEarningsPaid = "SELECT SUM(Amount) AS TotalEarningsPaid FROM PurchaseInvoices WHERE ExpenseType = 'Trả lương nhân viên' AND MONTH(Date) = :month AND YEAR(Date) = :year";
         $totalEarningsPaid = $connection->executeQuery($sqlTotalEarningsPaid, ['month' => $month, 'year' => $year])->fetchOne();
 
         // Truy vấn để lấy ra tổng TotalEarnings với PaymentStatus = 0 cho tháng và năm đã chọn
